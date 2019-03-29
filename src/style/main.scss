@@ -1,0 +1,35 @@
+@import "./variables";
+@import "../../node_modules/spectre.css/src/spectre";
+@import "../../node_modules/spectre.css/src/spectre-exp";
+@import "./button";
+
+body, html {
+  margin: 0;
+  background-color: $gray-color-light;
+}
+
+p {
+  margin: 0;
+}
+
+.form {
+  &-group, &-group:not(:last-child){
+    margin-bottom: 0;
+    &.border {
+      text-decoration:none;
+      color: $dark-color;
+      padding: $unit-5;
+      border-bottom: convertUnit(1) solid $gray-color-light;
+    }
+    &.border:nth-child(1){
+      border-top: convertUnit(1) solid $gray-color-light;
+    }
+  }
+}
+
+@supports (bottom: constant(safe-area-inset-bottom)) or (bottom: env(safe-area-inset-bottom)) {
+  .wraper {
+    padding-bottom: calc(convertUnit(10) + constant(safe-area-inset-bottom));
+    padding-bottom: calc(convertUnit(10) + env(safe-area-inset-bottom));
+  }
+}

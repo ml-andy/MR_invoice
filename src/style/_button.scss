@@ -1,0 +1,11 @@
+@import "./variables";
+@import "../../node_modules/spectre.css/src/mixins";
+
+.btn {
+  border-radius: convertUnit(3);
+}
+
+// 自訂一個我們需要的按鈕顏色
+.btn-submit {
+  @include button-variant($secondary-color);
+}

@@ -1,0 +1,9 @@
+{
+  "MR_API": [
+    {
+      "name": "寫入 & 查詢TreeMall同意條款註記",
+      "doc": "MyReward x TreeMall SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/treemall/agreement"
+    }
+  ]
+}

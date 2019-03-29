@@ -1,0 +1,5 @@
+{
+    "/api": "/apiList",
+    "/mobile-device-service/mds/thirdparty/agreement": "/tmAgree",
+    "/mobile-device-service/mds/thirdparty/agreement?*": "/tmAgree"
+}

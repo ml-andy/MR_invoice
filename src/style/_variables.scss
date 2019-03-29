@@ -1,0 +1,22 @@
+@function convertUnit($value) {
+  @return round($value / $rootSize *100) /100 * 1rem;
+}
+
+$primary-color: rgb(0,155,74);
+$secondary-color: rgb(232,124,7);
+$gray-color: rgb(216,216,216);
+$dark-color: rgb(51,51,51);
+$gray-color-light: rgb(245,245,245);
+$gray-color-dark: rgb(144,144,144);
+$light-color: rgb(255,255,255);
+
+$html-font-size: 14px;
+$mobileSize: 768;
+$rootSize: 14;
+$unit-1: convertUnit(4);
+
+@media screen and (max-width: #{$mobileSize}px) {
+  body, html {
+    font-size: $rootSize / 320 * 100vw;
+  }
+}
