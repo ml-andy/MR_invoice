@@ -1,7 +1,7 @@
 <template lang="pug">
     .loading-circular
       .loading-circular__spinner
-      span.loading-circular__text 前往中...
+      span.loading-circular__text
 </template>
 
 <script>

@@ -1,7 +1,10 @@
 @import "./variables";
-@import "../../node_modules/spectre.css/src/mixins";
 
 .btn {
+  height: auto;
+  padding: convertUnit(12);
+  font-size: $fontSize4;
+  line-height: $fontSize4;
   border-radius: convertUnit(3);
 }
 

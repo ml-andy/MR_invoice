@@ -27,6 +27,36 @@ p {
   }
 }
 
+h,
+.h {
+  &1 {
+    font-size: $fontSize1;
+  }
+  &2 {
+    font-size: $fontSize2;
+  }
+  &3 {
+    font-size: $fontSize3;
+  }
+  &4 {
+    font-size: $fontSize4;
+  }
+  &5 {
+    font-size: $fontSize5;
+  }
+}
+
+.text {
+  font-size: $fontSize5;
+  // font size
+  &-sm {
+    font-size: $fontSize6;
+  }
+  &-lg {
+    font-size: $fontSize1;
+  }
+}
+
 @supports (bottom: constant(safe-area-inset-bottom)) or (bottom: env(safe-area-inset-bottom)) {
   .wraper {
     padding-bottom: calc(convertUnit(10) + constant(safe-area-inset-bottom));

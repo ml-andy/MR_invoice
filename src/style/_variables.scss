@@ -14,6 +14,19 @@ $html-font-size: 14px;
 $mobileSize: 768;
 $rootSize: 14;
 $unit-1: convertUnit(4);
+$animation-speed: .3s;
+$space: convertUnit(16);
+
+// size
+$mobileSize: 768; // tablets
+$border-radius: convertUnit(2.8);
+$fontSize1: convertUnit(24);
+$fontSize2: convertUnit(20);
+$fontSize3: convertUnit(18);
+$fontSize4: convertUnit(16);
+$fontSize5: convertUnit(14);
+$fontSize6: convertUnit(12);
+
 
 @media screen and (max-width: #{$mobileSize}px) {
   body, html {

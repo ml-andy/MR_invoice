@@ -1,10 +1,6 @@
 <template lang="pug">
-  .root-loading(v-if="true")
+  .root-loading(v-if="isActive")
     .root-loading__inner
-      img.root-loading__logoImg(
-        v-if="thirdPartyLogo"
-        :src="thirdPartyLogo"
-      )
       Loading
 </template>
 
@@ -17,7 +13,6 @@ export default {
   computed: {
     ...mapState({
       isActive: state => state.rootLoading.isActive,
-      thirdPartyLogo: state => state.app.thirdParty.image,
     }),
   },
   components: {
@@ -39,9 +34,6 @@ export default {
   &__inner {
     width: 90%;
     text-align: center;
-  }
-  &__logoImg {
-    width: convertUnit(140);
   }
 }
 </style>

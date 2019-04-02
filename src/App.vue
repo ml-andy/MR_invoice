@@ -1,19 +1,16 @@
 <template lang="pug">
   #app
     RootLoading
-    AgreeModal(v-if="isInit")
     ErrorModal
     .wraper
       main.container
-        .content__inner(v-if="!isInit")
-          AppInit
-        .content__inner(v-else)
-          router-view
+        AppInit(v-if="!isInit")
+        router-view(v-else)
+
 </template>
 
 <script>
 import ErrorModal from '@/components/containers/ErrorModal';
-import AgreeModal from '@/components/containers/AgreeModal';
 import AppInit from '@/components/containers/AppInit';
 import RootLoading from '@/components/containers/RootLoading';
 import { mapState } from 'vuex';
@@ -26,7 +23,6 @@ export default {
   components: {
     AppInit,
     ErrorModal,
-    AgreeModal,
     RootLoading,
   },
 };
