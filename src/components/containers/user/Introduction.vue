@@ -186,15 +186,15 @@ export default {
       &__invoice {
         width: convertUnit(96);
         height: convertUnit(114);
-        left: convertUnit(58);
-        top: convertUnit(-7);
+        left: convertUnit(62);
+        top: convertUnit(-6);
         background-image: url(~@/assets/images/intro_step3_invoice.png);
         z-index: 3;
       }
       &__card1 {
         width: convertUnit(146);
         height: convertUnit(91);
-        left: convertUnit(26);
+        left: convertUnit(30);
         top: convertUnit(0);
         background-image: url(~@/assets/images/intro_step3_asiaCard.png);
         z-index: 0;
@@ -202,9 +202,9 @@ export default {
       &__card2 {
         width: convertUnit(146);
         height: convertUnit(91);
-        left: convertUnit(12);
+        left: convertUnit(10);
         top: convertUnit(14);
-        background-image: url(~@/assets/images/intro_step3_asiaCard.png);
+        background-image: url(~@/assets/images/intro_step3_kokoCard.png);
         z-index: 1;
       }
       &__card3 {
@@ -212,7 +212,7 @@ export default {
         height: convertUnit(91);
         left: convertUnit(0);
         top: convertUnit(30);
-        background-image: url(~@/assets/images/intro_step3_asiaCard.png);
+        background-image: url(~@/assets/images/intro_step3_costcoCard.png);
         z-index: 2;
       }
     }
