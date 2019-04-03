@@ -14,9 +14,9 @@
         ) 下一步
     template(v-if="step === 2")
       .introduction__photo
-        .cell
-        .glasses
-        .stars
+        .id
+        .credit
+        .stars.stars-v2
       .introduction__main.text-center
         h3.text-primary 我要怎麼做？
         p.text
@@ -29,9 +29,12 @@
         ) 下一步
     template(v-if="step === 3")
       .introduction__photo
-        .cell
-        .glasses
-        .stars
+        .creditgroup
+          .creditgroup__invoice.bg
+          .creditgroup__card1.bg
+          .creditgroup__card2.bg
+          .creditgroup__card3.bg
+        .stars.stars-v3
       .introduction__main.text-center
         h3.text-primary 綁定信用卡當載具
         p.text
@@ -124,11 +127,101 @@ export default {
       background-size: contain;
       background-position: center;
       z-index: 0;
+
+      &-v2 {
+        width: convertUnit(210);
+        height: convertUnit(210);
+        left: convertUnit(40);
+        top: convertUnit(40);
+        background-image: url(~@/assets/images/intro_step2_stars.png);
+      }
+      &-v3 {
+        width: convertUnit(233);
+        height: convertUnit(200);
+        left: convertUnit(30);
+        top: convertUnit(50);
+        background-image: url(~@/assets/images/intro_step3_stars.png);
+      }
+    }
+
+    .id {
+      position: absolute;
+      width: convertUnit(123);
+      height: convertUnit(105);
+      left: convertUnit(88);
+      top: convertUnit(60);
+      background-image: url(~@/assets/images/intro_step2_id.png);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      z-index: 1;
+    }
+
+    .credit {
+      position: absolute;
+      width: convertUnit(114);
+      height: convertUnit(101);
+      left: convertUnit(138);
+      top: convertUnit(130);
+      background-image: url(~@/assets/images/intro_step2_credit.png);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      z-index: 1;
+    }
+
+    .creditgroup {
+      position: absolute;
+      top: convertUnit(96);
+      left: convertUnit(67);
+      z-index: 1;
+
+      .bg {
+        position: absolute;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+      }
+
+      &__invoice {
+        width: convertUnit(96);
+        height: convertUnit(114);
+        left: convertUnit(58);
+        top: convertUnit(-7);
+        background-image: url(~@/assets/images/intro_step3_invoice.png);
+        z-index: 3;
+      }
+      &__card1 {
+        width: convertUnit(146);
+        height: convertUnit(91);
+        left: convertUnit(26);
+        top: convertUnit(0);
+        background-image: url(~@/assets/images/intro_step3_asiaCard.png);
+        z-index: 0;
+      }
+      &__card2 {
+        width: convertUnit(146);
+        height: convertUnit(91);
+        left: convertUnit(12);
+        top: convertUnit(14);
+        background-image: url(~@/assets/images/intro_step3_asiaCard.png);
+        z-index: 1;
+      }
+      &__card3 {
+        width: convertUnit(146);
+        height: convertUnit(91);
+        left: convertUnit(0);
+        top: convertUnit(30);
+        background-image: url(~@/assets/images/intro_step3_asiaCard.png);
+        z-index: 2;
+      }
     }
   }
+
   h3 {
     margin-bottom: convertUnit(10);
   }
+
   &__footer {
     position: fixed;
     width: calc(100% - #{$space * 2});
