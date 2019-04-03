@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Introduction from '@/components/containers/user/Introduction';
+import Introduction from '@/components/containers/Introduction';
 
 export default {
   name: 'IntroductionIndex',

@@ -28,18 +28,20 @@
 </template>
 
 <script>
+import * as routePath from '@/constant/routePath';
+
 export default {
   name: 'Agreement',
   methods: {
     onAgree() {
-      this.$router.push('/user/phonecode/list');
+      this.$router.push(routePath.PHONECODE);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../../../style/variables";
+@import "../../style/variables";
 
 .agreement {
   padding: $stepBarSpace #{convertUnit(30)} 0 #{convertUnit(30)};

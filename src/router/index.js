@@ -4,7 +4,8 @@ import Router from 'vue-router';
 import unknown from '@/router/modules/unknown';
 import entry from '@/router/modules/entry';
 import layout from './modules/layout';
-import user from './modules/user';
+import introduction from './modules/introduction';
+import agreement from './modules/agreement';
 
 Vue.use(Router);
 
@@ -12,7 +13,8 @@ const routes = [
   ...entry,
   ...unknown,
   ...layout,
-  ...user,
+  ...introduction,
+  ...agreement,
 ];
 
 export default new Router({

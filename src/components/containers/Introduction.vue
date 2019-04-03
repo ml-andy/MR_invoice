@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import * as routePath from '@/constant/routePath';
+
 export default {
   name: 'Step1',
   props: {
@@ -58,16 +60,16 @@ export default {
     onClickHandler() {
       switch (this.step) {
         case 1:
-          this.$router.push('/user/introduction/step2');
+          this.$router.push(routePath.INTRODUCTION_STEP2);
           break;
         case 2:
-          this.$router.push('/user/introduction/step3');
+          this.$router.push(routePath.INTRODUCTION_STEP3);
           break;
         case 3:
-          this.$router.push('/user/agreement');
+          this.$router.push(routePath.AGREEMENT);
           break;
         default:
-          this.$router.push('/user/introduction/step1');
+          this.$router.push(routePath.INTRODUCTION_STEP1);
           break;
       }
     },
@@ -76,7 +78,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../style/variables";
+@import "../../style/variables";
 
 .introduction {
   padding: 0 $space;

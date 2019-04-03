@@ -6,7 +6,7 @@
 
 <script>
 import StepBar from '@/components/containers/StepBar';
-import Agreement from '@/components/containers/user/Agreement';
+import Agreement from '@/components/containers/Agreement';
 
 export default {
   name: 'IntroductionIndex',
