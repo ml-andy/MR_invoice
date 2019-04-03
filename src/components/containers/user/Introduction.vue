@@ -53,7 +53,20 @@ export default {
   },
   methods: {
     onClickHandler() {
-      console.log('next');
+      switch (this.step) {
+        case 1:
+          this.$router.push('/user/introduction/step2');
+          break;
+        case 2:
+          this.$router.push('/user/introduction/step3');
+          break;
+        case 3:
+          this.$router.push('/user/agreement');
+          break;
+        default:
+          this.$router.push('/user/introduction/step1');
+          break;
+      }
     },
   },
 };
@@ -66,8 +79,52 @@ export default {
   padding: 0 $space;
 
   &__photo {
+    position: relative;
     height: convertUnit(300);
     margin-bottom: convertUnit(6);
+    background-image: url(~@/assets/images/intro_step1_bg.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    .cell {
+      position: absolute;
+      width: convertUnit(89);
+      height: convertUnit(181);
+      left: convertUnit(100);
+      top: convertUnit(53);
+      background-image: url(~@/assets/images/intro_step1_cell.png);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      z-index: 1;
+    }
+
+    .glasses {
+      position: absolute;
+      width: convertUnit(126);
+      height: convertUnit(132);
+      left: convertUnit(111);
+      top: convertUnit(102);
+      background-image: url(~@/assets/images/intro_step1_glasses.png);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      z-index: 1;
+    }
+
+    .stars {
+      position: absolute;
+      width: convertUnit(210);
+      height: convertUnit(157);
+      left: convertUnit(37);
+      top: convertUnit(79);
+      background-image: url(~@/assets/images/intro_step1_stars.png);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      z-index: 0;
+    }
   }
   h3 {
     margin-bottom: convertUnit(10);
