@@ -5,6 +5,7 @@
 
 body, html {
   margin: 0;
+  color: $dark-color;
   background-color: $gray-color-light;
 }
 
@@ -55,6 +56,15 @@ h,
   &-lg {
     font-size: $fontSize1;
   }
+}
+
+.section__footer {
+  position: fixed;
+  width: calc(100% - #{$space * 2});
+  left: $space;
+  bottom: $space;
+  margin: 0;
+  z-index: 1;
 }
 
 @supports (bottom: constant(safe-area-inset-bottom)) or (bottom: env(safe-area-inset-bottom)) {

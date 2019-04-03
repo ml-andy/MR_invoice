@@ -7,12 +7,12 @@ $secondary-color: rgb(232,124,7);
 $gray-color: rgb(216,216,216);
 $dark-color: rgb(51,51,51);
 $gray-color-light: rgb(245,245,245);
-$gray-color-dark: rgb(144,144,144);
+$gray-color-dark: rgb(126,126,126);
 $light-color: rgb(255,255,255);
 
-$html-font-size: 14px;
+$html-font-size: 13px;
 $mobileSize: 768;
-$rootSize: 14;
+$rootSize: 13;
 $unit-1: convertUnit(4);
 $animation-speed: .3s;
 $space: convertUnit(16);
@@ -24,9 +24,14 @@ $fontSize1: convertUnit(24);
 $fontSize2: convertUnit(20);
 $fontSize3: convertUnit(18);
 $fontSize4: convertUnit(16);
-$fontSize5: convertUnit(14);
+$fontSize5: convertUnit(15);
 $fontSize6: convertUnit(12);
 
+$stepBarSpace: convertUnit(65);
+$footerSpace: convertUnit(80);
+.footerSpace {
+  margin-bottom: $footerSpace;
+}
 
 @media screen and (max-width: #{$mobileSize}px) {
   body, html {

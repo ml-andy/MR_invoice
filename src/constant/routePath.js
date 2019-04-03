@@ -13,4 +13,5 @@ export const USER_INTRODUCTION = '/user/introduction';
 export const USER_INTRODUCTION_STEP1 = '/user/introduction/step1';
 export const USER_INTRODUCTION_STEP2 = '/user/introduction/step2';
 export const USER_INTRODUCTION_STEP3 = '/user/introduction/step3';
+export const USER_AGREEMENT = '/user/agreement';
 

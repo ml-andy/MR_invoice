@@ -3,6 +3,7 @@ import Page from '@/views/Page';
 import IntroductionStep1 from '@/views/user/introduction/Step1';
 import IntroductionStep2 from '@/views/user/introduction/Step2';
 import IntroductionStep3 from '@/views/user/introduction/Step3';
+import Agreement from '@/views/user/Agreement';
 
 export default [
   {
@@ -33,6 +34,11 @@ export default [
             component: IntroductionStep3,
           },
         ],
+      },
+      {
+        path: routePath.USER_AGREEMENT,
+        name: 'User Agreement',
+        component: Agreement,
       },
     ],
   },
