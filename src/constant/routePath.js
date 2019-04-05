@@ -16,3 +16,5 @@ export const INTRODUCTION_STEP3 = '/introduction/step3';
 export const AGREEMENT = '/agreement';
 
 export const PHONECODE = '/phonecode';
+export const PHONECODE_SIGNIN = '/phonecode/signin';
+export const PHONECODE_SIGNUP = '/phonecode/signup';

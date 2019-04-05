@@ -25,13 +25,10 @@ $fontSize2: convertUnit(20);
 $fontSize3: convertUnit(18);
 $fontSize4: convertUnit(16);
 $fontSize5: convertUnit(15);
-$fontSize6: convertUnit(12);
+$fontSize6: convertUnit(13);
 
 $stepBarSpace: convertUnit(65);
 $footerSpace: convertUnit(80);
-.footerSpace {
-  margin-bottom: $footerSpace;
-}
 
 @media screen and (max-width: #{$mobileSize}px) {
   body, html {
