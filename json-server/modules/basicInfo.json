@@ -1,0 +1,12 @@
+{
+    "errorCode": null,
+    "message": null,
+    "success": true,
+    "values": {
+        "cardNumber": "****_****_****_7438",
+        "cardName": "KOKO 悠遊聯名白金卡(原PLAY)",
+        "birth": "0101",
+        "id": "9999",
+        "phone": "0909***123"
+    }
+}

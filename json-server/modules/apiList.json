@@ -1,0 +1,9 @@
+{
+  "MR_API": [
+    {
+      "name": "取得使用者基本資料",
+      "doc": "MyReward x 電子發票 SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/es/user/basic-info?card=1&account=1"
+    }
+  ]
+}

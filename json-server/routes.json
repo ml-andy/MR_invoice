@@ -1,0 +1,4 @@
+{
+    "/api": "/apiList",
+    "/mobile-device-service/mds/es/user/basic-info?*": "/basicInfo"
+}

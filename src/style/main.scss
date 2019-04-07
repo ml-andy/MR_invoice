@@ -1,0 +1,75 @@
+@import "./variables";
+@import "../../node_modules/spectre.css/src/spectre";
+@import "../../node_modules/spectre.css/src/spectre-exp";
+@import "./button";
+
+body, html {
+  margin: 0;
+  color: $dark-color;
+  background-color: $gray-color-light;
+}
+
+p {
+  margin: 0;
+}
+
+.form {
+  &-group, &-group:not(:last-child){
+    margin-bottom: 0;
+    &.border {
+      text-decoration:none;
+      color: $dark-color;
+      padding: $unit-5;
+      border-bottom: convertUnit(1) solid $gray-color-light;
+    }
+    &.border:nth-child(1){
+      border-top: convertUnit(1) solid $gray-color-light;
+    }
+  }
+}
+
+h,
+.h {
+  &1 {
+    font-size: $fontSize1;
+  }
+  &2 {
+    font-size: $fontSize2;
+  }
+  &3 {
+    font-size: $fontSize3;
+  }
+  &4 {
+    font-size: $fontSize4;
+  }
+  &5 {
+    font-size: $fontSize5;
+  }
+}
+
+.text {
+  font-size: $fontSize5;
+  // font size
+  &-sm {
+    font-size: $fontSize6;
+  }
+  &-lg {
+    font-size: $fontSize1;
+  }
+}
+
+.section__footer {
+  position: fixed;
+  width: calc(100% - #{$space * 2});
+  left: $space;
+  bottom: $space;
+  margin: 0;
+  z-index: 1;
+}
+
+@supports (bottom: constant(safe-area-inset-bottom)) or (bottom: env(safe-area-inset-bottom)) {
+  .wraper {
+    padding-bottom: calc(convertUnit(10) + constant(safe-area-inset-bottom));
+    padding-bottom: calc(convertUnit(10) + env(safe-area-inset-bottom));
+  }
+}
