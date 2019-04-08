@@ -109,7 +109,7 @@ i.arrow {
   height: 1em;
   max-width: 100%;
   background-repeat: no-repeat;
-  background-size: 99%;
+  background-size: 100% auto;
   background-position: center;
 
   &-yes { background-image: url(~@/assets/images/icon_yes.png); }
