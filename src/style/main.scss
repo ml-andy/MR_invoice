@@ -58,14 +58,64 @@ h,
   }
 }
 
-.section__footer {
-  position: fixed;
-  width: calc(100% - #{$space * 2});
-  left: $space;
-  bottom: $space;
-  margin: 0;
-  z-index: 1;
+.stepbarSpace {
+  padding-top: $stepBarSpace;
 }
+.footerSpace {
+  margin-bottom: $footerSpace;
+}
+
+.section {
+  &__header {
+    margin-top: convertUnit(30);
+    margin-bottom: convertUnit(25);
+  }
+  &__main {
+    line-height: convertUnit(24);
+    text-align: justify;
+  }
+  &__footer {
+    position: fixed;
+    width: calc(100% - #{$space * 2});
+    left: $space;
+    bottom: $space;
+    margin: 0;
+    z-index: 1;
+  }
+}
+
+i.arrow {
+  border: solid rgb(153,153,153);
+  border-width: 0 #{convertUnit(2.5)} #{convertUnit(2.5)} 0;
+  display: inline-block;
+  padding: convertUnit(5.5);
+
+  &-right {
+    transform: rotate(-45deg);
+  }
+  &-left {
+    transform: rotate(135deg);
+  }
+  &-up {
+    transform: rotate(-135deg);
+  }
+  &-down {
+    transform: rotate(45deg);
+  }
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  max-width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+
+  &-yes { background-image: url(~@/assets/images/icon_yes.png); }
+  &-no { background-image: url(~@/assets/images/icon_no.png); }
+}
+
 
 @supports (bottom: constant(safe-area-inset-bottom)) or (bottom: env(safe-area-inset-bottom)) {
   .wraper {
