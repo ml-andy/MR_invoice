@@ -107,9 +107,9 @@ i.arrow {
 .icon {
   width: 1em;
   height: 1em;
-  line-height: 1em;
+  max-width: 100%;
   background-repeat: no-repeat;
-  background-size: 98%;
+  background-size: 99%;
   background-position: center;
 
   &-yes { background-image: url(~@/assets/images/icon_yes.png); }
