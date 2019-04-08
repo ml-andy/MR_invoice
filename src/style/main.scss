@@ -84,14 +84,6 @@ h,
   }
 }
 
-.column {
-  padding: 0;
-
-  &s {
-    margin: 0;
-  }
-}
-
 i.arrow {
   border: solid rgb(153,153,153);
   border-width: 0 #{convertUnit(2.5)} #{convertUnit(2.5)} 0;
@@ -117,7 +109,7 @@ i.arrow {
   height: 1em;
   line-height: 1em;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 98%;
   background-position: center;
 
   &-yes { background-image: url(~@/assets/images/icon_yes.png); }
