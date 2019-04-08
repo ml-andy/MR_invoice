@@ -10,7 +10,7 @@
         div.modal-title.h4.text-center
           slot(name="header")
       div.modal-body
-        div.content(:class="modalContentClass")
+        div.content.text(:class="modalContentClass")
           slot(name="body")
       div.modal-footer
         slot(name="footer")
@@ -61,16 +61,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../style/variables";
+
 .modal {
   &-overlay {
     background: rgba(4,4, 15, 0.4) !important;
   }
   &-container {
     max-height: 55vh;
-  }
-  &-body {
-    padding-top: 0;
-    text-align: center;
   }
 }
 
