@@ -23,16 +23,38 @@
     .section__footer.columns
       button.btn.btn-submit.column.col-12(
         @click="onAgree"
+        :disabled="!isNext"
       ) 我同意上述條款
 
 </template>
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { isScrollEnd } from '@/helpers/unit';
 
 export default {
   name: 'Agreement',
+  data() {
+    return {
+      isNext: false,
+    };
+  },
+  mounted() {
+    window.onscroll = this.onWindowScroll;
+    this.onWindowScroll();
+  },
+  beforeDestroy() {
+    window.onscroll = null;
+  },
   methods: {
+    onWindowScroll() {
+      const {
+        scrollTop,
+        scrollHeight,
+        clientHeight,
+      } = document.documentElement;
+      this.isNext = isScrollEnd(scrollTop, clientHeight, scrollHeight);
+    },
     onAgree() {
       this.$router.push(routePath.PHONECODE);
     },
@@ -46,6 +68,15 @@ export default {
 .agreement {
   padding-left: #{convertUnit(30)};
   padding-right: #{convertUnit(30)};
+
+  .section__footer {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    padding: #{convertUnit(10)} $space;
+    background-color: $light-color;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
 }
 </style>
 
