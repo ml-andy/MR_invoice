@@ -17,4 +17,7 @@ export const AGREEMENT = '/agreement';
 
 export const PHONECODE = '/phonecode';
 export const PHONECODE_SIGNIN = '/phonecode/signin';
+export const PHONECODE_BIND = '/phonecode/bind';
+export const PHONECODE_SUCCESS = '/phonecode/success';
 export const PHONECODE_SIGNUP = '/phonecode/signup';
+export const PHONECODE_CONFIRM = '/phonecode/confirm';

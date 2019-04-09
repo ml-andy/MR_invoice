@@ -26,6 +26,23 @@ p {
       border-top: convertUnit(1) solid $gray-color-light;
     }
   }
+  &-input {
+    padding: convertUnit(10);
+    font-size: $fontSize5;
+    line-height: $fontSize5;
+    height: auto;
+    margin-bottom: convertUnit(20);
+
+    &:disabled {
+      background-color: $gray-color;
+      color: $gray-color-dark;
+      opacity: 1;
+    }
+  }
+  &-label {
+    font-size: $fontSize4;
+    padding: convertUnit(6) 0;
+  }
 }
 
 h,
@@ -111,11 +128,41 @@ i.arrow {
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: center;
+  display: inline-block;
+  vertical-align: -14%;
+  margin-right: convertUnit(4);
 
   &-yes { background-image: url(~@/assets/images/icon_yes.png); }
   &-no { background-image: url(~@/assets/images/icon_no.png); }
+  &-info { background-image: url(~@/assets/images/icon_info.png); }
 }
 
+.modal {
+  &-container {
+    max-width: convertUnit(280);
+    padding: $space;
+
+    .modal {
+      &-header {
+        padding: 0 0 $space 0;
+      }
+      &-body {
+        padding: 0 0 $space 0;
+        text-align: center;
+      }
+      &-footer {
+        padding: 0;
+      }
+    }
+  }
+
+  &.modal-sm {
+    .modal-container {
+      max-width: convertUnit(280);
+      padding: #{convertUnit(24)} $space $space $space;
+    }
+  }
+}
 
 @supports (bottom: constant(safe-area-inset-bottom)) or (bottom: env(safe-area-inset-bottom)) {
   .wraper {
