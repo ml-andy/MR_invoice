@@ -37,7 +37,7 @@ import * as routePath from '@/constant/routePath';
 import Modals from '@/components/units/Modals';
 
 export default {
-  name: 'phonecodeIndex',
+  name: 'phonecodeComfirm',
   data() {
     return {
       isSuccess: false,

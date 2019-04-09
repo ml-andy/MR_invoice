@@ -104,17 +104,6 @@ const mutations = {
       },
     };
   },
-  TREEMALL_ERROR(state, payload) {
-    state.error = {
-      ...basic,
-      message: `Treemall Error ${payload.statusId}`,
-      txt: payload.statusDesc,
-      root: true,
-      clickAction: () => {
-        errorAction.closeModal(mutations, state);
-      },
-    };
-  },
 };
 
 export default {
