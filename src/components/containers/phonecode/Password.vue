@@ -51,7 +51,7 @@ export default {
       this.isNotice = visible;
     },
     onSubmit() {
-      this.$router.push(routePath.PHONECODE_BIND);
+      this.$router.push(routePath.PHONECODE_SIGNIN);
     },
   },
   components: {

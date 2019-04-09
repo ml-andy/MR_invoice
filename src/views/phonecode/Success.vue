@@ -1,18 +1,18 @@
 <template lang="pug">
   .phonecode-view
     StepBar(:step=4)
-    PhonecodeSignin
+    PhonecodeSuccess
 </template>
 
 <script>
 import StepBar from '@/components/containers/StepBar';
-import PhonecodeSignin from '@/components/containers/phonecode/Signin';
+import PhonecodeSuccess from '@/components/containers/phonecode/Success';
 
 export default {
-  name: 'phonecodeSuccess',
+  name: 'phonecode_Success',
   components: {
     StepBar,
-    PhonecodeSignin,
+    PhonecodeSuccess,
   },
 };
 </script>
