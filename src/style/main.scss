@@ -69,9 +69,11 @@ h,
   // font size
   &-sm {
     font-size: $fontSize6;
+    line-height: $fontSize6;
   }
   &-lg {
     font-size: $fontSize1;
+    line-height: $fontSize1;
   }
 }
 
@@ -101,26 +103,6 @@ h,
   }
 }
 
-i.arrow {
-  border: solid rgb(153,153,153);
-  border-width: 0 #{convertUnit(2.5)} #{convertUnit(2.5)} 0;
-  display: inline-block;
-  padding: convertUnit(5.5);
-
-  &-right {
-    transform: rotate(-45deg);
-  }
-  &-left {
-    transform: rotate(135deg);
-  }
-  &-up {
-    transform: rotate(-135deg);
-  }
-  &-down {
-    transform: rotate(45deg);
-  }
-}
-
 .icon {
   width: 1em;
   height: 1em;
@@ -137,6 +119,26 @@ i.arrow {
   &-info { background-image: url(~@/assets/images/icon_info.png); }
   &-help { background-image: url(~@/assets/images/icon_help.png); }
   &-success { background-image: url(~@/assets/images/icon_success.png); }
+  &-caret {
+    height: 0;
+    width: 0;
+    border-width: .4em;
+    border-style: solid;
+    border-color: transparent;
+    vertical-align: 0%;
+
+    &-left { border-right-color: $gray-color-dark; }
+    &-right { border-left-color: $gray-color-dark; }
+  }
+  &-arrow {
+    background-image: url(~@/assets/images/icon_arrow.png);
+    
+    &-right { transform: rotate(0deg); }
+    &-left { transform: rotate(180deg); }
+    &-up { transform: rotate(-90deg); }
+    &-down { transform: rotate(90deg); }
+  }
+  &-noReciept { background-image: url(~@/assets/images/icon_noReciept.png); }
 }
 
 .modal {
@@ -163,6 +165,41 @@ i.arrow {
       max-width: convertUnit(280);
       padding: #{convertUnit(24)} $space $space $space;
     }
+  }
+}
+
+.invoice {
+  &__header {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    background-color: $gray-color-light;
+  }
+  &__main {
+    margin-top: convertUnit(86);
+    padding-bottom: convertUnit(30);
+  }
+  &__title {
+    padding: convertUnit(20);
+  }
+  &__subtitle {
+    padding: convertUnit(8);
+    background-color: $gray-color;
+  }
+  &__empty {
+    box-sizing: border-box;
+    min-height: calc(100vh - #{convertUnit(112)});
+  }
+  &__footer {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 9;
+    padding: #{convertUnit(3)} #{convertUnit(20)};
+    background-color: $gray-color-light;
   }
 }
 

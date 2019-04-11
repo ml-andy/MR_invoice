@@ -7,7 +7,7 @@
           v-if="isCanClose"
           @click="onClose"
         )
-        div.modal-title.h4.text-center
+        div.modal-title.h3.text-center
           slot(name="header")
       div.modal-body
         div.content.text(:class="modalContentClass")
