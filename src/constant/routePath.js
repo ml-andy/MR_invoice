@@ -17,7 +17,14 @@ export const AGREEMENT = '/agreement';
 
 export const PHONECODE = '/phonecode';
 export const PHONECODE_SIGNIN = '/phonecode/signin';
+export const PHONECODE_PWD = '/phonecode/pwd';
+export const PHONECODE_UPDATE = '/phonecode/update';
+export const PHONECODE_UPDATESUCCESS = '/phonecode/updatesuccess';
 export const PHONECODE_BIND = '/phonecode/bind';
 export const PHONECODE_SUCCESS = '/phonecode/success';
 export const PHONECODE_SIGNUP = '/phonecode/signup';
 export const PHONECODE_CONFIRM = '/phonecode/confirm';
+
+export const INVOICE = '/invoice';
+export const INVOICE_LIST = '/invoice/list';
+export const INVOICE_DETAIL = '/invoice/detail';

@@ -7,6 +7,7 @@ import layout from './modules/layout';
 import introduction from './modules/introduction';
 import agreement from './modules/agreement';
 import phonecode from './modules/phonecode';
+import invoice from './modules/invoice';
 
 Vue.use(Router);
 
@@ -17,6 +18,7 @@ const routes = [
   ...introduction,
   ...agreement,
   ...phonecode,
+  ...invoice,
 ];
 
 export default new Router({

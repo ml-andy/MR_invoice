@@ -1,11 +1,11 @@
 <template lang="pug">
-  section.phonecode.stepbarSpace
+  section.phonecode
     NoticeModal(
       :isNotice="isNotice"
       :onClose="()=> { onEditNoticeModal(false) }"
     )
     .section__header
-      h3.text-primary.text-center 申請手機條碼
+      h3.text-primary.text-center 重新申請驗證碼
     .section__main
       form
         .form-group
@@ -19,7 +19,7 @@
           .form-label(for="email") E-mail
           input#email.form-input(
             type="text"
-            placeholder="必填"
+            placeholder="dsW2@gmail.com"
           )
     .section__footer.columns
       a.noticeBtn(
@@ -31,7 +31,7 @@
       button.btn.btn-submit.column.col-12(
         :disabled="!isNext"
         @click="onSubmit"
-      ) 確認
+      ) 送出
 </template>
 
 <script>
@@ -39,7 +39,7 @@ import * as routePath from '@/constant/routePath';
 import NoticeModal from '@/components/containers/phonecode/NoticeModal';
 
 export default {
-  name: 'phonecodeSignup',
+  name: 'phonecodeSignin',
   data() {
     return {
       isNotice: false,
@@ -51,7 +51,7 @@ export default {
       this.isNotice = visible;
     },
     onSubmit() {
-      this.$router.push(routePath.PHONECODE_CONFIRM);
+      this.$router.push(routePath.PHONECODE_SIGNIN);
     },
   },
   components: {

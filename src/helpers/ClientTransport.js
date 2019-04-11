@@ -40,30 +40,6 @@ const checkStatus = {
         message: '',
         txt: message,
       });
-    // checkStatus.error(errorCode);
-    // return null;
-  },
-  treemall: (response) => {
-    const { values, success, message } = response;
-    if (success) {
-      const { status_id: statusId, result, status_desc: statusDesc } = values;
-      if (statusId === 'E000') {
-        return result;
-      }
-      throw new FetchError(
-        'error/TREEMALL_ERROR',
-        {
-          statusId,
-          statusDesc,
-        });
-    }
-    throw new FetchError(
-      'error/SERVER_ERROR',
-      {
-        message: '',
-        txt: message,
-      });
-    // return null;
   },
 };
 

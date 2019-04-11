@@ -122,3 +122,14 @@ export function sendMixpanel(eventName, properties = null) {
     mixpanel.track(eventName, properties);
   }
 }
+
+/**
+ * @desc 判斷 element 是否捲動到底部
+ * @param {number} scrollTop - element 目前已捲動的高度
+ * @param {number} clientHeight - element 框架的高度
+ * @param {number} elementHeight - element 內容的高度
+ * @return {string} - 加上千位數逗號的字串
+ */
+export const isScrollEnd = (scrollTop, clientHeight, elementHeight) => (
+  scrollTop + clientHeight >= elementHeight
+);

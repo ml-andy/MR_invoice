@@ -130,11 +130,13 @@ i.arrow {
   background-position: center;
   display: inline-block;
   vertical-align: -14%;
-  margin-right: convertUnit(4);
-
+  
+  &-margin-right { margin-right: convertUnit(4); }
   &-yes { background-image: url(~@/assets/images/icon_yes.png); }
   &-no { background-image: url(~@/assets/images/icon_no.png); }
   &-info { background-image: url(~@/assets/images/icon_info.png); }
+  &-help { background-image: url(~@/assets/images/icon_help.png); }
+  &-success { background-image: url(~@/assets/images/icon_success.png); }
 }
 
 .modal {
