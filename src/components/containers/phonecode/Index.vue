@@ -9,14 +9,14 @@
             .icon.icon-yes
           .column.col-7 我已有手機條碼
           .column.col-2
-            i.arrow.arrow-right
+            i.icon.icon-arrow
       button.phonecode__btn(@click="onNextStep(false)")
         .columns
           .column.col-3.btn-icon
             .icon.icon-no
           .column.col-7 我沒有手機條碼
           .column.col-2
-            i.arrow.arrow-right
+            i.icon.icon-arrow
       span.text-sm 發票手機條碼範例：/YLC＊CE7
 </template>
 

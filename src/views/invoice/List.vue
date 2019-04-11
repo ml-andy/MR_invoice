@@ -1,15 +1,15 @@
 <template lang="pug">
   .invoice-view
-    |invoice list
+    InvoiceList
 </template>
 
 <script>
-// import Phonecode from '@/components/containers/phonecode/Index';
+import InvoiceList from '@/components/containers/invoice/List';
 
 export default {
   name: 'Invoice_List',
   components: {
-    // Phonecode,
+    InvoiceList,
   },
 };
 </script>
