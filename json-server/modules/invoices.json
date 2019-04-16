@@ -1,0 +1,32 @@
+{
+    "errorCode": null,
+    "message": null,
+    "success": true,
+    "values": {
+        "carrierName":"信用卡-中信",
+        "list": [
+            {
+                "rowNum":"1",
+                "invNum":"BA123456",
+                "sellerName":"COSTO 新莊店",
+                "amount":"1000",
+                "invPeriod":"10804",
+                "invYear": "108",
+                "invMonth": "03",
+                "invDay": "01",
+                "isWin": false
+            },
+            {
+                "rowNum":"2",
+                "invNum":"BA123457",
+                "sellerName":"COSTO 樹林店",
+                "amount":"500",
+                "invPeriod":"10802",
+                "invYear": "108",
+                "invMonth": "01",
+                "invDay": "01",
+                "isWin": true
+            }
+        ]
+    }
+}

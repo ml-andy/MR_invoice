@@ -1,0 +1,26 @@
+{
+    "errorCode": null,
+    "message": null,
+    "success": true,
+    "values": {
+        "sellerName":"COSTO 新莊店",
+        "invoiceTime":"13:09:02",
+        "amount": "96",
+        "details":[
+            {
+                "rowNum":"1",
+                "description":"五月花衛生紙10包超值組合",
+                "quantity":"1",
+                "unitPrice":"100",
+                "subtotal":"100"
+            },
+            {
+                "rowNum":"2",
+                "description":"五月花衛生紙10包超值組合",
+                "quantity":"2",
+                "unitPrice":"100",
+                "subtotal":"200"
+            }           
+        ]
+    }
+}

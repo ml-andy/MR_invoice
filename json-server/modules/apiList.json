@@ -1,9 +1,54 @@
 {
   "MR_API": [
     {
+      "name": "查詢手機條碼",
+      "doc": "MyReward x 電子發票 SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/es/user/cardno-status"
+    },
+    {
+      "name": "新增 / 更新手機號碼",
+      "doc": "MyReward x 電子發票 SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/es/user/modify-cardno"
+    },
+    {
+      "name": "取得載具發票清單",
+      "doc": "MyReward x 電子發票 SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/es/info/invoices"
+    },
+    {
+      "name": "取得載具發票明細",
+      "doc": "MyReward x 電子發票 SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/es/info/invoices/detail"
+    },
+    {
+      "name": "查詢載具是否已歸戶手機條碼",
+      "doc": "MyReward x 電子發票 SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/es/inclusion/carrier-check"
+    },
+    {
       "name": "取得使用者基本資料",
       "doc": "MyReward x 電子發票 SA文件",
-      "url": "http://localhost:3000/mobile-device-service/mds/es/user/basic-info?card=1&account=1"
+      "url": "http://localhost:3000/mobile-device-service/mds/es/user/basic-info"
+    },
+    {
+      "name": "取得載具歸戶圖形驗證碼",
+      "doc": "MyReward x 電子發票 SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/es/inclusion/verify-code-image"
+    },
+    {
+      "name": "信用卡載具歸戶",
+      "doc": "MyReward x 電子發票 SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/es/inclusion/include"
+    },
+    {
+      "name": "忘記手機條碼驗證碼",
+      "doc": "MyReward x 電子發票 SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/es/user/forget-verify-code"
+    },
+    {
+      "name": "申請手機條碼",
+      "doc": "MyReward x 電子發票 SA文件",
+      "url": "http://localhost:3000/mobile-device-service/mds/es/user/cardno"
     }
   ]
 }
