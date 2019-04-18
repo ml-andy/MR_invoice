@@ -1,14 +1,13 @@
 <template lang="pug">
-  section.page-container
-    .wraper
-      Entry
+  .entry-view
+    Entry
 </template>
 
 <script>
 import Entry from '@/components/containers/Entry';
 
 export default {
-  name: 'Entry_index',
+  name: 'EntryView',
   components: {
     Entry,
   },

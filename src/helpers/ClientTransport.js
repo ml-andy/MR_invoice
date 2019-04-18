@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as eTypes from '@/constant/apiErrorTypes';
+
 /**
  * @desc 自定義 Error
  * @param {commit} string - commit type
@@ -12,35 +13,38 @@ function FetchError(commit, info) {
 FetchError.prototype = new Error();
 FetchError.prototype.constructor = FetchError;
 
-const checkStatus = {
-  error: (errorCode) => {
-    if (eTypes[errorCode] === undefined) {
-      const { commit, ...info } = eTypes.UNDEFINDED_ERROR;
-      throw new FetchError(
-        commit,
-        info,
-      );
-    } else {
-      const { commit, ...info } = eTypes[errorCode];
-      throw new FetchError(
-        commit,
-        {
-          ...info,
-        });
-    }
-  },
-  mr: (response) => {
-    const { values, success, message } = response;
-    if (success) {
-      return values;
-    }
-    throw new FetchError(
-      'error/SERVER_ERROR',
+const checkStatus = (response) => {
+  const { values, errorCode, success, message } = response;
+  if (success) {
+    return values;
+  }
+  throw new FetchError(
+    'error/EDIT_ERROR',
+    {
+      errorCode,
+      message,
+    });
+};
+
+const errorHandle = (e) => {
+  if (e.response && e.response.status !== 200) {
+    const { commit, ...info } = eTypes.FETCH_ERROR;
+    return new FetchError(commit,
       {
-        message: '',
-        txt: message,
+        ...info,
       });
-  },
+  } else if (e.message === 'Network Error') {
+    const { commit, ...info } = eTypes.NETWORK_ERROR;
+    return new FetchError(commit,
+      {
+        ...info,
+      });
+  }
+  const { commit, info } = e;
+  return new FetchError(
+    commit,
+    info,
+  );
 };
 
 const editMethod = (requests) => {
@@ -78,61 +82,21 @@ class ClientTransport {
   }
   async fetchOne(request) {
     try {
-      const { thirdParty = 'mr' } = request;
       const response = await this.instance(request);
-      return checkStatus[thirdParty](response.data);
+      return checkStatus(response.data);
     } catch (e) {
-      if (e.response && e.response.status !== 200) {
-        const { commit, ...info } = eTypes.FETCH_ERROR;
-        throw new FetchError(commit,
-          {
-            ...info,
-          });
-      } else if (e.message === 'Network Error') {
-        const { commit, ...info } = eTypes.NETWORK_ERROR;
-        throw new FetchError(commit,
-          {
-            ...info,
-          });
-      } else {
-        const { commit, info } = e;
-        throw new FetchError(
-          commit,
-          info,
-        );
-      }
+      throw errorHandle(e);
     }
   }
   async fetchAll(requests) {
     try {
       const responses = await Promise.all(requests.map(request => this.instance(request)));
-      return responses.reduce((accumulator, currentValue) => {
-        const { thirdParty = 'mr' } = currentValue;
-        return [
-          ...accumulator,
-          checkStatus[thirdParty](currentValue.data),
-        ];
-      }, []);
+      return responses.reduce((accumulator, currentValue) => ([
+        ...accumulator,
+        checkStatus(currentValue.data),
+      ]), []);
     } catch (e) {
-      if (e.response && e.response.status !== 200) {
-        const { commit, ...info } = eTypes.FETCH_ERROR;
-        throw new FetchError(commit,
-          {
-            ...info,
-          });
-      } else if (e.message === 'Network Error') {
-        const { commit, ...info } = eTypes.NETWORK_ERROR;
-        throw new FetchError(commit,
-          {
-            ...info,
-          });
-      } else {
-        const { commit, info } = e;
-        throw new FetchError(
-          commit,
-          info,
-        );
-      }
+      throw errorHandle(e);
     }
   }
   fetch(requests) {

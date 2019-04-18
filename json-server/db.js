@@ -5,7 +5,7 @@ const pause = require('connect-pause');
 
 const server = jsonServer.create();
 const port = 3000;
-const pauseTime = 2000;
+const pauseTime = 500;
 
 const routesFile = path.resolve(__dirname, '../json-server/routes.json');
 

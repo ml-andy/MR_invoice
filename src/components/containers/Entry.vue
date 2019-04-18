@@ -1,10 +1,9 @@
 <template lang="pug">
-  .entry
+  .entry-container
 </template>
 
 <script>
-
 export default {
-  name: 'Entry',
+  name: 'Entry_Container',
 };
 </script>
