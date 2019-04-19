@@ -1,4 +1,5 @@
 export const ENTRY = '/';
+export const MMO_ENTRY = 'mmo://MyCard';
 
 export const LAYOUT = '/layout';
 export const LAYOUT_INDEX = '/layout/index';

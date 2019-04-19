@@ -1,13 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import { beforeEach } from '@/router/hooks';
 
-import unknown from '@/router/modules/unknown';
 import entry from '@/router/modules/entry';
-import layout from './modules/layout';
-import introduction from './modules/introduction';
-import agreement from './modules/agreement';
-import phonecode from './modules/phonecode';
-import invoice from './modules/invoice';
+import unknown from '@/router/modules/unknown';
+import layout from '@/router/modules/layout';
+import introduction from '@/router/modules/introduction';
+import agreement from '@/router/modules/agreement';
+import phonecode from '@/router/modules/phonecode';
+import invoice from '@/router/modules/invoice';
 
 Vue.use(Router);
 
@@ -21,6 +22,7 @@ const routes = [
   ...invoice,
 ];
 
-export default new Router({
-  routes,
-});
+const VueRouter = new Router({ routes });
+
+VueRouter.beforeEach(beforeEach);
+export default VueRouter;

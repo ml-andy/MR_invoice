@@ -1,4 +1,13 @@
 {
     "/api": "/apiList",
-    "/mobile-device-service/mds/es/user/basic-info?*": "/basicInfo"
+    "/mobile-device-service/mds/es/user/cardno-status": "/cardnoStatus",
+    "/mobile-device-service/mds/es/user/modify-cardno": "/modifyCardno",
+    "/mobile-device-service/mds/es/info/invoices": "/invoices",
+    "/mobile-device-service/mds/es/info/invoices/detail": "/invoicesDetail",
+    "/mobile-device-service/mds/es/inclusion/carrier-check": "/carrierCheck",
+    "/mobile-device-service/mds/es/user/basic-info": "/basicInfo",
+    "/mobile-device-service/mds/es/inclusion/verify-code-image": "/verifyCodeImage",
+    "/mobile-device-service/mds/es/inclusion/include": "/include",
+    "/mobile-device-service/mds/es/user/forget-verify-code": "/forgetVerifyCode",
+    "/mobile-device-service/mds/es/user/cardno": "/cardno"
 }

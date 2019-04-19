@@ -1,13 +1,10 @@
 import * as routePath from '@/constant/routePath';
-import Index from '@/views/entry/Index';
+import Entry from '@/views/Entry';
 
 export default [
   {
     path: routePath.ENTRY,
-    name: 'ENTRY',
-    component: Index,
-    meta: {
-      title: 'ENTRY',
-    },
+    name: 'Entry',
+    component: Entry,
   },
 ];

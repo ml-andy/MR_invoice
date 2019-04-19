@@ -11,7 +11,7 @@
         v-if="error.isButton"
         class="btn btn-submit btn-block btn-lg"
         @click="onClickHandler"
-      ) 確定
+      ) {{ error.buttonTxt }}
 </template>
 
 <script>
@@ -24,9 +24,9 @@ export default {
     ...mapState('error', ['error']),
   },
   methods: {
-    ...mapActions('error', ['closeModal']),
+    ...mapActions('error', ['closeModal', 'clickHandler']),
     onClickHandler() {
-      this.error.clickAction();
+      this.clickHandler();
     },
   },
   components: {

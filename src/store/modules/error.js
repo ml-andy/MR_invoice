@@ -1,107 +1,47 @@
 const basic = {
-  isButton: true,
-  isErrorActive: true,
+  isErrorActive: false,
   isCanClose: false,
-};
-
-const errorAction = {
-  goBackApp: () => {
-    location.href = 'mmo://Home?tab=featuredServices';
-  },
-  closeModal: (mutations, state) => {
-    mutations.closeModal(state);
-  },
+  isButton: true,
+  message: '',
+  txt: '',
+  customEvent: null,
+  buttonTxt: '確定',
 };
 
 const states = {
   error: {
-    isErrorActive: false,
-    isCanClose: false,
-    isButton: true,
-    message: '',
-    txt: '',
+    ...basic,
   },
-  clickAction: () => {},
 };
 
 const getters = {};
 
 const actions = {
+  clickHandler({ state, commit }) {
+    if (state.error.customEvent) {
+      state.error.customEvent();
+    }
+    commit('closeModal');
+    commit('initError');
+  },
   closeModal({ commit }) {
     commit('closeModal');
+    commit('initError');
   },
 };
 
 const mutations = {
+  initError(state) {
+    state.error = { ...basic };
+  },
   closeModal(state) {
     state.error.isErrorActive = false;
   },
-  SOURCE_ERROR(state, payload) {
+  EDIT_ERROR(state, payload) {
     state.error = {
-      ...payload,
       ...basic,
-      clickAction: errorAction.goBackApp,
-    };
-  },
-  FETCH_ERROR(state, payload) {
-    state.error = {
+      isErrorActive: true,
       ...payload,
-      ...basic,
-      clickAction: () => {
-        errorAction[payload.errorActions](mutations, state);
-      },
-    };
-  },
-  UNDEFINDED_ERROR(state, payload) {
-    state.error = {
-      ...payload,
-      ...basic,
-      clickAction: () => {
-        errorAction[payload.errorActions](mutations, state);
-      },
-    };
-  },
-  NETWORK_ERROR(state, payload) {
-    state.error = {
-      ...payload,
-      ...basic,
-      clickAction: () => {
-        errorAction[payload.errorActions](mutations, state);
-      },
-    };
-  },
-  TYPE_ERROR(state, payload) {
-    state.error = {
-      ...payload,
-      ...basic,
-      clickAction: errorAction.goBackApp,
-    };
-  },
-  SERVER_ERROR(state, payload) {
-    state.error = {
-      ...payload,
-      ...basic,
-      clickAction: () => {
-        errorAction[payload.errorActions](mutations, state);
-      },
-    };
-  },
-  TPGS_GET_SERVICE_FLAG_ERROR(state, payload) {
-    state.error = {
-      ...payload,
-      ...basic,
-      clickAction: () => {
-        errorAction[payload.errorActions](mutations, state);
-      },
-    };
-  },
-  TPGS_USERID_EMPTY_ERROR(state, payload) {
-    state.error = {
-      ...payload,
-      ...basic,
-      clickAction: () => {
-        errorAction[payload.errorActions](mutations, state);
-      },
     };
   },
 };

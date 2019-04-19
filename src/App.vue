@@ -4,24 +4,44 @@
     ErrorModal
     .wraper
       main.container
-        AppInit(v-if="!isInit")
-        router-view(v-else)
+        router-view(v-if="isInit")
 
 </template>
 
 <script>
+import * as routePath from '@/constant/routePath';
 import ErrorModal from '@/components/containers/ErrorModal';
-import AppInit from '@/components/containers/AppInit';
 import RootLoading from '@/components/containers/RootLoading';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'App',
   computed: mapState({
     isInit: state => state.app.isInit,
+    isBound: state => state.app.isBound,
+    isIncluded: state => state.app.included,
   }),
+  mounted() {
+    this.init();
+  },
+  methods: {
+    ...mapActions('app', ['appInit', 'getCarrierCheck']),
+    async init() {
+      await this.appInit();
+      if (!this.isBound) {
+        this.$router.push(routePath.INTRODUCTION_STEP1);
+        return;
+      }
+
+      await this.getCarrierCheck();
+      if (this.isIncluded) {
+        this.$router.push(routePath.INVOICE);
+      } else if (this.isIncluded === false) {
+        this.$router.push(routePath.PHONECODE_BIND);
+      }
+    },
+  },
   components: {
-    AppInit,
     ErrorModal,
     RootLoading,
   },
