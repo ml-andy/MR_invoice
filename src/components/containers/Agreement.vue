@@ -30,31 +30,31 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
-import { isScrollEnd } from '@/helpers/unit';
+// import { isScrollEnd } from '@/helpers/unit';
 
 export default {
   name: 'Agreement',
   data() {
     return {
-      isNext: false,
+      isNext: true,
     };
   },
-  mounted() {
-    window.onscroll = this.onWindowScroll;
-    this.onWindowScroll();
-  },
-  beforeDestroy() {
-    window.onscroll = null;
-  },
+  // mounted() {
+  //   window.onscroll = this.onWindowScroll;
+  //   this.onWindowScroll();
+  // },
+  // beforeDestroy() {
+  //   window.onscroll = null;
+  // },
   methods: {
-    onWindowScroll() {
-      const {
-        scrollTop,
-        scrollHeight,
-        clientHeight,
-      } = document.documentElement;
-      this.isNext = isScrollEnd(scrollTop, clientHeight, scrollHeight);
-    },
+    // onWindowScroll() {
+    //   const {
+    //     scrollTop,
+    //     scrollHeight,
+    //     clientHeight,
+    //   } = document.documentElement;
+    //   this.isNext = isScrollEnd(scrollTop, clientHeight, scrollHeight);
+    // },
     onAgree() {
       this.$router.push(routePath.PHONECODE);
     },

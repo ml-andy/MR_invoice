@@ -52,6 +52,8 @@ module.exports = {
     'no-underscore-dangle': ['error', {
       allow: ['_props'],
     }],
+    'no-control-regex': 0,
+    'no-useless-escape': 0,
   },
   globals: {
     "Swiper": true,

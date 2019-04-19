@@ -17,12 +17,14 @@
       h3.text-primary.text-center 請輸入財政部發送的簡訊驗證碼
     .section__main
       form
-        .form-group
-          .form-label(for="confirm") 驗證碼
-          input#confirm.form-input(
-            type="text"
-            placeholder="必填"
-          )
+        FormGroupInput(
+          label="驗證碼"
+          type="text"
+          v-model="verifyCode"
+          placeholder="必填"
+          :onInput="wordValidate"
+          :hint="verifyCodeHints"
+        )
       p.text-sm
         |請輸入財政部發送之簡訊驗證碼(4碼)。若您未收到簡訊驗證碼，請聯繫財政部電子發票平台，0800-521-988。
     .section__footer.columns
@@ -34,19 +36,46 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { mapState, mapActions, mapMutations } from 'vuex';
 import Modals from '@/components/units/Modals';
+import FormGroupInput from '@/components/units/FormGroupInput';
+import { wordValidate } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeComfirm',
   data() {
     return {
+      verifyCode: '',
       isSuccess: false,
-      isNext: true,
     };
   },
+  computed: {
+    ...mapState({
+      cardNo: state => state.phonecode.cardNo,
+      errorCode: state => state.phonecode.apiError.errorCode,
+      message: state => state.phonecode.apiError.message,
+    }),
+    verifyCodeHints() {
+      const errors = ['ES_F_919_ERROR'];
+      const isApiError = errors.indexOf(this.errorCode) !== -1;
+      return isApiError ? this.message : '';
+    },
+    isNext() {
+      return this.verifyCode !== '' && this.verifyCodeHints === '';
+    },
+  },
+  created() {
+    this.initApiError();
+  },
   methods: {
-    onSubmit() {
-      this.isSuccess = true;
+    ...mapActions('phonecode', ['modifyCardno']),
+    ...mapMutations('phonecode', ['initApiError', 'fetchState']),
+    wordValidate,
+    async onSubmit() {
+      await this.modifyCardno();
+      if (this.cardNo !== '') {
+        this.isSuccess = true;
+      }
     },
     onSuccessModal() {
       this.$router.push(routePath.PHONECODE_BIND);
@@ -54,6 +83,15 @@ export default {
   },
   components: {
     Modals,
+    FormGroupInput,
+  },
+  watch: {
+    verifyCode(value) {
+      this.fetchState({
+        key: 'verifyCode',
+        value,
+      });
+    },
   },
 };
 </script>
@@ -64,10 +102,6 @@ export default {
 .phonecode {
   padding-left: $space;
   padding-right: $space;
-
-  .subbtn {
-    margin-bottom: convertUnit(20);
-  }
 }
 </style>
 

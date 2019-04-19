@@ -1,6 +1,8 @@
 import {
   parseQueryString,
   isScrollEnd,
+  emailValidate,
+  wordValidate,
 } from '@/helpers/unit';
 
 describe('unit testing', () => {
@@ -44,6 +46,53 @@ describe('unit testing', () => {
 
     testCase.forEach(({ scrollTop, clientHeight, elementHeight, equalRes }) => {
       expect(isScrollEnd(scrollTop, clientHeight, elementHeight)).toEqual(equalRes);
+    });
+  });
+  it('emailValidate testing', () => {
+    const testCase = [
+      {
+        msg: 'email格式錯誤',
+        value: 'andy',
+        equalRes: 'email格式錯誤',
+      },
+      {
+        msg: 'email格式錯誤',
+        value: 'andy@yahoo',
+        equalRes: 'email格式錯誤',
+      },
+      {
+        msg: 'email格式錯誤',
+        value: 'andy@yahoo.com',
+        equalRes: '',
+      },
+    ];
+
+    testCase.forEach(({ msg, value, equalRes }) => {
+      expect(emailValidate(msg, value)).toEqual(equalRes);
+    });
+  });
+  it('wordValidate testing', () => {
+    const testCase = [
+      {
+        value: '我',
+        equalRes: '',
+      },
+      {
+        value: 'abc',
+        equalRes: 'abc',
+      },
+      {
+        value: '@@@',
+        equalRes: '@@@',
+      },
+      {
+        value: 'ㄅㄆ',
+        equalRes: '',
+      },
+    ];
+
+    testCase.forEach(({ value, equalRes }) => {
+      expect(wordValidate(value)).toEqual(equalRes);
     });
   });
 });

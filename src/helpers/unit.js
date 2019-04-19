@@ -128,8 +128,31 @@ export function sendMixpanel(eventName, properties = null) {
  * @param {number} scrollTop - element 目前已捲動的高度
  * @param {number} clientHeight - element 框架的高度
  * @param {number} elementHeight - element 內容的高度
- * @return {string} - 加上千位數逗號的字串
+ * @return {boolean} - element 是否捲動到底部
  */
 export const isScrollEnd = (scrollTop, clientHeight, elementHeight) => (
   scrollTop + clientHeight >= elementHeight
 );
+
+/**
+ * @desc email格式檢驗
+ * @param {value} string - email
+ * @param {msg} string - 如果驗證錯誤回傳的文字
+ * @return {string} - 驗證結果
+ */
+export const emailValidate = curry((msg, value) => {
+  const regexp = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/, 'gi');
+  const isValidate = value.match(regexp);
+  return isValidate ? '' : msg;
+});
+
+/**
+ * @desc 刪去非 ASCII 格式的文字
+ * @param {value} string - 字串
+ * @param {msg} string - 如果驗證錯誤回傳的文字
+ * @return {string} - 驗證結果
+ */
+export const wordValidate = (value) => {
+  const regexp = new RegExp(/[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*/, 'g');
+  return value.replace(regexp, '');
+};

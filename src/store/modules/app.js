@@ -6,13 +6,17 @@ import {
   getUA,
   sendMixpanel,
 } from '@/helpers/unit';
-import { SOURCE_ERROR, PASSWORD_ERROR } from '@/constant/apiErrorTypes';
+import { SOURCE_ERROR } from '@/constant/apiErrorTypes';
 
 const states = {
   isInit: false,
-  cardNo: '',
-  isBound: false,
-  included: null,
+  basicInfo: {
+    cardNumber: '',
+    cardName: '',
+    birth: '',
+    id: '',
+    phone: '',
+  },
 };
 
 const getters = {};
@@ -43,38 +47,30 @@ const actions = {
           }
           sendMixpanel('invoice_main_view');
         }
-
-        const response = await client.fetch({
-          method: 'get',
-          url: '/es/user/cardno-status',
-        });
-        commit('fetchBound', response);
       } else {
         commit('rootLoading/activeStatus', false, { root: true });
         commit(SOURCE_ERROR.commit, SOURCE_ERROR, { root: true });
         return;
       }
+      const response = await client.fetch([
+        {
+          method: 'get',
+          url: '/es/user/cardno-status',
+        },
+        {
+          method: 'get',
+          url: '/es/user/basic-info',
+          params: {
+            card: 1,
+            account: 1,
+          },
+        },
+      ]);
+      commit('phonecode/fetchBound', response[0], { root: true });
+      commit('fetchBasicInfo', response[1]);
       commit('initSetup');
     } catch (error) {
       commit(error.commit, error.info, { root: true });
-    }
-    commit('rootLoading/activeStatus', false, { root: true });
-  },
-  async getCarrierCheck({ commit }) {
-    commit('rootLoading/activeStatus', true, { root: true });
-    try {
-      const response = await client.fetch({
-        method: 'post',
-        url: '/es/inclusion/carrier-check',
-      });
-      commit('fetchIncluded', response);
-    } catch (error) {
-      const { errorCode } = error.info;
-      if (errorCode === PASSWORD_ERROR.errorCode) {
-        commit(PASSWORD_ERROR.commit, PASSWORD_ERROR, { root: true });
-      } else {
-        commit(error.commit, error.info, { root: true });
-      }
     }
     commit('rootLoading/activeStatus', false, { root: true });
   },
@@ -84,21 +80,10 @@ const mutations = {
   initSetup(state) {
     state.isInit = true;
   },
-  fetchBound(state, payload) {
-    const {
-      cardNo = '',
-      isBound = false,
-    } = payload;
-    state.cardNo = cardNo;
-    state.isBound = isBound;
-  },
-  fetchIncluded(state, payload) {
-    const {
-      cardNo = '',
-      included = false,
-    } = payload;
-    state.cardNo = cardNo;
-    state.included = included;
+  fetchBasicInfo(state, payload) {
+    state.basicInfo = {
+      ...payload,
+    };
   },
 };
 

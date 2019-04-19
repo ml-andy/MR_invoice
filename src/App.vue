@@ -18,14 +18,15 @@ export default {
   name: 'App',
   computed: mapState({
     isInit: state => state.app.isInit,
-    isBound: state => state.app.isBound,
-    isIncluded: state => state.app.included,
+    isBound: state => state.phonecode.isBound,
+    isIncluded: state => state.phonecode.included,
   }),
   mounted() {
     this.init();
   },
   methods: {
-    ...mapActions('app', ['appInit', 'getCarrierCheck']),
+    ...mapActions('app', ['appInit']),
+    ...mapActions('phonecode', ['getCarrierCheck']),
     async init() {
       await this.appInit();
       if (!this.isBound) {
