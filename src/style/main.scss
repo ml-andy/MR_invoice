@@ -15,7 +15,7 @@ p {
 
 .form {
   &-group, &-group:not(:last-child){
-    margin-bottom: 0;
+    margin-bottom: convertUnit(20);
     &.border {
       text-decoration:none;
       color: $dark-color;
@@ -31,12 +31,16 @@ p {
     font-size: $fontSize5;
     line-height: $fontSize5;
     height: auto;
-    margin-bottom: convertUnit(20);
+    // margin-bottom: convertUnit(20);
 
     &:disabled {
       background-color: $gray-color;
       color: $gray-color-dark;
       opacity: 1;
+    }
+    &-hint {
+      font-size: $fontSize6;
+      line-height: $fontSize6;
     }
   }
   &-label {

@@ -8,19 +8,21 @@
       h3.text-primary.text-center 申請手機條碼
     .section__main
       form
-        .form-group
-          .form-label(for="phone") 手機號碼
-          input#phone.form-input(
-            type="tel"
-            value="09XXXXXXXX"
-            disabled
-          )
-        .form-group
-          .form-label(for="email") E-mail
-          input#email.form-input(
-            type="text"
-            placeholder="必填"
-          )
+        FormGroupInput(
+          label="手機號碼"
+          type="tel"
+          v-model="phone"
+          :disabled="true"
+        )
+        FormGroupInput(
+          label="E-mail"
+          type="text"
+          v-model="email"
+          placeholder="必填"
+          :onInput="wordValidate"
+          :onBlur="onEmailBlur"
+          :hint="emailHints"
+        )
     .section__footer.columns
       a.noticeBtn(
         href="javascript:;"
@@ -36,26 +38,67 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { mapState, mapActions, mapMutations } from 'vuex';
+import FormGroupInput from '@/components/units/FormGroupInput';
 import NoticeModal from '@/components/containers/phonecode/NoticeModal';
+import { emailValidate, wordValidate } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeSignup',
   data() {
     return {
       isNotice: false,
-      isNext: true,
+      email: '',
+      emailHint: '',
     };
   },
+  computed: {
+    ...mapState({
+      phone: state => state.app.basicInfo.phone,
+      errorCode: state => state.phonecode.apiError.errorCode,
+      message: state => state.phonecode.apiError.message,
+      cardNo: state => state.phonecode.cardNo,
+    }),
+    emailHints() {
+      const errors = ['ES_F_906_ERROR'];
+      const isApiError = errors.indexOf(this.errorCode) !== -1;
+      return isApiError ? this.message : this.emailHint;
+    },
+    isNext() {
+      return this.email !== '' && this.emailHints === '';
+    },
+  },
+  created() {
+    this.initApiError();
+  },
   methods: {
+    ...mapActions('phonecode', ['signup']),
+    ...mapMutations('phonecode', ['initApiError', 'fetchState']),
+    wordValidate,
+    onEmailBlur(value) {
+      this.emailHint = emailValidate('E-mail格式錯誤', value);
+    },
     onEditNoticeModal(visible) {
       this.isNotice = visible;
     },
-    onSubmit() {
-      this.$router.push(routePath.PHONECODE_CONFIRM);
+    async onSubmit() {
+      await this.signup();
+      if (this.cardNo !== '') {
+        this.$router.push(routePath.PHONECODE_CONFIRM);
+      }
     },
   },
   components: {
+    FormGroupInput,
     NoticeModal,
+  },
+  watch: {
+    email(value) {
+      this.fetchState({
+        key: 'email',
+        value,
+      });
+    },
   },
 };
 </script>
