@@ -8,29 +8,26 @@
       h3.text-primary.text-center 更新驗證碼
     .section__main
       form
-        .form-group
-          .form-label(for="phone") 手機號碼
-          input#phone.form-input(
-            type="tel"
-            value="09XXXXXXXX"
-            disabled
+        FormGroupInput(
+          label="手機號碼"
+          type="tel"
+          v-model="phone"
+          :disabled="true"
+        )
+        FormGroupInput(
+          label="手機條碼驗證碼"
+          type="text"
+          v-model="verifyCode"
+          placeholder="必填"
+          :onInput="wordValidate"
+          :hint="verifyCodeHints"
+        )
+          a.forgotpassword(
+            href="javascript:;"
+            @click="onForgotpassword"
           )
-        .form-group
-          .form-label(for="password")
-            .columns
-              .column.col-6
-                |手機條碼驗證碼
-              .column.col-6.text-sm.text-right
-                a.forgotpassword(
-                  href="javascript:;"
-                  @click="onForgotpassword"
-                )
-                  i.icon.icon-help.icon-margin-right
-                  |忘記驗證碼
-          input#password.form-input(
-            type="text"
-            placeholder="必填"
-          )
+            i.icon.icon-help.icon-margin-right
+            |忘記驗證碼
     .section__footer.columns
       a.noticeBtn(
         href="javascript:;"
@@ -46,29 +43,64 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { mapState, mapActions, mapMutations } from 'vuex';
+import FormGroupInput from '@/components/units/FormGroupInput';
 import NoticeModal from '@/components/containers/phonecode/NoticeModal';
+import { wordValidate } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeUpdate',
   data() {
     return {
       isNotice: false,
-      isNext: true,
+      verifyCode: '',
     };
   },
+  computed: {
+    ...mapState({
+      phone: state => state.app.basicInfo.phone,
+      errorCode: state => state.phonecode.apiError.errorCode,
+      message: state => state.phonecode.apiError.message,
+    }),
+    verifyCodeHints() {
+      const errors = ['ES_F_910_ERROR'];
+      const isApiError = errors.indexOf(this.errorCode) !== -1;
+      return isApiError ? this.message : '';
+    },
+    isNext() {
+      return this.verifyCode !== '' && this.verifyCodeHints === '';
+    },
+  },
+  created() {
+    this.initApiError();
+  },
   methods: {
+    ...mapActions('phonecode', ['putCardno']),
+    ...mapMutations('phonecode', ['initApiError', 'fetchState']),
+    wordValidate,
     onForgotpassword() {
       this.$router.push(routePath.PHONECODE_PWD);
     },
     onEditNoticeModal(visible) {
       this.isNotice = visible;
     },
-    onSubmit() {
+    async onSubmit() {
+      await this.putCardno();
+      if (this.errorCode !== '') return;
       this.$router.push(routePath.PHONECODE_UPDATESUCCESS);
     },
   },
   components: {
     NoticeModal,
+    FormGroupInput,
+  },
+  watch: {
+    verifyCode(value) {
+      this.fetchState({
+        key: 'verifyCode',
+        value,
+      });
+    },
   },
 };
 </script>

@@ -17,7 +17,7 @@ export default {
   name: 'phonecodeUpdateSuccess',
   methods: {
     onSubmit() {
-      this.$router.push(routePath.INVOICE_LIST);
+      this.$router.push(routePath.INVOICE);
     },
   },
 };

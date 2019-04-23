@@ -1,6 +1,13 @@
 <template lang="pug">
   .form-group(:class="groupClass")
-    .form-label(for="input") {{ label }}
+    div(v-if="$slots.default")
+      .form-label(for="input")
+        .columns
+          .column.col-6 {{ label }}
+          .column.col-6.text-sm.text-right
+            slot
+    div(v-else)
+      .form-label(for="input") {{ label }}
     input#input.form-input(
       type="text"
       ref="input"
@@ -31,7 +38,7 @@ export default {
     },
     onInput: {
       type: Function,
-      default: () => {},
+      default: value => (value),
     },
     onBlur: {
       type: Function,

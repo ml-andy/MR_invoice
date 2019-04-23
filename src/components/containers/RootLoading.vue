@@ -25,15 +25,33 @@ export default {
 @import "../../style/variables";
 
 .root-loading {
+  position: fixed;
+  width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  left: 0;
+  top: 0;
+  z-index: 98;
 
   &__inner {
     width: 90%;
     text-align: center;
+    z-index: 1;
   }
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $gray-color-light;
+    opacity: 0.8;
+  }
+
 }
 </style>

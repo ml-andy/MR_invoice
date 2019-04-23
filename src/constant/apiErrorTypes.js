@@ -22,7 +22,7 @@ export const SOURCE_ERROR = {
   },
 };
 
-export const PASSWORD_ERROR = {
+export const UPDATE_ERROR = {
   errorCode: 'ES_F_919_ERROR',
   commit: 'error/EDIT_ERROR',
   message: '發票更新失敗',

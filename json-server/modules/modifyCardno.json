@@ -3,7 +3,6 @@
     "message": null,
     "success": true,
     "values": {
-        "cardNo": "/ABC1234",
-        "email": "aaa@mail.com"
+        "cardNo": "/ABC1234"
     }
 }

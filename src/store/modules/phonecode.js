@@ -1,5 +1,5 @@
 import client from '@/helpers/ClientTransport';
-import { PASSWORD_ERROR } from '@/constant/apiErrorTypes';
+import { UPDATE_ERROR } from '@/constant/apiErrorTypes';
 
 const initApiError = {
   errorCode: '',
@@ -12,6 +12,9 @@ const states = {
   included: null,
   email: '',
   verifyCode: '',
+  verifyCodeImage: '',
+  carrierName: '',
+  imageCode: '',
   apiError: {
     ...initApiError,
   },
@@ -30,8 +33,8 @@ const actions = {
       commit('fetchIncluded', response);
     } catch (error) {
       const { errorCode } = error.info;
-      if (errorCode === PASSWORD_ERROR.errorCode) {
-        commit(PASSWORD_ERROR.commit, PASSWORD_ERROR, { root: true });
+      if (errorCode === UPDATE_ERROR.errorCode) {
+        commit(UPDATE_ERROR.commit, UPDATE_ERROR, { root: true });
       } else {
         commit('fetchApiError', error.info);
         commit(error.commit, error.info, { root: true });
@@ -49,7 +52,11 @@ const actions = {
           email: state.email,
         },
       });
-      commit('fetchCardNo', response);
+      const { cardNo } = response;
+      commit('fetchState', {
+        key: 'cardNo',
+        value: cardNo,
+      });
     } catch (error) {
       commit('fetchApiError', error.info);
       commit(error.commit, error.info, { root: true });
@@ -68,13 +75,88 @@ const actions = {
         url: '/es/user/modify-cardno',
         data,
       });
-      commit('fetchCardNo', response);
-    } catch (error) {
-      commit('fetchApiError', error.info);
+      const { cardNo } = response;
       commit('fetchState', {
         key: 'cardNo',
-        value: '',
+        value: cardNo,
       });
+    } catch (error) {
+      commit('fetchApiError', error.info);
+      commit(error.commit, error.info, { root: true });
+    }
+    commit('rootLoading/activeStatus', false, { root: true });
+  },
+  async getVerifyCodeImage({ commit }) {
+    try {
+      const response = await client.fetch({
+        method: 'get',
+        url: '/es/inclusion/verify-code-image',
+      });
+      const { imageString } = response;
+      commit('fetchState', {
+        key: 'verifyCodeImage',
+        value: imageString,
+      });
+    } catch (error) {
+      commit('fetchApiError', error.info);
+      commit(error.commit, error.info, { root: true });
+    }
+  },
+  async editInclusion({ state, commit }) {
+    commit('rootLoading/activeStatus', true, { root: true });
+    try {
+      const data = {
+        carrierName: state.carrierName,
+        imageCode: state.imageCode,
+        cardNo: state.cardNo,
+      };
+      await client.fetch({
+        method: 'post',
+        url: '/es/inclusion/include',
+        data,
+      });
+    } catch (error) {
+      commit('fetchApiError', error.info);
+      commit(error.commit, error.info, { root: true });
+    }
+    commit('rootLoading/activeStatus', false, { root: true });
+  },
+  async forgetVerifyCode({ state, commit }, phoneNo) {
+    commit('rootLoading/activeStatus', true, { root: true });
+    try {
+      const data = {
+        email: state.email,
+        phoneNo,
+      };
+      await client.fetch({
+        method: 'post',
+        url: '/es/user/forget-verify-code',
+        data,
+      });
+    } catch (error) {
+      commit('fetchApiError', error.info);
+      commit(error.commit, error.info, { root: true });
+    }
+    commit('rootLoading/activeStatus', false, { root: true });
+  },
+  async putCardno({ state, commit }) {
+    commit('rootLoading/activeStatus', true, { root: true });
+    try {
+      const data = {
+        verifyCode: state.verifyCode,
+      };
+      const response = await client.fetch({
+        method: 'put',
+        url: '/es/user/modify-cardno',
+        data,
+      });
+      const { cardNo } = response;
+      commit('fetchState', {
+        key: 'cardNo',
+        value: cardNo,
+      });
+    } catch (error) {
+      commit('fetchApiError', error.info);
       commit(error.commit, error.info, { root: true });
     }
     commit('rootLoading/activeStatus', false, { root: true });
@@ -102,10 +184,6 @@ const mutations = {
     } = payload;
     state.cardNo = cardNo;
     state.included = included;
-  },
-  fetchCardNo(state, payload) {
-    const { cardNo } = payload;
-    state.cardNo = cardNo;
   },
   initApiError(state) {
     state.apiError = { ...initApiError };
