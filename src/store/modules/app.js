@@ -69,6 +69,13 @@ const actions = {
       commit('phonecode/fetchBound', response[0], { root: true });
       commit('fetchBasicInfo', response[1]);
       commit('initSetup');
+
+      const { cardName } = response[1];
+      const carrierName = `信用卡-${cardName}`;
+      commit('phonecode/fetchState', {
+        key: 'carrierName',
+        value: carrierName,
+      }, { root: true });
     } catch (error) {
       commit(error.commit, error.info, { root: true });
     }

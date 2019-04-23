@@ -73,9 +73,8 @@ export default {
     wordValidate,
     async onSubmit() {
       await this.modifyCardno();
-      if (this.cardNo !== '') {
-        this.isSuccess = true;
-      }
+      if (this.errorCode !== '') return;
+      this.isSuccess = true;
     },
     onSuccessModal() {
       this.$router.push(routePath.PHONECODE_BIND);

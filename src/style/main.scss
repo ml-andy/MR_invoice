@@ -143,6 +143,7 @@ h,
     &-down { transform: rotate(90deg); }
   }
   &-noReciept { background-image: url(~@/assets/images/icon_noReciept.png); }
+  &-refresh { background-image: url(~@/assets/images/icon_refresh.png); }
 }
 
 .modal {

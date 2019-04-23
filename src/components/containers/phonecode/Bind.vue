@@ -4,52 +4,61 @@
       h3.text-primary.text-center 綁定發票載具
     .section__main.footerSpace
       form
-        .form-group
-          .form-label(for="cardtype") 載具類別
-          input#cardtype.form-input(
-            type="text"
-            value="信用卡/金融卡"
-            disabled
-          )
-        .form-group
-          .form-label(for="cardNumber") 卡片號碼
-          input#cardNumber.form-input(
-            type="text"
-            value="************1234"
-            disabled
-          )
-        .form-group
-          .columns
-            .column.col-6
-              .form-label(for="cardNumber") 身分證末四碼
-              input#cardNumber.form-input(
-                type="text"
-                value="1212"
-                disabled
-              )
-            .column.col-6
-              .form-label(for="cardNumber") 生日末四碼
-              input#cardNumber.form-input(
-                type="text"
-                value="1212"
-                disabled
-              )
-        .form-group
-          .form-label(for="cardName") 載具名稱
-          input#cardName.form-input(
-            type="text"
-            value="信用卡-Costco 聯名卡"
-          )
-        .form-group
-          .form-label(for="code") 圖形驗證碼
-          .columns
-            .column.col-6
-              input#code.form-input(
-                type="text"
-                placeholder="必填"
-              )
-            .column.col-6
-                img.code(src="~@/assets/images/bind_code.jpg")
+        FormGroupInput(
+          label="載具類別"
+          type="text"
+          value="信用卡/金融卡"
+          :disabled="true"
+        )
+        FormGroupInput(
+          label="卡片號碼"
+          type="text"
+          v-model="cardNumber"
+          :disabled="true"
+        )
+        .columns
+          .column.col-6
+            FormGroupInput(
+              label="身分證末四碼"
+              type="text"
+              v-model="userId"
+              :disabled="true"
+            )
+          .column.col-6
+            FormGroupInput(
+              label="生日末四碼"
+              type="text"
+              v-model="birth"
+              :disabled="true"
+            )
+        FormGroupInput(
+          label="載具名稱"
+          type="text"
+          v-model="cardName"
+        )
+        .columns
+          .column.col-6
+            FormGroupInput(
+              label="圖形驗證碼"
+              type="text"
+              placeholder="必填"
+              v-model="imagecode"
+            )
+          .column.col-6.imgageCode
+            .columns
+              .column.col-8.imgageCode__photo.text-center
+                .loading(v-if="isLoadVerifyCodeImage")
+                img.code(
+                  v-else-if="verifyCodeImage && !isLoadVerifyCodeImage"
+                  :src="`data:image/jpeg;base64,${verifyCodeImage}`"
+                )
+                span.text.text-dark(v-else) 請重新載入
+              .column.col-4.text-center
+                a.refreshBtn(
+                  href="javascript:;"
+                  @click="onRefresh"
+                )
+                  i.icon.icon-refresh
     .section__footer.columns
       button.btn.btn-submit.column.col-12(
         :disabled="!isNext"
@@ -59,17 +68,72 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { mapState, mapActions, mapMutations } from 'vuex';
+import FormGroupInput from '@/components/units/FormGroupInput';
 
 export default {
   name: 'phonecodeBind',
   data() {
     return {
-      isNext: true,
+      cardName: '',
+      imagecode: '',
+      isLoadVerifyCodeImage: false,
     };
   },
+  computed: {
+    ...mapState({
+      cardNumber: state => state.app.basicInfo.cardNumber,
+      userId: state => state.app.basicInfo.id,
+      birth: state => state.app.basicInfo.birth,
+      carrierName: state => state.phonecode.carrierName,
+      verifyCodeImage: state => state.phonecode.verifyCodeImage,
+      errorCode: state => state.phonecode.apiError.errorCode,
+    }),
+    isNext() {
+      return (
+        this.cardName !== ''
+        && this.imagecode !== ''
+        && this.verifyCodeImage !== ''
+      );
+    },
+  },
+  created() {
+    this.initApiError();
+    this.cardName = this.carrierName;
+    this.fetchVerifyCodeImage();
+  },
   methods: {
-    onSubmit() {
+    ...mapActions('phonecode', ['getVerifyCodeImage', 'editInclusion']),
+    ...mapMutations('phonecode', ['initApiError', 'fetchState']),
+    async fetchVerifyCodeImage() {
+      this.isLoadVerifyCodeImage = true;
+      await this.getVerifyCodeImage();
+      this.isLoadVerifyCodeImage = false;
+    },
+    onRefresh() {
+      this.fetchVerifyCodeImage();
+    },
+    async onSubmit() {
+      await this.editInclusion();
+      if (this.errorCode !== '') return;
       this.$router.push(routePath.PHONECODE_SUCCESS);
+    },
+  },
+  components: {
+    FormGroupInput,
+  },
+  watch: {
+    cardName(value) {
+      this.fetchState({
+        key: 'carrierName',
+        value,
+      });
+    },
+    imagecode(value) {
+      this.fetchState({
+        key: 'imageCode',
+        value,
+      });
     },
   },
 };
@@ -82,9 +146,36 @@ export default {
   padding-left: $space;
   padding-right: $space;
 
-  .code {
-    width: 100%;
-    height: convertUnit(38);
+  .imgageCode {
+    padding-top: convertUnit(28);
+
+    &__photo {
+      padding: 0;
+      background-color: $gray-color;
+
+      .loading {
+        transform: translateY(#{convertUnit(14)});
+      }
+
+      .code {
+        width: 100%;
+        height: convertUnit(39);
+        display: block;
+      }
+
+      .text {
+        padding-top: convertUnit(6);
+        display: inline-block;
+      }
+    }
+  }
+
+  .refreshBtn {
+    font-size: convertUnit(32);
+    padding-top: convertUnit(3);
+    padding-bottom: convertUnit(3);
+    display: inline-block;
+    vertical-align: top;
   }
 }
 </style>
