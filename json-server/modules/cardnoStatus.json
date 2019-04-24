@@ -4,6 +4,6 @@
     "success": true,
     "values": {
         "cardNo": "/ABC1234",
-        "isBound": false
+        "isBound": true
     }
 }

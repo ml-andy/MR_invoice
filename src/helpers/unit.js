@@ -156,3 +156,23 @@ export const wordValidate = (value) => {
   const regexp = new RegExp(/[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*/, 'g');
   return value.replace(regexp, '');
 };
+
+/**
+ * @desc 計算月份的最後一天
+ * @param {year} Number - 年份
+ * @param {month} Number - 月份
+ * @return {number} - 最後一天的號碼
+ */
+export const lastday = (year, month) => (
+  new Date(year, month, 0).getDate()
+);
+
+/**
+ * @desc 幫數字補 0 前綴字
+ * @param {value} Number - 數字
+ * @return {string} - 至少雙位數的字串
+ */
+export const addZero = (value) => {
+  const isNeedZero = value.toString().length === 1;
+  return isNeedZero ? `0${value}` : value.toString();
+};

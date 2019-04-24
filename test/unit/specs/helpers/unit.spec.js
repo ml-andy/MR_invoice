@@ -3,6 +3,8 @@ import {
   isScrollEnd,
   emailValidate,
   wordValidate,
+  lastday,
+  addZero,
 } from '@/helpers/unit';
 
 describe('unit testing', () => {
@@ -93,6 +95,62 @@ describe('unit testing', () => {
 
     testCase.forEach(({ value, equalRes }) => {
       expect(wordValidate(value)).toEqual(equalRes);
+    });
+  });
+  it('lastday testing', () => {
+    const testCase = [
+      {
+        year: 2019,
+        month: 1,
+        equalRes: 31,
+      },
+      {
+        year: 2019,
+        month: 2,
+        equalRes: 28,
+      },
+      {
+        year: 2019,
+        month: 11,
+        equalRes: 30,
+      },
+      {
+        year: 2020,
+        month: 2,
+        equalRes: 29,
+      },
+    ];
+
+    testCase.forEach(({ year, month, equalRes }) => {
+      expect(lastday(year, month)).toEqual(equalRes);
+    });
+  });
+  it('lastday testing', () => {
+    const testCase = [
+      {
+        value: 1,
+        equalRes: '01',
+      },
+      {
+        value: 11,
+        equalRes: '11',
+      },
+      {
+        value: 132,
+        equalRes: '132',
+      },
+      {
+        value: 9,
+        equalRes: '09',
+      },
+      {
+        value: 10,
+        equalRes: '10',
+      },
+    ];
+
+    testCase.forEach(({ value, equalRes }) => {
+      expect(addZero(value)).toEqual(equalRes);
     });
   });
 });
