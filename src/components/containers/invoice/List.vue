@@ -67,6 +67,7 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { mapState, mapActions, mapMutations } from 'vuex';
 import 'swiper/dist/css/swiper.css';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import NoticeModal from '@/components/containers/invoice/NoticeModal';
@@ -83,112 +84,6 @@ export default {
           prevEl: '.prev',
         },
       },
-      invoices: [
-        {
-          year: '108',
-          month: '01-02',
-          list: [
-            {
-              rowName: 1,
-              invNum: 'BA123456',
-              sellerName: '統一超商股份有限公司...',
-              amount: '121,567',
-              invPeriod: '10804',
-              invYear: '108',
-              invMonth: '03',
-              invDay: '01',
-              isWin: false,
-            },
-            {
-              rowName: 2,
-              invNum: 'BA123457',
-              sellerName: 'COSTO 樹林店',
-              amount: '1000',
-              invPeriod: '10804',
-              invYear: '108',
-              invMonth: '03',
-              invDay: '01',
-              isWin: true,
-            },
-            {
-              rowName: 1,
-              invNum: 'BA123456',
-              sellerName: '統一超商股份有限公司...',
-              amount: '121,567',
-              invPeriod: '10804',
-              invYear: '108',
-              invMonth: '03',
-              invDay: '01',
-              isWin: false,
-            },
-            {
-              rowName: 2,
-              invNum: 'BA123457',
-              sellerName: 'COSTO 樹林店',
-              amount: '1000',
-              invPeriod: '10804',
-              invYear: '108',
-              invMonth: '03',
-              invDay: '01',
-              isWin: true,
-            },
-            {
-              rowName: 1,
-              invNum: 'BA123456',
-              sellerName: '統一超商股份有限公司...',
-              amount: '121,567',
-              invPeriod: '10804',
-              invYear: '108',
-              invMonth: '03',
-              invDay: '01',
-              isWin: false,
-            },
-            {
-              rowName: 2,
-              invNum: 'BA123457',
-              sellerName: 'COSTO 樹林店',
-              amount: '1000',
-              invPeriod: '10804',
-              invYear: '108',
-              invMonth: '03',
-              invDay: '01',
-              isWin: true,
-            },
-            {
-              rowName: 1,
-              invNum: 'BA123456',
-              sellerName: '統一超商股份有限公司...',
-              amount: '121,567',
-              invPeriod: '10804',
-              invYear: '108',
-              invMonth: '03',
-              invDay: '01',
-              isWin: false,
-            },
-            {
-              rowName: 2,
-              invNum: 'BA123457',
-              sellerName: 'COSTO 樹林店',
-              amount: '1000',
-              invPeriod: '10804',
-              invYear: '108',
-              invMonth: '03',
-              invDay: '01',
-              isWin: true,
-            },
-          ],
-        },
-        {
-          year: '108',
-          month: '03-04',
-          list: [],
-        },
-        {
-          year: '108',
-          month: '05-06',
-          list: [],
-        },
-      ],
       date: {
         year: '',
         month: '',
@@ -198,19 +93,30 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      invoices: state => state.invoice.invoices,
+      errorCode: state => state.invoice.apiError.errorCode,
+      message: state => state.invoice.apiError.message,
+    }),
     swiper() {
       return this.$refs.mySwiper.swiper;
     },
+  },
+  created() {
+    this.initApiError();
+    this.initInvoice();
   },
   mounted() {
     this.swiper.on('slideChange', this.onSlideChange);
     this.onSlideChange();
   },
   methods: {
+    ...mapActions('invoice', ['getInvoiceList', 'getInvoiceDetail']),
+    ...mapMutations('invoice', ['initApiError', 'initInvoice']),
     onEditNoticeModal(visible) {
       this.isNotice = visible;
     },
-    onDetail(item) {
+    async onDetail(item) {
       const {
         invNum,
         invYear,
@@ -219,14 +125,24 @@ export default {
         amount,
         sellerName,
       } = item;
-      const invDate = `${invYear}${invMonth}${invDay}`;
-      console.log(invNum, invDate, sellerName, amount);
+      const invDate = `${(invYear * 1) + 1911}/${invMonth}/${invDay}`;
+      await this.getInvoiceDetail({
+        invNum,
+        invDate,
+        sellerName,
+        amount,
+      });
+
+      if (this.errorCode !== '') return;
       this.$router.push(routePath.INVOICE_DETAIL);
     },
     onSlideChange() {
       this.activeIndex = this.$refs.mySwiper.swiper.activeIndex || 0;
-      const { year, month } = this.invoices[this.activeIndex];
+      const { year, month, isFetch } = this.invoices[this.activeIndex];
       this.date = { year, month };
+
+      if (isFetch) return;
+      this.getInvoiceList(this.activeIndex);
     },
   },
   components: {

@@ -4,6 +4,7 @@ import app from './modules/app';
 import error from './modules/error';
 import rootLoading from './modules/rootLoading';
 import phonecode from './modules/phonecode';
+import invoice from './modules/invoice';
 
 Vue.use(Vuex);
 
@@ -15,5 +16,6 @@ export default new Vuex.Store({
     error,
     rootLoading,
     phonecode,
+    invoice,
   },
 });

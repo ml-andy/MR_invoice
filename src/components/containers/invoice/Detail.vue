@@ -1,67 +1,43 @@
 <template lang="pug">
   section.invoice
     .invoice__header
-      nav.invoice__title.text-primary.h3.text-center
-        |MN82386990
-      .invoice__subtitle.text-sm.text-center Costco好市多內湖店
+      nav.invoice__title.text-primary.h3.text-center {{ invoiceDetail.invNum }}
+      .invoice__subtitle.text-sm.text-center {{ invoiceDetail.sellerName }}
     .invoice__main
       .detail
         .form-group.text-sm
           .form-label.text-sm 交易時間
-          span 108-01-20 13:09:02
+          span {{ invoiceDetail.time }}
         .form-group.text-sm
           .form-label.text-sm 載具名稱
-          span 信用卡-koko
+          span {{ carrierName }}
         .form-group.text-sm
           .form-label.text-sm 消費明細
-          .columns.item
-            .column.col-6.item__name 五月花衛生紙10包超值優惠組合
-            .column.col-3.text-right.gray x9999.9
-            .column.col-3.text-right $ 999,992
-          .columns.item
-            .column.col-6.item__name 五月花衛生紙10
-            .column.col-3.text-right.gray x9999.9
-            .column.col-3.text-right $ 999,992
-          .columns.item
-            .column.col-6.item__name 五月花衛生紙10包超值優惠組合
-            .column.col-3.text-right.gray x9999.9
-            .column.col-3.text-right $ 999,992
-          .columns.item
-            .column.col-6.item__name 五月花衛生紙10包超值優惠組合
-            .column.col-3.text-right.gray x9999.9
-            .column.col-3.text-right $ 999,992
-          .columns.item
-            .column.col-6.item__name 五月花衛生紙10包超值優惠組合
-            .column.col-3.text-right.gray x9999.9
-            .column.col-3.text-right $ 999,992
-          .columns.item
-            .column.col-6.item__name 五月花衛生紙10包超值優惠組合
-            .column.col-3.text-right.gray x9999.9
-            .column.col-3.text-right $ 999,992
-          .columns.item
-            .column.col-6.item__name 五月花衛生紙10包超值優惠組合
-            .column.col-3.text-right.gray x9999.9
-            .column.col-3.text-right $ 999,992
-          .columns.item
-            .column.col-6.item__name 五月花衛生紙10包超值優惠組合
-            .column.col-3.text-right.gray x9999.9
-            .column.col-3.text-right $ 999,992
-          .columns.item
-            .column.col-6.item__name 五月花衛生紙10包超值優惠組合
-            .column.col-3.text-right.gray x9999.9
-            .column.col-3.text-right $ 999,992
-          .columns.item
-            .column.col-6.item__name 五月花衛生紙10包超值優惠組合
-            .column.col-3.text-right.gray x9999.9
-            .column.col-3.text-right $ 999,992
+          .columns.item(
+            v-for="item in invoiceDetail.details"
+            :key="item.rowNum"
+          )
+            .column.col-6.item__name {{ item.description }}
+            .column.col-3.text-right.gray x{{ item.quantity }}
+            .column.col-3.text-right $ {{ item.subtotal }}
           .columns.item
             .column.col-7
-            .column.col-5.text-right 合計 $3,999元
+            .column.col-5.text-right 合計 ${{ invoiceDetail.amount }}元
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+
 export default {
   name: 'invoice_Detail',
+  computed: {
+    ...mapGetters('invoice', ['invoiceDetail']),
+    ...mapState({
+      carrierName: state => state.phonecode.carrierName,
+      errorCode: state => state.invoice.apiError.errorCode,
+      message: state => state.invoice.apiError.message,
+    }),
+  },
 };
 </script>
 
