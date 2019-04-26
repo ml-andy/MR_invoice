@@ -5,7 +5,7 @@
       :isCanClose="false"
       contentTextAlign="left"
     )
-      template(slot="header") 注意事項
+      template(slot="header") 提醒您
       template(slot="body")
         |請至Email信箱，收取財政部發送的「電子信箱驗證信」，如未完成驗證將無法使用「忘記驗證碼」！
       template(slot="footer")
