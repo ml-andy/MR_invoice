@@ -1,5 +1,9 @@
 import client from '@/helpers/ClientTransport';
-import { UPDATE_ERROR } from '@/constant/apiErrorTypes';
+import {
+  UPDATE_ERROR,
+  PASSWORD_ERROR,
+  SIGNUP_ERROR,
+} from '@/constant/apiErrorTypes';
 
 const initApiError = {
   errorCode: '',
@@ -33,10 +37,10 @@ const actions = {
       commit('fetchIncluded', response);
     } catch (error) {
       const { errorCode } = error.info;
+      commit('fetchApiError', error.info);
       if (errorCode === UPDATE_ERROR.errorCode) {
         commit(UPDATE_ERROR.commit, UPDATE_ERROR, { root: true });
       } else {
-        commit('fetchApiError', error.info);
         commit(error.commit, error.info, { root: true });
       }
     }
@@ -58,8 +62,13 @@ const actions = {
         value: cardNo,
       });
     } catch (error) {
+      const { errorCode } = error.info;
       commit('fetchApiError', error.info);
-      commit(error.commit, error.info, { root: true });
+      if (errorCode === SIGNUP_ERROR.errorCode) {
+        commit(SIGNUP_ERROR.commit, SIGNUP_ERROR, { root: true });
+      } else {
+        commit(error.commit, error.info, { root: true });
+      }
     }
     commit('rootLoading/activeStatus', false, { root: true });
   },
@@ -81,8 +90,11 @@ const actions = {
         value: cardNo,
       });
     } catch (error) {
+      const { errorCode } = error.info;
       commit('fetchApiError', error.info);
-      commit(error.commit, error.info, { root: true });
+      if (errorCode !== PASSWORD_ERROR.errorCode) {
+        commit(error.commit, error.info, { root: true });
+      }
     }
     commit('rootLoading/activeStatus', false, { root: true });
   },
@@ -156,8 +168,11 @@ const actions = {
         value: cardNo,
       });
     } catch (error) {
+      const { errorCode } = error.info;
       commit('fetchApiError', error.info);
-      commit(error.commit, error.info, { root: true });
+      if (errorCode !== PASSWORD_ERROR.errorCode) {
+        commit(error.commit, error.info, { root: true });
+      }
     }
     commit('rootLoading/activeStatus', false, { root: true });
   },

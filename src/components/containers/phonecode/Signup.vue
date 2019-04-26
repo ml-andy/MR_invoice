@@ -83,7 +83,7 @@ export default {
     },
     async onSubmit() {
       await this.signup();
-      if (this.cardNo !== '' && this.errorCode === '') {
+      if (this.errorCode === '') {
         this.$router.push(routePath.PHONECODE_CONFIRM);
       }
     },

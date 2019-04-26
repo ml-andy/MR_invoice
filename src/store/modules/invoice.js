@@ -55,10 +55,10 @@ const actions = {
       commit('fetchInvoices', { idx, list });
     } catch (error) {
       const { errorCode } = error.info;
+      commit('fetchApiError', error.info);
       if (errorCode === UPDATE_ERROR.errorCode) {
         commit(UPDATE_ERROR.commit, UPDATE_ERROR, { root: true });
       } else {
-        commit('fetchApiError', error.info);
         commit(error.commit, error.info, { root: true });
       }
     }
@@ -91,10 +91,10 @@ const actions = {
       });
     } catch (error) {
       const { errorCode } = error.info;
+      commit('fetchApiError', error.info);
       if (errorCode === UPDATE_ERROR.errorCode) {
         commit(UPDATE_ERROR.commit, UPDATE_ERROR, { root: true });
       } else {
-        commit('fetchApiError', error.info);
         commit(error.commit, error.info, { root: true });
       }
     }

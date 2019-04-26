@@ -40,6 +40,7 @@ import { mapState, mapActions, mapMutations } from 'vuex';
 import Modals from '@/components/units/Modals';
 import FormGroupInput from '@/components/units/FormGroupInput';
 import { wordValidate } from '@/helpers/unit';
+import { PASSWORD_ERROR } from '@/constant/apiErrorTypes';
 
 export default {
   name: 'phonecodeComfirm',
@@ -56,9 +57,9 @@ export default {
       message: state => state.phonecode.apiError.message,
     }),
     verifyCodeHints() {
-      const errors = ['ES_F_919_ERROR'];
+      const errors = [PASSWORD_ERROR.errorCode];
       const isApiError = errors.indexOf(this.errorCode) !== -1;
-      return isApiError ? this.message : '';
+      return isApiError ? PASSWORD_ERROR.message : '';
     },
     isNext() {
       return this.verifyCode !== '' && this.verifyCodeHints === '';

@@ -43,6 +43,7 @@
               type="text"
               placeholder="必填"
               v-model="imagecode"
+              :hint="imageCodeHints"
             )
           .column.col-6.imgageCode
             .columns
@@ -70,6 +71,7 @@
 import * as routePath from '@/constant/routePath';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import FormGroupInput from '@/components/units/FormGroupInput';
+import { IMAGE_VERIFY_ERROR } from '@/constant/apiErrorTypes';
 
 export default {
   name: 'phonecodeBind',
@@ -89,6 +91,11 @@ export default {
       verifyCodeImage: state => state.phonecode.verifyCodeImage,
       errorCode: state => state.phonecode.apiError.errorCode,
     }),
+    imageCodeHints() {
+      const errors = [IMAGE_VERIFY_ERROR.errorCode];
+      const isApiError = errors.indexOf(this.errorCode) !== -1;
+      return isApiError ? IMAGE_VERIFY_ERROR.message : '';
+    },
     isNext() {
       return (
         this.cardName !== ''
