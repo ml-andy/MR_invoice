@@ -164,6 +164,8 @@ export default {
   background-color: $light-color;
 
   .list {
+    min-height: 100vh;
+
     &__item {
       padding: #{convertUnit(20)} #{convertUnit(10)} #{convertUnit(20)} #{convertUnit(10)};
       box-shadow: 0 0 1px rgba(167,167,167,0.3);
