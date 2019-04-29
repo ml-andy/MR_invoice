@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "webpack-dev-server --inline --progress --define process.jsonSserver=true --config build/webpack.dev.conf.js",
         "dev:e2e": "webpack-dev-server --inline --progress --define process.jsonSserver=true --config build/webpack.dev.conf.js",
-        "dev:ut": "webpack-dev-server --inline --progress --define process.air190=true --config build/webpack.dev.conf.js",
+        "dev:sit": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
         "start": "npm run dev",
         "unit": "jest --config test/unit/jest.conf.js --watchAll",
         "unit:coverage": "jest --config test/unit/jest.conf.js --coverage",

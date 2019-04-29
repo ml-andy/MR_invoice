@@ -26,19 +26,19 @@ const actions = {
     commit('rootLoading/activeStatus', true, { root: true });
     try {
       if (process.env.NODE_ENV === 'development') {
-        setCookie('mmo_token', 'K+RHfVUSh+Z97Gagjs-5w1TW.a5b00e2c-3334-3acd-9c37-9047b95ae0ce1547882260004');
-        setCookie('mmo_identity', '158496ZgBPgFdlVdtn2z3kdr/7EqgDacg2/JIVleVK1cA4WlY=');
+        setCookie('mmo_token', 'LfLU9iSSfZpjbQRCfpAhl4Ic.f909cbf9-0fd5-3f69-9bdd-78fdab3035da1556270703656');
+        setCookie('mmo_identity', '551279XIDdiufWuN04mXQNpKYTf7Z2wWa1bG2SXBovsPSriSw=');
       }
       const config = getConfig();
       const mrToken = getCookie('mmo_token');
       const mrTrackingId = getCookie('mmo_tracking_id');
-      // const mrIdentity = getCookie('mmo_identity');
+      const mrIdentity = getCookie('mmo_identity');
       const ua = getUA();
       if (mrToken && Object.keys(ua.extend).length && ua.extend.tag === 'MyRewards') {
         client.updateBaseURL(config.apiURL);
         client.updateHeaders({
           'X-Auth-Token': mrToken,
-          // 'X-Identity': mrIdentity,
+          'X-Identity': mrIdentity,
         });
         if (typeof (mixpanel) !== 'undefined') {
           mixpanel.init(config.mixpanelToken);

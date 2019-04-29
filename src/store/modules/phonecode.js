@@ -119,7 +119,7 @@ const actions = {
     try {
       const data = {
         carrierName: state.carrierName,
-        imageCode: state.imageCode,
+        imagecode: state.imageCode,
         cardNo: state.cardNo,
       };
       await client.fetch({
@@ -190,7 +190,11 @@ const mutations = {
       isBound = false,
     } = payload;
     state.cardNo = cardNo;
-    state.isBound = isBound;
+    if (isBound === 'true') {
+      state.isBound = true;
+    } else {
+      state.isBound = false;
+    }
   },
   fetchIncluded(state, payload) {
     const {
