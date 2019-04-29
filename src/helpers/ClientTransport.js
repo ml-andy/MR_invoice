@@ -38,6 +38,7 @@ const errorHandle = (e) => {
     return new FetchError(commit,
       {
         ...info,
+        message: `status: ${e.response.status}, message:${e.message}`,
       });
   }
   const { commit, info } = e;

@@ -32,13 +32,13 @@ const actions = {
       const config = getConfig();
       const mrToken = getCookie('mmo_token');
       const mrTrackingId = getCookie('mmo_tracking_id');
-      const mrIdentity = getCookie('mmo_identity');
+      // const mrIdentity = getCookie('mmo_identity');
       const ua = getUA();
       if (mrToken && Object.keys(ua.extend).length && ua.extend.tag === 'MyRewards') {
         client.updateBaseURL(config.apiURL);
         client.updateHeaders({
           'X-Auth-Token': mrToken,
-          'X-Identity': mrIdentity,
+          // 'X-Identity': mrIdentity,
         });
         if (typeof (mixpanel) !== 'undefined') {
           mixpanel.init(config.mixpanelToken);
