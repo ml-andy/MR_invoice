@@ -12,7 +12,7 @@
       type="text"
       ref="input"
       :value="value"
-      @input="onUpdateValue($event.target.value)"
+      @keyup="onUpdateValue($event.target.value)"
       @blur="onBlur($event.target.value)"
       placeholder="必填"
       :disabled="disabled"
