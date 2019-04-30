@@ -147,7 +147,12 @@ const mutations = {
   },
   fetchInvoices(state, { idx, list }) {
     state.invoices[idx].isFetch = true;
-    state.invoices[idx].list = list;
+    const sortList = [...list].sort((a, b) => {
+      const aTime = new Date((a.invYear * 1) + 1911, a.invMonth, a.invDay);
+      const bTime = new Date((b.invYear * 1) + 1911, b.invMonth, b.invDay);
+      return bTime - aTime;
+    });
+    state.invoices[idx].list = sortList;
   },
   fetchInvoiceDetail(state, { detail = {}, invNum, invDate }) {
     state.invoiceDetail = {
