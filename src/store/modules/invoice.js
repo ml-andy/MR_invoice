@@ -123,7 +123,7 @@ const mutations = {
 
       const resYear = stageYear - 1911;
       const resMonth = `${addZero(stageMonth[0])}-${addZero(stageMonth[1])}`;
-      const startDate = `${stageYear}/${addZero(stageMonth[0])}/${lastday(stageYear, stageMonth[0])}`;
+      const startDate = `${stageYear}/${addZero(stageMonth[0])}/01`;
       const endDate = `${stageYear}/${addZero(stageMonth[1])}/${lastday(stageYear, stageMonth[1])}`;
       const stage = {
         year: resYear,

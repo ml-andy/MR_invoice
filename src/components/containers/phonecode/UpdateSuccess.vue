@@ -1,6 +1,6 @@
 <template lang="pug">
   section.phonecode
-    .section__header
+    .section__header.footerSpace
       p.success.text-center
         i.icon.icon-success
       h3.text-primary.text-center 更新驗證碼成功！

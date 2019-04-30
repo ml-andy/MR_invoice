@@ -15,7 +15,7 @@
         ) 知道了
     .section__header
       h3.text-primary.text-center 請輸入財政部發送的簡訊驗證碼
-    .section__main
+    .section__main.footerSpace
       form
         FormGroupInput(
           label="驗證碼"

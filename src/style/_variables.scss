@@ -29,7 +29,7 @@ $fontSize5: convertUnit(15);
 $fontSize6: convertUnit(13);
 
 $stepBarSpace: convertUnit(65);
-$footerSpace: convertUnit(80);
+$footerSpace: convertUnit(100);
 
 @media screen and (max-width: #{$mobileSize}px) {
   body, html {

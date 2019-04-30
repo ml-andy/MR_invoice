@@ -6,7 +6,7 @@
     )
     .section__header
       h3.text-primary.text-center 登入手機條碼
-    .section__main
+    .section__main.footerSpace
       form
         FormGroupInput(
           label="手機號碼"

@@ -6,7 +6,7 @@
     )
     .section__header
       h3.text-primary.text-center 更新驗證碼
-    .section__main
+    .section__main.footerSpace
       form
         FormGroupInput(
           label="手機號碼"
