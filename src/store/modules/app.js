@@ -5,6 +5,7 @@ import {
   setCookie,
   getUA,
   sendMixpanel,
+  replaceAt,
 } from '@/helpers/unit';
 import { SOURCE_ERROR } from '@/constant/apiErrorTypes';
 
@@ -88,8 +89,10 @@ const mutations = {
     state.isInit = true;
   },
   fetchBasicInfo(state, payload) {
+    const hiddenPhone = replaceAt(payload.phone, 4, '***');
     state.basicInfo = {
       ...payload,
+      hiddenPhone,
     };
   },
 };

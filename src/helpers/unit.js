@@ -176,3 +176,16 @@ export const addZero = (value) => {
   const isNeedZero = value.toString().length === 1;
   return isNeedZero ? `0${value}` : value.toString();
 };
+
+/**
+ * @desc 在字串特定位置加上替換文字
+ * @param {value} String - 原始字串
+ * @param {index} Number - 替換文字欲插入的位置
+ * @param {replacement} String - 替換文字
+ * @return {string} - 調整後的文字
+ */
+export const replaceAt = (value, index, replacement) => {
+  const text = value.toString();
+  const res = text.substr(0, index) + replacement + text.substr(index + replacement.length);
+  return res.substr(0, text.length);
+};

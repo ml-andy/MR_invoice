@@ -9,7 +9,7 @@
     template(slot="footer")
       button(
         v-if="error.isButton"
-        class="btn btn-submit btn-block btn-lg"
+        class="btn btn-submit btn-block btn-sm"
         @click="onClickHandler"
       ) {{ error.buttonTxt }}
 </template>

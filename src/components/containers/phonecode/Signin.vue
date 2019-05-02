@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     ...mapState({
-      phone: state => state.app.basicInfo.phone,
+      phone: state => state.app.basicInfo.hiddenPhone,
       cardNo: state => state.phonecode.cardNo,
       isIncluded: state => state.phonecode.included,
       errorCode: state => state.phonecode.apiError.errorCode,

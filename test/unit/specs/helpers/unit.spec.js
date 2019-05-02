@@ -5,6 +5,7 @@ import {
   wordValidate,
   lastday,
   addZero,
+  replaceAt,
 } from '@/helpers/unit';
 
 describe('unit testing', () => {
@@ -125,7 +126,7 @@ describe('unit testing', () => {
       expect(lastday(year, month)).toEqual(equalRes);
     });
   });
-  it('lastday testing', () => {
+  it('addZero testing', () => {
     const testCase = [
       {
         value: 1,
@@ -151,6 +152,38 @@ describe('unit testing', () => {
 
     testCase.forEach(({ value, equalRes }) => {
       expect(addZero(value)).toEqual(equalRes);
+    });
+  });
+  it('replaceAt testing', () => {
+    const testCase = [
+      {
+        value: '0912345678',
+        index: 4,
+        replacement: '***',
+        equalRes: '0912***678',
+      },
+      {
+        value: 12345678,
+        index: 4,
+        replacement: '***',
+        equalRes: '1234***8',
+      },
+      {
+        value: 1234,
+        index: 4,
+        replacement: '***',
+        equalRes: '1234',
+      },
+      {
+        value: 1234,
+        index: 0,
+        replacement: '***',
+        equalRes: '***4',
+      },
+    ];
+
+    testCase.forEach(({ value, index, replacement, equalRes }) => {
+      expect(replaceAt(value, index, replacement)).toEqual(equalRes);
     });
   });
 });

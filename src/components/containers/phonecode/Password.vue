@@ -69,7 +69,8 @@ export default {
   },
   computed: {
     ...mapState({
-      phone: state => state.app.basicInfo.phone,
+      phone: state => state.app.basicInfo.hiddenPhone,
+      phoneForApi: state => state.app.basicInfo.phone,
       errorCode: state => state.phonecode.apiError.errorCode,
       message: state => state.phonecode.apiError.message,
       cardNo: state => state.phonecode.cardNo,
@@ -97,7 +98,7 @@ export default {
       this.isNotice = visible;
     },
     async onSubmit() {
-      await this.forgetVerifyCode(this.phone);
+      await this.forgetVerifyCode(this.phoneForApi);
       if (this.errorCode !== '') return;
       this.isSuccess = true;
     },

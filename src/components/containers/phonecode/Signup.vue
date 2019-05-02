@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     ...mapState({
-      phone: state => state.app.basicInfo.phone,
+      phone: state => state.app.basicInfo.hiddenPhone,
       errorCode: state => state.phonecode.apiError.errorCode,
       message: state => state.phonecode.apiError.message,
       cardNo: state => state.phonecode.cardNo,

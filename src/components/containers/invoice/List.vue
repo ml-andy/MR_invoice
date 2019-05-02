@@ -7,8 +7,8 @@
     .invoice__header
       nav.invoice__title
         .columns
-          .column.col-3
-          .column.col-6
+          .column.col-2
+          .column.col-8
             .columns
               .column.col-2.text-sm.text-right.titledate
                 a.prev.text-sm(
@@ -24,7 +24,7 @@
                   href="javascript:;"
                 )
                   .icon.icon-caret.icon-caret-right
-          .column.col-3
+          .column.col-2
       .invoice__subtitle.text-sm.text-center 共有 {{ invoices[activeIndex].list.length }} 張發票
     .invoice__main
       swiper(
