@@ -88,13 +88,13 @@ export default {
         year: '',
         month: '',
       },
-      activeIndex: 2,
       isNotice: false,
     };
   },
   computed: {
     ...mapState({
       invoices: state => state.invoice.invoices,
+      activeIndex: state => state.invoice.invoicesIndex,
       errorCode: state => state.invoice.apiError.errorCode,
       message: state => state.invoice.apiError.message,
     }),
@@ -105,6 +105,7 @@ export default {
   created() {
     this.initApiError();
     this.initInvoice();
+    this.swiperOption.initialSlide = this.activeIndex;
   },
   mounted() {
     this.swiper.on('slideChange', this.onSlideChange);
@@ -112,7 +113,7 @@ export default {
   },
   methods: {
     ...mapActions('invoice', ['getInvoiceList', 'getInvoiceDetail']),
-    ...mapMutations('invoice', ['initApiError', 'initInvoice']),
+    ...mapMutations('invoice', ['initApiError', 'fetchState', 'initInvoice']),
     onEditNoticeModal(visible) {
       this.isNotice = visible;
     },
@@ -137,12 +138,16 @@ export default {
       this.$router.push(routePath.INVOICE_DETAIL);
     },
     onSlideChange() {
-      this.activeIndex = this.$refs.mySwiper.swiper.activeIndex || 0;
-      const { year, month, isFetch } = this.invoices[this.activeIndex];
+      const activeIndex = this.$refs.mySwiper.swiper.activeIndex || 0;
+      const { year, month, isFetch } = this.invoices[activeIndex];
       this.date = { year, month };
+      this.fetchState({
+        key: 'invoicesIndex',
+        value: activeIndex,
+      });
 
       if (isFetch) return;
-      this.getInvoiceList(this.activeIndex);
+      this.getInvoiceList(activeIndex);
     },
   },
   components: {

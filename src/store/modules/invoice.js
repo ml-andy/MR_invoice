@@ -8,7 +8,9 @@ const initApiError = {
 };
 
 const states = {
+  isInitInvoice: false,
   invoices: [],
+  invoicesIndex: 2,
   invoiceDetail: {},
   apiError: {
     ...initApiError,
@@ -104,6 +106,8 @@ const actions = {
 
 const mutations = {
   initInvoice(state) {
+    if (state.isInitInvoice) return;
+
     const list = [...new Array(3)];
     const date = new Date();
     const year = date.getFullYear();
@@ -139,6 +143,7 @@ const mutations = {
         ...acc,
       ];
     }, []);
+    state.isInitInvoice = true;
   },
   fetchState(state, payload) {
     const { key, value } = payload;
