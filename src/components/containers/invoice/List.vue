@@ -45,7 +45,7 @@
                 .column.col-7.name
                   span.text-sm.text-secondary.date {{ item.invMonth }}/{{ item.invDay }}
                   span.text-sm {{ item.invNum }}
-                  p.h5 {{ item.sellerName }}
+                  p.h5 {{ item.sellerName | textLen }}
                 .column.col-5.amount
                   .columns
                     .column.col-10.text-right
@@ -71,6 +71,7 @@ import { mapState, mapActions, mapMutations } from 'vuex';
 import 'swiper/dist/css/swiper.css';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import NoticeModal from '@/components/containers/invoice/NoticeModal';
+import { textLen, sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'invoice_list',
@@ -97,6 +98,7 @@ export default {
       activeIndex: state => state.invoice.invoicesIndex,
       errorCode: state => state.invoice.apiError.errorCode,
       message: state => state.invoice.apiError.message,
+      carrierName: state => state.phonecode.carrierName,
     }),
     swiper() {
       return this.$refs.mySwiper.swiper;
@@ -108,8 +110,14 @@ export default {
     this.swiperOption.initialSlide = this.activeIndex;
   },
   mounted() {
+    sendMixpanel('eReceipt_list_view', {
+      cards_type: this.carrierName,
+    });
     this.swiper.on('slideChange', this.onSlideChange);
     this.onSlideChange();
+  },
+  filters: {
+    textLen: value => textLen(value, 10, '...'),
   },
   methods: {
     ...mapActions('invoice', ['getInvoiceList', 'getInvoiceDetail']),
@@ -134,8 +142,16 @@ export default {
         amount,
       });
 
-      if (this.errorCode !== '') return;
-      this.$router.push(routePath.INVOICE_DETAIL);
+      if (this.errorCode === '') {
+        sendMixpanel('eReceipt_list_view', {
+          tag: 'success',
+        });
+        this.$router.push(routePath.INVOICE_DETAIL);
+      } else {
+        sendMixpanel('eReceipt_list_view', {
+          tag: this.message,
+        });
+      }
     },
     onSlideChange() {
       const activeIndex = this.$refs.mySwiper.swiper.activeIndex || 0;

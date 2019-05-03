@@ -6,6 +6,7 @@ import {
   lastday,
   addZero,
   replaceAt,
+  textLen,
 } from '@/helpers/unit';
 
 describe('unit testing', () => {
@@ -184,6 +185,38 @@ describe('unit testing', () => {
 
     testCase.forEach(({ value, index, replacement, equalRes }) => {
       expect(replaceAt(value, index, replacement)).toEqual(equalRes);
+    });
+  });
+  it('textLen testing', () => {
+    const testCase = [
+      {
+        value: '統一超商股份有限公司台北信義分店',
+        len: 10,
+        replacement: '...',
+        equalRes: '統一超商股份有限公司...',
+      },
+      {
+        value: '統一超商股份有限公司台北信義分店',
+        len: 10,
+        replacement: '***',
+        equalRes: '統一超商股份有限公司***',
+      },
+      {
+        value: '統一超商股份有限公司',
+        len: 10,
+        replacement: '...',
+        equalRes: '統一超商股份有限公司',
+      },
+      {
+        value: '統一超商',
+        len: 10,
+        replacement: '...',
+        equalRes: '統一超商',
+      },
+    ];
+
+    testCase.forEach(({ value, len, replacement, equalRes }) => {
+      expect(textLen(value, len, replacement)).toEqual(equalRes);
     });
   });
 });

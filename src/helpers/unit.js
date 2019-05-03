@@ -189,3 +189,17 @@ export const replaceAt = (value, index, replacement) => {
   const res = text.substr(0, index) + replacement + text.substr(index + replacement.length);
   return res.substr(0, text.length);
 };
+
+/**
+ * @desc 過濾字串長度並加上...
+ * @param {value} String - 原始字串
+ * @param {len} Number - 限制的長度
+ * @param {replacement} String - 替換文字
+ * @return {string} - 調整後的文字
+ */
+export const textLen = (value, len, replacement) => {
+  const text = value.toString();
+  return text.length > len
+    ? text.substr(0, len) + replacement
+    : text;
+};

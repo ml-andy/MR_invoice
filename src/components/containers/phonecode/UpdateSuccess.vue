@@ -12,11 +12,16 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeUpdateSuccess',
+  mounted() {
+    sendMixpanel('eReceipt_update_pwd_success_view');
+  },
   methods: {
     onSubmit() {
+      sendMixpanel('eReceipt_update_pwd_success_gotoList');
       this.$router.push(routePath.INVOICE);
     },
   },

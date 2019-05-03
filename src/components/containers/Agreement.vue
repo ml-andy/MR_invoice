@@ -30,6 +30,7 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { sendMixpanel } from '@/helpers/unit';
 // import { isScrollEnd } from '@/helpers/unit';
 
 export default {
@@ -39,10 +40,11 @@ export default {
       isNext: true,
     };
   },
-  // mounted() {
-  //   window.onscroll = this.onWindowScroll;
-  //   this.onWindowScroll();
-  // },
+  mounted() {
+    // window.onscroll = this.onWindowScroll;
+    // this.onWindowScroll();
+    sendMixpanel('eReceipt_agreement_view');
+  },
   // beforeDestroy() {
   //   window.onscroll = null;
   // },
@@ -56,6 +58,7 @@ export default {
     //   this.isNext = isScrollEnd(scrollTop, clientHeight, scrollHeight);
     // },
     onAgree() {
+      sendMixpanel('eReceipt_agreement_agree');
       this.$router.push(routePath.PHONECODE);
     },
   },

@@ -46,7 +46,7 @@ import * as routePath from '@/constant/routePath';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import FormGroupInput from '@/components/units/FormGroupInput';
 import NoticeModal from '@/components/containers/phonecode/NoticeModal';
-import { wordValidate } from '@/helpers/unit';
+import { wordValidate, sendMixpanel } from '@/helpers/unit';
 import { PASSWORD_ERROR } from '@/constant/apiErrorTypes';
 
 export default {
@@ -75,11 +75,15 @@ export default {
   created() {
     this.initApiError();
   },
+  mounted() {
+    sendMixpanel('eReceipt_update_pwd_view');
+  },
   methods: {
     ...mapActions('phonecode', ['putCardno']),
     ...mapMutations('phonecode', ['initApiError', 'fetchState']),
     wordValidate,
     onForgotpassword() {
+      sendMixpanel('eReceipt_forgot_pwd_button');
       this.$router.push(routePath.PHONECODE_PWD);
     },
     onEditNoticeModal(visible) {
@@ -87,8 +91,16 @@ export default {
     },
     async onSubmit() {
       await this.putCardno();
-      if (this.errorCode !== '') return;
-      this.$router.push(routePath.PHONECODE_UPDATESUCCESS);
+      if (this.errorCode === '') {
+        sendMixpanel('eReceipt_update_pwd_now', {
+          tag: 'success',
+        });
+        this.$router.push(routePath.PHONECODE_UPDATESUCCESS);
+      } else {
+        sendMixpanel('eReceipt_update_pwd_now', {
+          tag: this.message,
+        });
+      }
     },
   },
   components: {

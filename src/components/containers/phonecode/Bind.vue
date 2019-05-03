@@ -2,7 +2,7 @@
   section.phonecode.stepbarSpace
     .section__header
       h3.text-primary.text-center 綁定發票載具
-    .section__main.footerSpace
+    .section__main
       form
         FormGroupInput(
           label="載具類別"
@@ -60,7 +60,7 @@
                   @click="onRefresh"
                 )
                   i.icon.icon-refresh
-    .section__footer.columns
+    .footer.columns
       button.btn.btn-submit.column.col-12(
         :disabled="!isNext"
         @click="onSubmit"
@@ -72,6 +72,7 @@ import * as routePath from '@/constant/routePath';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import FormGroupInput from '@/components/units/FormGroupInput';
 import { IMAGE_VERIFY_ERROR } from '@/constant/apiErrorTypes';
+import { sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeBind',
@@ -90,6 +91,7 @@ export default {
       carrierName: state => state.phonecode.carrierName,
       verifyCodeImage: state => state.phonecode.verifyCodeImage,
       errorCode: state => state.phonecode.apiError.errorCode,
+      message: state => state.phonecode.apiError.message,
     }),
     imageCodeHints() {
       const errors = [IMAGE_VERIFY_ERROR.errorCode];
@@ -109,6 +111,9 @@ export default {
     this.cardName = this.carrierName;
     this.fetchVerifyCodeImage();
   },
+  mounted() {
+    sendMixpanel('eReceipt_cardSetup_Info_view');
+  },
   methods: {
     ...mapActions('phonecode', ['getVerifyCodeImage', 'editInclusion']),
     ...mapMutations('phonecode', ['initApiError', 'fetchState']),
@@ -122,8 +127,16 @@ export default {
     },
     async onSubmit() {
       await this.editInclusion();
-      if (this.errorCode !== '') return;
-      this.$router.push(routePath.PHONECODE_SUCCESS);
+      if (this.errorCode === '') {
+        sendMixpanel('eReceipt_cardSetup_Info_button', {
+          tag: 'success',
+        });
+        this.$router.push(routePath.PHONECODE_SUCCESS);
+      } else {
+        sendMixpanel('eReceipt_cardSetup_Info_button', {
+          tag: this.message,
+        });
+      }
     },
   },
   components: {
@@ -183,6 +196,10 @@ export default {
     padding-bottom: convertUnit(3);
     display: inline-block;
     vertical-align: top;
+  }
+
+  .footer {
+    margin-bottom: $space;
   }
 }
 </style>

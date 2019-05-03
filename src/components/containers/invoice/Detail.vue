@@ -27,6 +27,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import { sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'invoice_Detail',
@@ -37,6 +38,11 @@ export default {
       errorCode: state => state.invoice.apiError.errorCode,
       message: state => state.invoice.apiError.message,
     }),
+  },
+  mounted() {
+    sendMixpanel('eReceipt_detail_view', {
+      cards_type: this.carrierName,
+    });
   },
 };
 </script>

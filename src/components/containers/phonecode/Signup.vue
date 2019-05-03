@@ -41,7 +41,7 @@ import * as routePath from '@/constant/routePath';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import FormGroupInput from '@/components/units/FormGroupInput';
 import NoticeModal from '@/components/containers/phonecode/NoticeModal';
-import { emailValidate, wordValidate } from '@/helpers/unit';
+import { emailValidate, wordValidate, sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeSignup',
@@ -71,6 +71,9 @@ export default {
   created() {
     this.initApiError();
   },
+  mounted() {
+    sendMixpanel('eReceipt_apply_view');
+  },
   methods: {
     ...mapActions('phonecode', ['signup']),
     ...mapMutations('phonecode', ['initApiError', 'fetchState']),
@@ -80,11 +83,21 @@ export default {
     },
     onEditNoticeModal(visible) {
       this.isNotice = visible;
+
+      if (visible) sendMixpanel('eReceipt_apply_notification');
     },
     async onSubmit() {
       await this.signup();
+
       if (this.errorCode === '') {
+        sendMixpanel('eReceipt_apply_now', {
+          tag: 'success',
+        });
         this.$router.push(routePath.PHONECODE_CONFIRM);
+      } else {
+        sendMixpanel('eReceipt_apply_now', {
+          tag: this.message,
+        });
       }
     },
   },

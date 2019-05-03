@@ -55,7 +55,7 @@ import { mapState, mapActions, mapMutations } from 'vuex';
 import Modals from '@/components/units/Modals';
 import FormGroupInput from '@/components/units/FormGroupInput';
 import NoticeModal from '@/components/containers/phonecode/NoticeModal';
-import { emailValidate, wordValidate } from '@/helpers/unit';
+import { emailValidate, wordValidate, sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeSignin',
@@ -87,6 +87,9 @@ export default {
   created() {
     this.initApiError();
   },
+  mounted() {
+    sendMixpanel('eReceipt_reset_pwd_view');
+  },
   methods: {
     ...mapActions('phonecode', ['forgetVerifyCode']),
     ...mapMutations('phonecode', ['initApiError', 'fetchState']),
@@ -99,10 +102,22 @@ export default {
     },
     async onSubmit() {
       await this.forgetVerifyCode(this.phoneForApi);
-      if (this.errorCode !== '') return;
-      this.isSuccess = true;
+      if (this.errorCode === '') {
+        sendMixpanel('eReceipt_reset_pwd_now', {
+          tag: 'success',
+        });
+        this.isSuccess = true;
+        sendMixpanel('eReceipt_reset_pwd_checkemail');
+      } else {
+        sendMixpanel('eReceipt_reset_pwd_now', {
+          tag: this.message,
+        });
+      }
     },
     onSuccessModal() {
+      sendMixpanel('eReceipt_reset_pwd_checkemail_button', {
+        tag: 'success',
+      });
       this.$router.push(routePath.PHONECODE_SIGNIN);
     },
   },

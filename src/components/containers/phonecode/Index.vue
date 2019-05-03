@@ -22,14 +22,22 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeIndex',
+  mounted() {
+    sendMixpanel('eReceipt_loginType_view');
+  },
   methods: {
     onNextStep(hasPhonecode) {
       const path = hasPhonecode
         ? routePath.PHONECODE_SIGNIN
         : routePath.PHONECODE_SIGNUP;
+
+      if (hasPhonecode) sendMixpanel('eReceipt_goto_login_button');
+      else sendMixpanel('eReceipt_account_apply_button');
+
       this.$router.push(path);
     },
   },

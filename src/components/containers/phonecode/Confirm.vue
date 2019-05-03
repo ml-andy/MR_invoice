@@ -39,7 +39,7 @@ import * as routePath from '@/constant/routePath';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import Modals from '@/components/units/Modals';
 import FormGroupInput from '@/components/units/FormGroupInput';
-import { wordValidate } from '@/helpers/unit';
+import { wordValidate, sendMixpanel } from '@/helpers/unit';
 import { PASSWORD_ERROR } from '@/constant/apiErrorTypes';
 
 export default {
@@ -68,16 +68,30 @@ export default {
   created() {
     this.initApiError();
   },
+  mounted() {
+    sendMixpanel('eReceipt_apply_pwd_view');
+  },
   methods: {
     ...mapActions('phonecode', ['modifyCardno']),
     ...mapMutations('phonecode', ['initApiError', 'fetchState']),
     wordValidate,
     async onSubmit() {
       await this.modifyCardno();
-      if (this.errorCode !== '') return;
-      this.isSuccess = true;
+
+      if (this.errorCode === '') {
+        sendMixpanel('eReceipt_apply_pwd_confirm', {
+          tag: 'success',
+        });
+        this.isSuccess = true;
+        sendMixpanel('eReceipt_apply_success_view');
+      } else {
+        sendMixpanel('eReceipt_apply_pwd_confirm', {
+          tag: this.message,
+        });
+      }
     },
     onSuccessModal() {
+      sendMixpanel('eReceipt_apply_success_gotoCardSetup');
       this.$router.push(routePath.PHONECODE_BIND);
     },
   },

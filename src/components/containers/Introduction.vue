@@ -50,11 +50,15 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'Step1',
   props: {
     step: Number,
+  },
+  mounted() {
+    sendMixpanel(`eReceipt_setup_instruction${this.step}`);
   },
   methods: {
     onClickHandler() {
@@ -66,6 +70,7 @@ export default {
           this.$router.push(routePath.INTRODUCTION_STEP3);
           break;
         case 3:
+          sendMixpanel('eReceipt_setup_start_button');
           this.$router.push(routePath.AGREEMENT);
           break;
         default:

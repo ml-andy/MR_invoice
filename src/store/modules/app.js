@@ -29,6 +29,7 @@ const actions = {
       if (process.env.NODE_ENV === 'development') {
         setCookie('mmo_token', 'LfLU9iSSfZpjbQRCfpAhl4Ic.f909cbf9-0fd5-3f69-9bdd-78fdab3035da1556270703656');
         setCookie('mmo_identity', '551279XIDdiufWuN04mXQNpKYTf7Z2wWa1bG2SXBovsPSriSw=');
+        setCookie('mmo_tracking_id', 'invoice_test');
       }
       const config = getConfig();
       const mrToken = getCookie('mmo_token');
