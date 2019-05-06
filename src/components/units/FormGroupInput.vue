@@ -12,7 +12,7 @@
       type="text"
       ref="input"
       :value="value"
-      @keyup="onUpdateValue($event.target.value)"
+      @keyup="onUpdateValue"
       @blur="onBlur($event.target.value)"
       placeholder="必填"
       :disabled="disabled"
@@ -64,10 +64,12 @@ export default {
     },
   },
   methods: {
-    onUpdateValue(value) {
-      const resultValue = this.onInput(value);
+    onUpdateValue(e) {
+      const position = e.target.selectionStart;
+      const resultValue = this.onInput(e.target.value);
       this.$refs.input.value = resultValue;
       this.$emit('input', resultValue);
+      e.target.setSelectionRange(position, position);
     },
   },
 };
