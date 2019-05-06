@@ -115,9 +115,7 @@ export default {
       }
     },
     onSuccessModal() {
-      sendMixpanel('eReceipt_reset_pwd_checkemail_button', {
-        tag: 'success',
-      });
+      sendMixpanel('eReceipt_reset_pwd_checkemail_button');
       this.$router.push(routePath.PHONECODE_SIGNIN);
     },
   },

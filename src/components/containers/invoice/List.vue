@@ -110,9 +110,6 @@ export default {
     this.swiperOption.initialSlide = this.activeIndex;
   },
   mounted() {
-    sendMixpanel('eReceipt_list_view', {
-      cards_type: this.carrierName,
-    });
     this.swiper.on('slideChange', this.onSlideChange);
     this.onSlideChange();
   },
@@ -143,12 +140,12 @@ export default {
       });
 
       if (this.errorCode === '') {
-        sendMixpanel('eReceipt_list_view', {
+        sendMixpanel('eReceipt_detail_click', {
           tag: 'success',
         });
         this.$router.push(routePath.INVOICE_DETAIL);
       } else {
-        sendMixpanel('eReceipt_list_view', {
+        sendMixpanel('eReceipt_detail_click', {
           tag: this.message,
         });
       }
@@ -160,6 +157,9 @@ export default {
       this.fetchState({
         key: 'invoicesIndex',
         value: activeIndex,
+      });
+      sendMixpanel('eReceipt_list_view', {
+        cards_type: this.carrierName,
       });
 
       if (isFetch) return;
