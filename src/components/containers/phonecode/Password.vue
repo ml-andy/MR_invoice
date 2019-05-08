@@ -7,11 +7,8 @@
     Modals(
       :active="isSuccess"
       :isCanClose="false"
-      contentTextAlign="left"
     )
-      template(slot="header") 重新申請驗證碼
-      template(slot="body")
-        |已寄送信件至電子信箱，請依信件說明重設驗證碼
+      template(slot="body") 請至您的Email收取新驗證碼
       template(slot="footer")
         button(
           class="btn btn-submit btn-block btn-sm"

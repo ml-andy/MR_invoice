@@ -42,14 +42,14 @@
               @click="onDetail(item)"
             )
               .columns
-                .column.col-7.name
+                .column.col-8.name
                   span.text-sm.text-secondary.date {{ item.invMonth }}/{{ item.invDay }}
                   span.text-sm {{ item.invNum }}
                   p.h5 {{ item.sellerName | textLen }}
-                .column.col-5.amount
+                .column.col-4.amount
                   .columns
                     .column.col-10.text-right
-                      span.h3.text-primary $ {{ item.amount }}
+                      span.h4.text-primary $ {{ item.amount }}
                     .column.col-2.h4.text-right
                       i.icon.icon-arrow
           .invoice__empty.empty(v-else)

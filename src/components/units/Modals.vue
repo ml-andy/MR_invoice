@@ -2,14 +2,20 @@
   div.modal.modal-sm(:class="{ 'active': active }")
     a.modal-overlay
     div.modal-container
-      div.modal-header
+      div.modal-header(
+        v-if="$slots.header"
+        :class="modalHeaderClass"
+      )
         a.btn.btn-clear.float-right(
           v-if="isCanClose"
           @click="onClose"
         )
         div.modal-title.h3.text-center
           slot(name="header")
-      div.modal-body
+      div.modal-body(
+        v-if="$slots.body"
+        :class="modalBodyClass"
+      )
         div.content.text(:class="modalContentClass")
           slot(name="body")
       div.modal-footer
@@ -44,6 +50,18 @@ export default {
         [`text-${this.contentTextAlign}`]: true,
       };
     },
+    modalHeaderClass() {
+      const isNoBody = !this.$slots.body;
+      return {
+        'modal-header--nobody': isNoBody,
+      };
+    },
+    modalBodyClass() {
+      const isNoHeader = !this.$slots.header;
+      return {
+        'modal-body--noheader': isNoHeader,
+      };
+    },
   },
   methods: {
     onOverlayClose() {
@@ -69,6 +87,16 @@ export default {
   }
   &-container {
     max-height: 55vh;
+  }
+  &-header {
+    &--nobody {
+      padding: $space 0 #{$space * 2} 0;
+    }
+  }
+  &-body {
+    &--noheader {
+      padding: $space 0 #{$space * 2} 0;
+    }
   }
 }
 
