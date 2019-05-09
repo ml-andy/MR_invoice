@@ -35,7 +35,11 @@
           v-for="invoice in invoices"
           :key="invoice.month"
         )
-          .list(v-if="invoice.list.length !== 0")
+          .invoice__empty.empty(v-if="invoice.list.length === 0 && invoice.isFetch")
+            .empty__photo
+              i.icon.icon-noReciept
+            p.text.text-center 目前尚無任何發票資料！
+          .list(v-else)
             .list__item(
               v-for="item in invoice.list"
               :key="item.month"
@@ -52,10 +56,6 @@
                       span.h4.text-primary $ {{ item.amount }}
                     .column.col-2.h4.text-right
                       i.icon.icon-arrow
-          .invoice__empty.empty(v-else)
-            .empty__photo
-              i.icon.icon-noReciept
-            p.text.text-center 目前尚無任何發票資料！
     .invoice__footer
       a.noticeBtn.text-sm(
         href="javascript:;"

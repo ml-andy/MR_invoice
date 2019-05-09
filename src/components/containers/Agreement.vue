@@ -1,7 +1,7 @@
 <template lang="pug">
   section.agreement.stepbarSpace
     .section__header
-      h3.text-primary.text-center MR「綁定發票載具」同意條款
+      h3.text-primary.text-center 「綁定發票載具」同意條款
     .section__main.footerSpace.text
       |當您點選同意，即表示已詳閱並完全了解以下約定事項：
       br
