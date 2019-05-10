@@ -30,7 +30,7 @@ export default {
     async init() {
       await this.appInit();
       if (!this.isBound) {
-        this.$router.push(routePath.INTRODUCTION_STEP1);
+        this.$router.push(routePath.INTRODUCTION);
         return;
       }
 

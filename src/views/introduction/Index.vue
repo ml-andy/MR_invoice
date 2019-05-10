@@ -1,12 +1,12 @@
 <template lang="pug">
-  Introduction(:step=2)
+  Introduction
 </template>
 
 <script>
 import Introduction from '@/components/containers/Introduction';
 
 export default {
-  name: 'IntroductionStep2',
+  name: 'IntroductionIndex',
   components: {
     Introduction,
   },

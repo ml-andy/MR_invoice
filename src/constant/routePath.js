@@ -10,9 +10,7 @@ export const LAYOUT_MODALS = '/layout/modals';
 export const LAYOUT_LOADING = '/layout/loading';
 
 export const INTRODUCTION = '/introduction';
-export const INTRODUCTION_STEP1 = '/introduction/step1';
-export const INTRODUCTION_STEP2 = '/introduction/step2';
-export const INTRODUCTION_STEP3 = '/introduction/step3';
+export const INTRODUCTION_STEP = '/introduction/:step';
 
 export const AGREEMENT = '/agreement';
 

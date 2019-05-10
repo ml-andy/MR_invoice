@@ -203,3 +203,16 @@ export const textLen = (value, len, replacement) => {
     ? text.substr(0, len) + replacement
     : text;
 };
+
+/**
+ * @desc 依據目前步驟狀態, 取得該目標的步驟狀態
+ * @param {nowstep} Number - 目前步驟數字
+ * @param {prevStep} Number - 上一步的步驟數字
+ * @param {stepNum} Number - 目標所屬步驟數字
+ * @return {object} - 目標的步驟狀態
+ */
+export const getStepClass = (nowstep, prevStep, stepNum) => ({
+  prevActive: nowstep === stepNum && prevStep === (stepNum + 1),
+  active: nowstep === stepNum && prevStep === (stepNum - 1),
+  afterActive: nowstep === (stepNum + 1) && prevStep === stepNum,
+});

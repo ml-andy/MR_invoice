@@ -7,6 +7,7 @@ import {
   addZero,
   replaceAt,
   textLen,
+  getStepClass,
 } from '@/helpers/unit';
 
 describe('unit testing', () => {
@@ -217,6 +218,44 @@ describe('unit testing', () => {
 
     testCase.forEach(({ value, len, replacement, equalRes }) => {
       expect(textLen(value, len, replacement)).toEqual(equalRes);
+    });
+  });
+  it('getStepClass testing', () => {
+    const testCase = [
+      {
+        nowstep: 1,
+        prevStep: 0,
+        stepNum: 1,
+        equalRes: {
+          prevActive: false,
+          active: true,
+          afterActive: false,
+        },
+      },
+      {
+        nowstep: 2,
+        prevStep: 1,
+        stepNum: 1,
+        equalRes: {
+          prevActive: false,
+          active: false,
+          afterActive: true,
+        },
+      },
+      {
+        nowstep: 1,
+        prevStep: 2,
+        stepNum: 1,
+        equalRes: {
+          prevActive: true,
+          active: false,
+          afterActive: false,
+        },
+      },
+    ];
+
+    testCase.forEach(({ nowstep, prevStep, stepNum, equalRes }) => {
+      expect(getStepClass(nowstep, prevStep, stepNum)).toEqual(equalRes);
     });
   });
 });
