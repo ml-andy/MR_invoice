@@ -8,6 +8,7 @@ import {
   replaceAt,
   textLen,
   getStepClass,
+  checkPath,
 } from '@/helpers/unit';
 
 describe('unit testing', () => {
@@ -256,6 +257,54 @@ describe('unit testing', () => {
 
     testCase.forEach(({ nowstep, prevStep, stepNum, equalRes }) => {
       expect(getStepClass(nowstep, prevStep, stepNum)).toEqual(equalRes);
+    });
+  });
+  it('checkPath testing', () => {
+    const testCase = [
+      {
+        path: '/',
+        allowPath: [
+          '/',
+          '/introduction/1',
+          '/introduction/2',
+          '/introduction/3',
+        ],
+        equalRes: true,
+      },
+      {
+        path: '/introduction/1',
+        allowPath: [
+          '/',
+          '/introduction/1',
+          '/introduction/2',
+          '/introduction/3',
+        ],
+        equalRes: true,
+      },
+      {
+        path: '/invoice/detail',
+        allowPath: [
+          '/',
+          '/introduction/1',
+          '/introduction/2',
+          '/introduction/3',
+        ],
+        equalRes: false,
+      },
+      {
+        path: '/phonecode',
+        allowPath: [
+          '/',
+          '/introduction/1',
+          '/introduction/2',
+          '/introduction/3',
+        ],
+        equalRes: false,
+      },
+    ];
+
+    testCase.forEach(({ path, allowPath, equalRes }) => {
+      expect(checkPath(path, allowPath)).toEqual(equalRes);
     });
   });
 });

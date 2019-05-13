@@ -31,7 +31,7 @@
       button.btn.btn-submit.column.col-12(
         :disabled="!isNext"
         @click="onSubmit"
-      ) 送出
+      ) 確認
 </template>
 
 <script>

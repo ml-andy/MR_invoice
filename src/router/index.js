@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import { beforeEach } from '@/router/hooks';
 
-import entry from '@/router/modules/entry';
 import unknown from '@/router/modules/unknown';
 import layout from '@/router/modules/layout';
 import introduction from '@/router/modules/introduction';
@@ -13,7 +12,6 @@ import invoice from '@/router/modules/invoice';
 Vue.use(Router);
 
 const routes = [
-  ...entry,
   ...unknown,
   ...layout,
   ...introduction,

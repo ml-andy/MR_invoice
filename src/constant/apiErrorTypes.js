@@ -43,6 +43,12 @@ export const IMAGE_VERIFY_ERROR = {
   message: '圖形驗證碼錯誤',
 };
 
+export const ES_CARRIER_NAME_OVER_LIMIT_ERROR = {
+  errorCode: 'ES_CARRIER_NAME_OVER_LIMIT_ERROR',
+  message: '載具名稱長度過長錯誤',
+};
+
+
 export const SIGNUP_ERROR = {
   errorCode: 'ES_F_906_ERROR',
   commit: 'error/EDIT_ERROR',

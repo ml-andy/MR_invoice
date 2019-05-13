@@ -3,6 +3,7 @@ import {
   UPDATE_ERROR,
   PASSWORD_ERROR,
   SIGNUP_ERROR,
+  ES_CARRIER_NAME_OVER_LIMIT_ERROR,
 } from '@/constant/apiErrorTypes';
 
 const initApiError = {
@@ -129,7 +130,10 @@ const actions = {
       });
     } catch (error) {
       commit('fetchApiError', error.info);
-      commit(error.commit, error.info, { root: true });
+      const { errorCode } = error.info;
+      if (errorCode !== ES_CARRIER_NAME_OVER_LIMIT_ERROR.errorCode) {
+        commit(error.commit, error.info, { root: true });
+      }
     }
     commit('rootLoading/activeStatus', false, { root: true });
   },

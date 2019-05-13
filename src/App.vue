@@ -12,7 +12,7 @@
 import * as routePath from '@/constant/routePath';
 import ErrorModal from '@/components/containers/ErrorModal';
 import RootLoading from '@/components/containers/RootLoading';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'App',
@@ -27,19 +27,21 @@ export default {
   methods: {
     ...mapActions('app', ['appInit']),
     ...mapActions('phonecode', ['getCarrierCheck']),
+    ...mapMutations('app', ['initSetup']),
     async init() {
       await this.appInit();
-      if (!this.isBound) {
-        this.$router.push(routePath.INTRODUCTION);
-        return;
+      if (this.isBound) {
+        await this.getCarrierCheck();
+        if (this.isIncluded) {
+          this.$router.push(routePath.INVOICE);
+        } else if (this.isIncluded === false) {
+          this.$router.push(routePath.PHONECODE_BIND);
+        }
+      } else {
+        this.$router.push(`${routePath.INTRODUCTION}/1`);
       }
 
-      await this.getCarrierCheck();
-      if (this.isIncluded) {
-        this.$router.push(routePath.INVOICE);
-      } else if (this.isIncluded === false) {
-        this.$router.push(routePath.PHONECODE_BIND);
-      }
+      this.initSetup();
     },
   },
   components: {

@@ -35,7 +35,10 @@
           label="載具名稱"
           type="text"
           v-model="cardName"
+          :onInput="onCardName"
+          :hint="cardNameHints"
         )
+          span.text.text-primary 字數限制20字內
         .columns
           .column.col-6
             FormGroupInput(
@@ -71,8 +74,11 @@
 import * as routePath from '@/constant/routePath';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import FormGroupInput from '@/components/units/FormGroupInput';
-import { IMAGE_VERIFY_ERROR } from '@/constant/apiErrorTypes';
-import { sendMixpanel } from '@/helpers/unit';
+import {
+  ES_CARRIER_NAME_OVER_LIMIT_ERROR,
+  IMAGE_VERIFY_ERROR,
+} from '@/constant/apiErrorTypes';
+import { textLen, sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeBind',
@@ -98,6 +104,11 @@ export default {
       const isApiError = errors.indexOf(this.errorCode) !== -1;
       return isApiError ? IMAGE_VERIFY_ERROR.message : '';
     },
+    cardNameHints() {
+      const errors = [ES_CARRIER_NAME_OVER_LIMIT_ERROR.errorCode];
+      const isApiError = errors.indexOf(this.errorCode) !== -1;
+      return isApiError ? ES_CARRIER_NAME_OVER_LIMIT_ERROR.message : '';
+    },
     isNext() {
       return (
         this.cardName !== ''
@@ -108,7 +119,7 @@ export default {
   },
   created() {
     this.initApiError();
-    this.cardName = this.carrierName;
+    this.cardName = textLen(this.carrierName, 20);
     this.fetchVerifyCodeImage();
   },
   mounted() {
@@ -124,6 +135,9 @@ export default {
     },
     onRefresh() {
       this.fetchVerifyCodeImage();
+    },
+    onCardName(value) {
+      return textLen(value, 20, '');
     },
     async onSubmit() {
       await this.editInclusion();

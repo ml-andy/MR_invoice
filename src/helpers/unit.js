@@ -197,7 +197,7 @@ export const replaceAt = (value, index, replacement) => {
  * @param {replacement} String - 替換文字
  * @return {string} - 調整後的文字
  */
-export const textLen = (value, len, replacement) => {
+export const textLen = (value, len, replacement = '') => {
   const text = value.toString();
   return text.length > len
     ? text.substr(0, len) + replacement
@@ -216,3 +216,13 @@ export const getStepClass = (nowstep, prevStep, stepNum) => ({
   active: nowstep === stepNum && prevStep === (stepNum - 1),
   afterActive: nowstep === (stepNum + 1) && prevStep === stepNum,
 });
+
+/**
+ * @desc 判斷 router 是否可以 go next
+ * @param {path} String - 欲檢查的 path
+ * @param {allowPath} Array - 所有接受的 path
+ * @return {boolean} - 是否可以 go next
+ */
+export const checkPath = (path, allowPath) => (
+  allowPath.reduce((acc, cur) => (acc ? true : path === cur), false)
+);

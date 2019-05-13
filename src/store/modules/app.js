@@ -70,10 +70,9 @@ const actions = {
       ]);
       commit('phonecode/fetchBound', response[0], { root: true });
       commit('fetchBasicInfo', response[1]);
-      commit('initSetup');
 
       const { cardName } = response[1];
-      const carrierName = `信用卡-${cardName}`;
+      const carrierName = cardName;
       commit('phonecode/fetchState', {
         key: 'carrierName',
         value: carrierName,

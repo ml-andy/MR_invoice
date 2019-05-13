@@ -4,7 +4,7 @@ import IntroductionIndex from '@/views/introduction/Index';
 
 export default [
   {
-    path: routePath.INTRODUCTION,
+    path: routePath.ENTRY,
     name: 'Introduction',
     redirect: `${routePath.INTRODUCTION}/1`,
     component: Page,
