@@ -20,10 +20,11 @@
           v-model="email"
           placeholder="必填"
           :onInput="wordValidate"
+          :onFocus="onFocusInput"
           :onBlur="onEmailBlur"
           :hint="emailHints"
         )
-    .section__footer.columns
+    .section__footer.columns(:class="footerClass")
       a.noticeBtn(
         href="javascript:;"
         @click="onEditNoticeModal(true)"
@@ -50,10 +51,14 @@ export default {
       isNotice: false,
       email: '',
       emailHint: '',
+      footerClass: {
+        hidden: false,
+      },
     };
   },
   computed: {
     ...mapState({
+      os: state => state.app.os,
       phone: state => state.app.basicInfo.hiddenPhone,
       errorCode: state => state.phonecode.apiError.errorCode,
       message: state => state.phonecode.apiError.message,
@@ -78,8 +83,15 @@ export default {
     ...mapActions('phonecode', ['signup']),
     ...mapMutations('phonecode', ['initApiError', 'fetchState']),
     wordValidate,
+    onFocusInput() {
+      if (this.os.isAndroid) {
+        this.footerClass.hidden = true;
+      }
+    },
     onEmailBlur(value) {
       this.emailHint = emailValidate('E-mail格式錯誤', value);
+      window.scrollTo(0, 0);
+      this.footerClass.hidden = false;
     },
     onEditNoticeModal(visible) {
       this.isNotice = visible;

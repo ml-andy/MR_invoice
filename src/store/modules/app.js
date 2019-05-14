@@ -11,6 +11,11 @@ import { SOURCE_ERROR } from '@/constant/apiErrorTypes';
 
 const states = {
   isInit: false,
+  os: {
+    isIos: false,
+    isAndroid: false,
+    name: '',
+  },
   basicInfo: {
     cardNumber: '',
     cardName: '',
@@ -36,6 +41,7 @@ const actions = {
       const mrTrackingId = getCookie('mmo_tracking_id');
       const mrIdentity = getCookie('mmo_identity');
       const ua = getUA();
+      commit('fetchOS', ua);
       if (mrToken && Object.keys(ua.extend).length && ua.extend.tag === 'MyRewards') {
         client.updateBaseURL(config.apiURL);
         client.updateHeaders({
@@ -87,6 +93,16 @@ const actions = {
 const mutations = {
   initSetup(state) {
     state.isInit = true;
+  },
+  fetchOS(state, ua) {
+    const { os = {} } = ua;
+    const { name = '' } = os;
+    const osName = name.toLowerCase() || '';
+    state.os = {
+      isIos: osName === 'ios',
+      isAndroid: osName === 'android',
+      name: osName,
+    };
   },
   fetchBasicInfo(state, payload) {
     const hiddenPhone = replaceAt(payload.phone, 4, '***');

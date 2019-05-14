@@ -52,7 +52,7 @@ export const ES_CARRIER_NAME_OVER_LIMIT_ERROR = {
 export const SIGNUP_ERROR = {
   errorCode: 'ES_F_906_ERROR',
   commit: 'error/EDIT_ERROR',
-  message: '已申請過手機條碼',
+  message: '此手機號碼已申請過手機條碼',
   buttonTxt: '返回',
   customEvent: () => {
     router.push(routePath.PHONECODE_SIGNIN);

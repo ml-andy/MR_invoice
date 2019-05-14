@@ -23,11 +23,13 @@
           v-model="verifyCode"
           placeholder="必填"
           :onInput="wordValidate"
+          :onFocus="onFocusInput"
+          :onBlur="onBlurInput"
           :hint="verifyCodeHints"
         )
       p.text-sm
         |請輸入財政部發送之簡訊驗證碼(4碼)。若您未收到簡訊驗證碼，請聯繫財政部電子發票平台，0800-521-988。
-    .section__footer.columns
+    .section__footer.columns(:class="footerClass")
       button.btn.btn-submit.column.col-12(
         :disabled="!isNext"
         @click="onSubmit"
@@ -48,10 +50,14 @@ export default {
     return {
       verifyCode: '',
       isSuccess: false,
+      footerClass: {
+        hidden: false,
+      },
     };
   },
   computed: {
     ...mapState({
+      os: state => state.app.os,
       cardNo: state => state.phonecode.cardNo,
       errorCode: state => state.phonecode.apiError.errorCode,
       message: state => state.phonecode.apiError.message,
@@ -93,6 +99,15 @@ export default {
     onSuccessModal() {
       sendMixpanel('eReceipt_apply_success_gotoCardSetup');
       this.$router.push(routePath.PHONECODE_BIND);
+    },
+    onFocusInput() {
+      if (this.os.isAndroid) {
+        this.footerClass.hidden = true;
+      }
+    },
+    onBlurInput() {
+      window.scrollTo(0, 0);
+      this.footerClass.hidden = false;
     },
   },
   components: {

@@ -14,6 +14,7 @@
       :value="value"
       @keyup="onUpdateValue"
       @blur="onBlur($event.target.value)"
+      @focus="onFocus"
       placeholder="必填"
       :disabled="disabled"
     )
@@ -41,6 +42,10 @@ export default {
       default: value => (value),
     },
     onBlur: {
+      type: Function,
+      default: () => {},
+    },
+    onFocus: {
       type: Function,
       default: () => {},
     },

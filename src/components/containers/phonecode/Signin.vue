@@ -20,6 +20,8 @@
           v-model="verifyCode"
           placeholder="必填"
           :onInput="wordValidate"
+          :onFocus="onFocusInput"
+          :onBlur="onBlurInput"
           :hint="verifyCodeHints"
         )
           a.forgotpassword(
@@ -28,7 +30,7 @@
           )
             i.icon.icon-help.icon-margin-right
             |忘記驗證碼
-    .section__footer.columns
+    .section__footer.columns(:class="footerClass")
       a.noticeBtn(
         href="javascript:;"
         @click="onEditNoticeModal(true)"
@@ -55,12 +57,17 @@ export default {
     return {
       isNotice: false,
       verifyCode: '',
+      footerClass: {
+        hidden: false,
+      },
     };
   },
   computed: {
     ...mapState({
+      os: state => state.app.os,
       phone: state => state.app.basicInfo.hiddenPhone,
       cardNo: state => state.phonecode.cardNo,
+      isBound: state => state.phonecode.isBound,
       isIncluded: state => state.phonecode.included,
       errorCode: state => state.phonecode.apiError.errorCode,
       message: state => state.phonecode.apiError.message,
@@ -81,7 +88,7 @@ export default {
     sendMixpanel('eReceipt_login_view');
   },
   methods: {
-    ...mapActions('phonecode', ['getCarrierCheck', 'modifyCardno']),
+    ...mapActions('phonecode', ['getCarrierCheck', 'putCardno', 'modifyCardno']),
     ...mapMutations('phonecode', ['initApiError', 'fetchState']),
     wordValidate,
     onForgotpassword() {
@@ -91,8 +98,22 @@ export default {
     onEditNoticeModal(visible) {
       this.isNotice = visible;
     },
+    onFocusInput() {
+      if (this.os.isAndroid) {
+        this.footerClass.hidden = true;
+      }
+    },
+    onBlurInput() {
+      window.scrollTo(0, 0);
+      this.footerClass.hidden = false;
+    },
     async onSubmit() {
-      await this.modifyCardno();
+      if (this.isBound) {
+        await this.putCardno();
+      } else {
+        await this.modifyCardno();
+      }
+
       if (this.errorCode === '') {
         sendMixpanel('eReceipt_login_now_button', {
           tag: 'success',
