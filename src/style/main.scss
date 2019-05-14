@@ -2,9 +2,12 @@
 @import "../../node_modules/spectre.css/src/spectre";
 @import "../../node_modules/spectre.css/src/spectre-exp";
 @import "./button";
+@import "./mixin";
 
 body, html {
   margin: 0;
+  height: auto;
+  min-height: 100vh;
   color: $dark-color;
   background-color: $gray-color-light;
 }
@@ -31,7 +34,6 @@ p {
     font-size: $fontSize5;
     line-height: $fontSize5;
     height: auto;
-    // margin-bottom: convertUnit(20);
 
     &:disabled {
       background-color: $gray-color;
@@ -104,6 +106,7 @@ h,
     bottom: $space;
     margin: 0;
     z-index: 1;
+    @include safe-area;
 
     &.hidden {
       display: none;
@@ -209,6 +212,7 @@ h,
     z-index: 9;
     padding: #{convertUnit(3)} #{convertUnit(20)};
     background-color: $gray-color-light;
+    @include safe-area;
   }
 }
 
