@@ -1,4 +1,5 @@
 import * as routePath from '@/constant/routePath';
+import requireAuth from '@/router/requireAuth';
 import Page from '@/views/Page';
 import IntroductionIndex from '@/views/introduction/Index';
 
@@ -13,6 +14,7 @@ export default [
         path: routePath.INTRODUCTION_STEP,
         name: 'Introduction step',
         component: IntroductionIndex,
+        beforeEnter: requireAuth,
       },
     ],
   },

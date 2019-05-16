@@ -218,10 +218,10 @@ export const getStepClass = (nowstep, prevStep, stepNum) => ({
 });
 
 /**
- * @desc 判斷 router 是否可以 go next
+ * @desc 判斷 router 是否在 allowPath 裡
  * @param {path} String - 欲檢查的 path
  * @param {allowPath} Array - 所有接受的 path
- * @return {boolean} - 是否可以 go next
+ * @return {boolean} - 是否在 allowPath 裡
  */
 export const checkPath = (path, allowPath) => (
   allowPath.reduce((acc, cur) => (acc ? true : path === cur), false)

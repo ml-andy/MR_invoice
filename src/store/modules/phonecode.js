@@ -90,6 +90,10 @@ const actions = {
         key: 'cardNo',
         value: cardNo,
       });
+      commit('fetchState', {
+        key: 'isBound',
+        value: true,
+      });
     } catch (error) {
       const { errorCode } = error.info;
       commit('fetchApiError', error.info);
@@ -127,6 +131,10 @@ const actions = {
         method: 'post',
         url: '/es/inclusion/include',
         data,
+      });
+      commit('fetchState', {
+        key: 'included',
+        value: true,
       });
     } catch (error) {
       commit('fetchApiError', error.info);
