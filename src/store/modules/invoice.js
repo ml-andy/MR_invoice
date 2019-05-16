@@ -24,6 +24,7 @@ const getters = {
     if (invDate) {
       const date = invDate.split('/');
       date[0] = (date[0] * 1) - 1911;
+      date[1] = addZero(date[1]);
       const resDate = date.join(' / ');
       time = `${resDate} ${invoiceTime}`;
     }

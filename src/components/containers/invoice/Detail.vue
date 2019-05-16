@@ -18,7 +18,7 @@
             :key="item.rowNum"
           )
             .column.col-6.item__name {{ item.description }}
-            .column.col-3.text-right.gray x{{ item.quantity }}
+            .column.col-3.text-right.gray x{{ item.quantity | parseFloat }}
             .column.col-3.text-right $ {{ item.subtotal }}
           .columns.item
             .column.col-7
@@ -43,6 +43,9 @@ export default {
     sendMixpanel('eReceipt_detail_view', {
       cards_type: this.carrierName,
     });
+  },
+  filters: {
+    parseFloat: value => parseFloat(value),
   },
 };
 </script>

@@ -190,7 +190,7 @@ h,
     background-color: $gray-color-light;
   }
   &__main {
-    margin-top: convertUnit(86);
+    padding-top: convertUnit(86);
     padding-bottom: convertUnit(30);
   }
   &__title {

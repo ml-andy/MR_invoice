@@ -47,7 +47,8 @@
             )
               .columns
                 .column.col-8.name
-                  span.text-sm.text-secondary.date {{ item.invMonth }}/{{ item.invDay }}
+                  span.text-sm.text-secondary.date
+                    |{{ item.invMonth | addZero }}/{{ item.invDay | addZero }}
                   span.text-sm {{ item.invNum }}
                   p.h5 {{ item.sellerName | textLen }}
                 .column.col-4.amount
@@ -71,7 +72,7 @@ import { mapState, mapActions, mapMutations } from 'vuex';
 import 'swiper/dist/css/swiper.css';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import NoticeModal from '@/components/containers/invoice/NoticeModal';
-import { textLen, sendMixpanel } from '@/helpers/unit';
+import { addZero, textLen, sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'invoice_list',
@@ -115,6 +116,7 @@ export default {
   },
   filters: {
     textLen: value => textLen(value, 10, '...'),
+    addZero: value => addZero(value),
   },
   methods: {
     ...mapActions('invoice', ['getInvoiceList', 'getInvoiceDetail']),

@@ -50,14 +50,14 @@ export default {
     return {
       verifyCode: '',
       isSuccess: false,
-      footerClass: {
-        hidden: false,
-      },
+      isFocus: false,
     };
   },
   computed: {
     ...mapState({
       os: state => state.app.os,
+      windowOriginHeight: state => state.app.windowOriginHeight,
+      windowHeight: state => state.app.windowHeight,
       cardNo: state => state.phonecode.cardNo,
       errorCode: state => state.phonecode.apiError.errorCode,
       message: state => state.phonecode.apiError.message,
@@ -69,6 +69,12 @@ export default {
     },
     isNext() {
       return this.verifyCode !== '' && this.verifyCodeHints === '';
+    },
+    footerClass() {
+      const hidden = this.isFocus && this.windowHeight !== this.windowOriginHeight;
+      return {
+        hidden,
+      };
     },
   },
   created() {
@@ -102,12 +108,12 @@ export default {
     },
     onFocusInput() {
       if (this.os.isAndroid) {
-        this.footerClass.hidden = true;
+        this.isFocus = true;
       }
     },
     onBlurInput() {
       window.scrollTo(0, 0);
-      this.footerClass.hidden = false;
+      this.isFocus = false;
     },
   },
   components: {

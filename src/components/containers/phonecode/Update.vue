@@ -57,14 +57,14 @@ export default {
     return {
       isNotice: false,
       verifyCode: '',
-      footerClass: {
-        hidden: false,
-      },
+      isFocus: false,
     };
   },
   computed: {
     ...mapState({
       os: state => state.app.os,
+      windowOriginHeight: state => state.app.windowOriginHeight,
+      windowHeight: state => state.app.windowHeight,
       phone: state => state.app.basicInfo.hiddenPhone,
       errorCode: state => state.phonecode.apiError.errorCode,
       message: state => state.phonecode.apiError.message,
@@ -77,6 +77,12 @@ export default {
     isNext() {
       return this.verifyCode !== '' && this.verifyCodeHints === '';
     },
+    footerClass() {
+      const hidden = this.isFocus && this.windowHeight !== this.windowOriginHeight;
+      return {
+        hidden,
+      };
+    },
   },
   created() {
     this.initApiError();
@@ -85,7 +91,7 @@ export default {
     sendMixpanel('eReceipt_update_pwd_view');
   },
   methods: {
-    ...mapActions('phonecode', ['putCardno']),
+    ...mapActions('phonecode', ['putCardno', 'getCarrierCheck']),
     ...mapMutations('phonecode', ['initApiError', 'fetchState']),
     wordValidate,
     onForgotpassword() {
@@ -97,15 +103,16 @@ export default {
     },
     onFocusInput() {
       if (this.os.isAndroid) {
-        this.footerClass.hidden = true;
+        this.isFocus = true;
       }
     },
     onBlurInput() {
       window.scrollTo(0, 0);
-      this.footerClass.hidden = false;
+      this.isFocus = false;
     },
     async onSubmit() {
       await this.putCardno();
+      await this.getCarrierCheck();
       if (this.errorCode === '') {
         sendMixpanel('eReceipt_update_pwd_now', {
           tag: 'success',

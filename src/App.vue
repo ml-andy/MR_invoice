@@ -27,26 +27,46 @@ export default {
   methods: {
     ...mapActions('app', ['appInit']),
     ...mapActions('phonecode', ['getCarrierCheck']),
-    ...mapMutations('app', ['initSetup']),
+    ...mapMutations('app', ['initSetup', 'fetchWindowOriginHeight', 'fetchWindowSize']),
     async init() {
+      this.fetchWindowOriginHeight(window);
+      this.fetchWindowSize(window);
+      window.onresize = () => {
+        this.fetchWindowSize(window);
+      };
+
       await this.appInit();
       if (this.isBound) {
         await this.getCarrierCheck();
-        if (this.isIncluded) {
-          this.$router.push(routePath.INVOICE);
-        } else if (this.isIncluded === false) {
-          this.$router.push(routePath.PHONECODE_BIND);
+        if (this.isIncluded === null) return;
+
+        this.initSetup();
+        switch (this.isIncluded) {
+          case true:
+            this.$router.push(routePath.INVOICE);
+            break;
+          case false:
+          default:
+            this.$router.push(routePath.PHONECODE_BIND);
+            break;
         }
       } else {
+        this.initSetup();
         this.$router.push(`${routePath.INTRODUCTION}/1`);
       }
-
-      this.initSetup();
     },
   },
   components: {
     ErrorModal,
     RootLoading,
+  },
+  watch: {
+    $route(to) {
+      const { path } = to;
+      if (path === routePath.PHONECODE_UPDATE) {
+        this.initSetup();
+      }
+    },
   },
 };
 </script>

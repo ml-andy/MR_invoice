@@ -45,7 +45,7 @@ export const IMAGE_VERIFY_ERROR = {
 
 export const ES_CARRIER_NAME_OVER_LIMIT_ERROR = {
   errorCode: 'ES_CARRIER_NAME_OVER_LIMIT_ERROR',
-  message: '載具名稱長度過長錯誤',
+  message: '字數過長',
 };
 
 

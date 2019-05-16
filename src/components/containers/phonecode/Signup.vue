@@ -51,14 +51,14 @@ export default {
       isNotice: false,
       email: '',
       emailHint: '',
-      footerClass: {
-        hidden: false,
-      },
+      isFocus: false,
     };
   },
   computed: {
     ...mapState({
       os: state => state.app.os,
+      windowOriginHeight: state => state.app.windowOriginHeight,
+      windowHeight: state => state.app.windowHeight,
       phone: state => state.app.basicInfo.hiddenPhone,
       errorCode: state => state.phonecode.apiError.errorCode,
       message: state => state.phonecode.apiError.message,
@@ -71,6 +71,12 @@ export default {
     },
     isNext() {
       return this.email !== '' && this.emailHints === '';
+    },
+    footerClass() {
+      const hidden = this.isFocus && this.windowHeight !== this.windowOriginHeight;
+      return {
+        hidden,
+      };
     },
   },
   created() {
@@ -85,13 +91,13 @@ export default {
     wordValidate,
     onFocusInput() {
       if (this.os.isAndroid) {
-        this.footerClass.hidden = true;
+        this.isFocus = true;
       }
     },
     onEmailBlur(value) {
       this.emailHint = emailValidate('E-mail格式錯誤', value);
       window.scrollTo(0, 0);
-      this.footerClass.hidden = false;
+      this.isFocus = false;
     },
     onEditNoticeModal(visible) {
       this.isNotice = visible;

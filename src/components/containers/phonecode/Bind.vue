@@ -31,22 +31,24 @@
               v-model="birth"
               :disabled="true"
             )
-        FormGroupInput(
+        FormGroupInput#cardName(
           label="載具名稱"
           type="text"
           v-model="cardName"
           :onInput="onCardName"
+          :onBlur="() => { onBlurInput('cardName'); }"
           :hint="cardNameHints"
         )
           span.text.text-primary 字數限制20字內
         .columns
           .column.col-6
-            FormGroupInput(
+            FormGroupInput#imagecode(
               label="圖形驗證碼"
               type="text"
               placeholder="必填"
               v-model="imagecode"
               :hint="imageCodeHints"
+              :onBlur="() => { onBlurInput('imagecode'); }"
             )
           .column.col-6.imgageCode
             .columns
@@ -151,6 +153,10 @@ export default {
           tag: this.message,
         });
       }
+    },
+    onBlurInput(dom) {
+      const element = document.getElementById(dom);
+      window.scrollTo(0, element.offsetTop);
     },
   },
   components: {

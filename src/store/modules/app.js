@@ -23,6 +23,9 @@ const states = {
     id: '',
     phone: '',
   },
+  windowOriginHeight: -1,
+  windowHeight: -1,
+  windowWidth: -1,
 };
 
 const getters = {};
@@ -110,6 +113,15 @@ const mutations = {
       ...payload,
       hiddenPhone,
     };
+  },
+  fetchWindowOriginHeight(state, payload) {
+    const { innerHeight } = payload;
+    state.windowOriginHeight = innerHeight;
+  },
+  fetchWindowSize(state, payload) {
+    const { innerHeight, innerWidth } = payload;
+    state.windowHeight = innerHeight;
+    state.windowWidth = innerWidth;
   },
 };
 
