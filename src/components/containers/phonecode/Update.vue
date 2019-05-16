@@ -112,16 +112,18 @@ export default {
     },
     async onSubmit() {
       await this.putCardno();
-      await this.getCarrierCheck();
       if (this.errorCode === '') {
         sendMixpanel('eReceipt_update_pwd_now', {
           tag: 'success',
         });
-        this.$router.push(routePath.PHONECODE_UPDATESUCCESS);
+        await this.getCarrierCheck();
+        if (this.errorCode === '') {
+          this.$router.push(routePath.PHONECODE_UPDATESUCCESS);
+        } else {
+          sendMixpanel('eReceipt_update_pwd_now', { tag: this.message });
+        }
       } else {
-        sendMixpanel('eReceipt_update_pwd_now', {
-          tag: this.message,
-        });
+        sendMixpanel('eReceipt_update_pwd_now', { tag: this.message });
       }
     },
   },
