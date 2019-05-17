@@ -12,7 +12,7 @@
       type="text"
       ref="input"
       :value="value"
-      @keyup="onUpdateValue"
+      @input="onUpdateValue"
       @blur="onBlur($event.target.value)"
       @focus="onFocus"
       placeholder="必填"
@@ -70,7 +70,9 @@ export default {
   },
   methods: {
     onUpdateValue(e) {
-      const position = e.target.selectionStart;
+      const pattern = /[\u3105-\u3129\u02CA\u02C7\u02CB\u02D9]/;
+      if (pattern.test(e.data)) return;
+      const position = e.target.selectionEnd;
       const resultValue = this.onInput(e.target.value);
       this.$refs.input.value = resultValue;
       this.$emit('input', resultValue);

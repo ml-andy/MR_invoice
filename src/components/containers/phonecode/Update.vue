@@ -107,7 +107,9 @@ export default {
       }
     },
     onBlurInput() {
-      window.scrollTo(0, 0);
+      if (this.os.isIos) {
+        window.scrollTo(0, 0);
+      }
       this.isFocus = false;
     },
     async onSubmit() {

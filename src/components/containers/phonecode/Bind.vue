@@ -93,6 +93,7 @@ export default {
   },
   computed: {
     ...mapState({
+      os: state => state.app.os,
       cardNumber: state => state.app.basicInfo.cardNumber,
       userId: state => state.app.basicInfo.id,
       birth: state => state.app.basicInfo.birth,
@@ -155,8 +156,10 @@ export default {
       }
     },
     onBlurInput(dom) {
-      const element = document.getElementById(dom);
-      window.scrollTo(0, element.offsetTop);
+      if (this.os.isIos) {
+        const element = document.getElementById(dom);
+        window.scrollTo(0, element.offsetTop);
+      }
     },
   },
   components: {
