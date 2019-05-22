@@ -10,18 +10,21 @@ function getConfig() {
       config.mixpanelToken = '4568fe9b8b11c57aebe5e40ac3d278d7';
       // SIT
       // config.apiURL = 'https://smr.cathaybkdev.com.tw:8082/zuul/mobile-device-service/mds/';
+      // config.apiURL = 'https://218.32.90.74:8082/zuul/mobile-device-service/mds/';
       // localhost
       config.apiURL = '//localhost:3000/mobile-device-service/mds/';
       break;
     case 'smr.cathaybkdev.com.tw':
       // SIT
       config.mixpanelToken = '4568fe9b8b11c57aebe5e40ac3d278d7';
-      config.apiURL = 'https://smr.cathaybkdev.com.tw:8082/zuul/mobile-device-service/mds/';
+      // config.apiURL = 'https://smr.cathaybkdev.com.tw:8082/zuul/mobile-device-service/mds/';
+      config.apiURL = 'https://218.32.90.74:8082/zuul/mobile-device-service/mds/';
       break;
     case 'tmr.cathaybkdev.com.tw':
       // UAT
       config.mixpanelToken = '4568fe9b8b11c57aebe5e40ac3d278d7';
-      config.apiURL = 'https://tmr.cathaybkdev.com.tw:8082/zuul/mobile-device-service/mds/';
+      // config.apiURL = 'https://tmr.cathaybkdev.com.tw:8082/zuul/mobile-device-service/mds/';
+      config.apiURL = 'https://59.124.251.200:8082/zuul/mobile-device-service/mds/';
       break;
     case 'myrewards-app.com.tw':
       // PRO
