@@ -81,6 +81,9 @@ h,
     font-size: $fontSize1;
     line-height: $fontSize1;
   }
+  &-gray-color-dark {
+    color: rgb(144,144,144);
+  }
 }
 
 .stepbarSpace {
