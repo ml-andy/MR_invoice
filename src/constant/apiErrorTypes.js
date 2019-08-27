@@ -32,3 +32,29 @@ export const UPDATE_ERROR = {
     router.push(routePath.PHONECODE_UPDATE);
   },
 };
+
+export const PASSWORD_ERROR = {
+  errorCode: 'ES_F_910_ERROR',
+  message: '驗證碼錯誤',
+};
+
+export const IMAGE_VERIFY_ERROR = {
+  errorCode: 'ES_IMAGE_VERIFY_ERROR',
+  message: '圖形驗證碼錯誤',
+};
+
+export const ES_CARRIER_NAME_OVER_LIMIT_ERROR = {
+  errorCode: 'ES_CARRIER_NAME_OVER_LIMIT_ERROR',
+  message: '字數過長',
+};
+
+
+export const SIGNUP_ERROR = {
+  errorCode: 'ES_F_906_ERROR',
+  commit: 'error/EDIT_ERROR',
+  message: '此手機號碼已申請過手機條碼',
+  buttonTxt: '返回',
+  customEvent: () => {
+    router.push(routePath.PHONECODE_SIGNIN);
+  },
+};

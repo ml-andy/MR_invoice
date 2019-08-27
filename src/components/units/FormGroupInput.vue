@@ -12,8 +12,9 @@
       type="text"
       ref="input"
       :value="value"
-      @input="onUpdateValue($event.target.value)"
+      @input="onUpdateValue"
       @blur="onBlur($event.target.value)"
+      @focus="onFocus"
       placeholder="必填"
       :disabled="disabled"
     )
@@ -44,6 +45,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    onFocus: {
+      type: Function,
+      default: () => {},
+    },
     placeholder: {
       default: '',
     },
@@ -64,10 +69,14 @@ export default {
     },
   },
   methods: {
-    onUpdateValue(value) {
-      const resultValue = this.onInput(value);
+    onUpdateValue(e) {
+      const pattern = /[\u3105-\u3129\u02CA\u02C7\u02CB\u02D9]/;
+      if (pattern.test(e.data)) return;
+      const position = e.target.selectionEnd;
+      const resultValue = this.onInput(e.target.value);
       this.$refs.input.value = resultValue;
       this.$emit('input', resultValue);
+      e.target.setSelectionRange(position, position);
     },
   },
 };

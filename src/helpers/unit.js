@@ -176,3 +176,53 @@ export const addZero = (value) => {
   const isNeedZero = value.toString().length === 1;
   return isNeedZero ? `0${value}` : value.toString();
 };
+
+/**
+ * @desc 在字串特定位置加上替換文字
+ * @param {value} String - 原始字串
+ * @param {index} Number - 替換文字欲插入的位置
+ * @param {replacement} String - 替換文字
+ * @return {string} - 調整後的文字
+ */
+export const replaceAt = (value, index, replacement) => {
+  const text = value.toString();
+  const res = text.substr(0, index) + replacement + text.substr(index + replacement.length);
+  return res.substr(0, text.length);
+};
+
+/**
+ * @desc 過濾字串長度並加上...
+ * @param {value} String - 原始字串
+ * @param {len} Number - 限制的長度
+ * @param {replacement} String - 替換文字
+ * @return {string} - 調整後的文字
+ */
+export const textLen = (value, len, replacement = '') => {
+  const text = value.toString();
+  return text.length > len
+    ? text.substr(0, len) + replacement
+    : text;
+};
+
+/**
+ * @desc 依據目前步驟狀態, 取得該目標的步驟狀態
+ * @param {nowstep} Number - 目前步驟數字
+ * @param {prevStep} Number - 上一步的步驟數字
+ * @param {stepNum} Number - 目標所屬步驟數字
+ * @return {object} - 目標的步驟狀態
+ */
+export const getStepClass = (nowstep, prevStep, stepNum) => ({
+  prevActive: nowstep === stepNum && prevStep === (stepNum + 1),
+  active: nowstep === stepNum && prevStep === (stepNum - 1),
+  afterActive: nowstep === (stepNum + 1) && prevStep === stepNum,
+});
+
+/**
+ * @desc 判斷 router 是否在 allowPath 裡
+ * @param {path} String - 欲檢查的 path
+ * @param {allowPath} Array - 所有接受的 path
+ * @return {boolean} - 是否在 allowPath 裡
+ */
+export const checkPath = (path, allowPath) => (
+  allowPath.reduce((acc, cur) => (acc ? true : path === cur), false)
+);

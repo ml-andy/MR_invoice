@@ -1,5 +1,10 @@
 import client from '@/helpers/ClientTransport';
-import { UPDATE_ERROR } from '@/constant/apiErrorTypes';
+import {
+  UPDATE_ERROR,
+  PASSWORD_ERROR,
+  SIGNUP_ERROR,
+  ES_CARRIER_NAME_OVER_LIMIT_ERROR,
+} from '@/constant/apiErrorTypes';
 
 const initApiError = {
   errorCode: '',
@@ -33,10 +38,10 @@ const actions = {
       commit('fetchIncluded', response);
     } catch (error) {
       const { errorCode } = error.info;
+      commit('fetchApiError', error.info);
       if (errorCode === UPDATE_ERROR.errorCode) {
         commit(UPDATE_ERROR.commit, UPDATE_ERROR, { root: true });
       } else {
-        commit('fetchApiError', error.info);
         commit(error.commit, error.info, { root: true });
       }
     }
@@ -58,8 +63,13 @@ const actions = {
         value: cardNo,
       });
     } catch (error) {
+      const { errorCode } = error.info;
       commit('fetchApiError', error.info);
-      commit(error.commit, error.info, { root: true });
+      if (errorCode === SIGNUP_ERROR.errorCode) {
+        commit(SIGNUP_ERROR.commit, SIGNUP_ERROR, { root: true });
+      } else {
+        commit(error.commit, error.info, { root: true });
+      }
     }
     commit('rootLoading/activeStatus', false, { root: true });
   },
@@ -80,9 +90,16 @@ const actions = {
         key: 'cardNo',
         value: cardNo,
       });
+      commit('fetchState', {
+        key: 'isBound',
+        value: true,
+      });
     } catch (error) {
+      const { errorCode } = error.info;
       commit('fetchApiError', error.info);
-      commit(error.commit, error.info, { root: true });
+      if (errorCode !== PASSWORD_ERROR.errorCode) {
+        commit(error.commit, error.info, { root: true });
+      }
     }
     commit('rootLoading/activeStatus', false, { root: true });
   },
@@ -107,7 +124,7 @@ const actions = {
     try {
       const data = {
         carrierName: state.carrierName,
-        imageCode: state.imageCode,
+        imagecode: state.imageCode,
         cardNo: state.cardNo,
       };
       await client.fetch({
@@ -115,9 +132,16 @@ const actions = {
         url: '/es/inclusion/include',
         data,
       });
+      commit('fetchState', {
+        key: 'included',
+        value: true,
+      });
     } catch (error) {
       commit('fetchApiError', error.info);
-      commit(error.commit, error.info, { root: true });
+      const { errorCode } = error.info;
+      if (errorCode !== ES_CARRIER_NAME_OVER_LIMIT_ERROR.errorCode) {
+        commit(error.commit, error.info, { root: true });
+      }
     }
     commit('rootLoading/activeStatus', false, { root: true });
   },
@@ -156,8 +180,11 @@ const actions = {
         value: cardNo,
       });
     } catch (error) {
+      const { errorCode } = error.info;
       commit('fetchApiError', error.info);
-      commit(error.commit, error.info, { root: true });
+      if (errorCode !== PASSWORD_ERROR.errorCode) {
+        commit(error.commit, error.info, { root: true });
+      }
     }
     commit('rootLoading/activeStatus', false, { root: true });
   },
@@ -175,7 +202,11 @@ const mutations = {
       isBound = false,
     } = payload;
     state.cardNo = cardNo;
-    state.isBound = isBound;
+    if (isBound === 'true') {
+      state.isBound = true;
+    } else {
+      state.isBound = false;
+    }
   },
   fetchIncluded(state, payload) {
     const {

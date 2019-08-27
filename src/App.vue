@@ -12,7 +12,7 @@
 import * as routePath from '@/constant/routePath';
 import ErrorModal from '@/components/containers/ErrorModal';
 import RootLoading from '@/components/containers/RootLoading';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'App',
@@ -27,24 +27,46 @@ export default {
   methods: {
     ...mapActions('app', ['appInit']),
     ...mapActions('phonecode', ['getCarrierCheck']),
+    ...mapMutations('app', ['initSetup', 'fetchWindowOriginHeight', 'fetchWindowSize']),
     async init() {
-      await this.appInit();
-      if (!this.isBound) {
-        this.$router.push(routePath.INTRODUCTION_STEP1);
-        return;
-      }
+      this.fetchWindowOriginHeight(window);
+      this.fetchWindowSize(window);
+      window.onresize = () => {
+        this.fetchWindowSize(window);
+      };
 
-      await this.getCarrierCheck();
-      if (this.isIncluded) {
-        this.$router.push(routePath.INVOICE);
-      } else if (this.isIncluded === false) {
-        this.$router.push(routePath.PHONECODE_BIND);
+      await this.appInit();
+      if (this.isBound) {
+        await this.getCarrierCheck();
+        if (this.isIncluded === null) return;
+
+        this.initSetup();
+        switch (this.isIncluded) {
+          case true:
+            this.$router.push(routePath.INVOICE);
+            break;
+          case false:
+          default:
+            this.$router.push(routePath.PHONECODE_BIND);
+            break;
+        }
+      } else {
+        this.initSetup();
+        this.$router.push(`${routePath.INTRODUCTION}/1`);
       }
     },
   },
   components: {
     ErrorModal,
     RootLoading,
+  },
+  watch: {
+    $route(to) {
+      const { path } = to;
+      if (path === routePath.PHONECODE_UPDATE) {
+        this.initSetup();
+      }
+    },
   },
 };
 </script>

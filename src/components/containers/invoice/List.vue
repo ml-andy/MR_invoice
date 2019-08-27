@@ -7,8 +7,8 @@
     .invoice__header
       nav.invoice__title
         .columns
-          .column.col-3
-          .column.col-6
+          .column.col-2
+          .column.col-8
             .columns
               .column.col-2.text-sm.text-right.titledate
                 a.prev.text-sm(
@@ -24,7 +24,7 @@
                   href="javascript:;"
                 )
                   .icon.icon-caret.icon-caret-right
-          .column.col-3
+          .column.col-2
       .invoice__subtitle.text-sm.text-center 共有 {{ invoices[activeIndex].list.length }} 張發票
     .invoice__main
       swiper(
@@ -35,27 +35,28 @@
           v-for="invoice in invoices"
           :key="invoice.month"
         )
-          .list(v-if="invoice.list.length !== 0")
+          .invoice__empty.empty(v-if="invoice.list.length === 0 && invoice.isFetch")
+            .empty__photo
+              i.icon.icon-noReciept
+            p.text.text-center 目前尚無任何發票資料！
+          .list(v-else)
             .list__item(
               v-for="item in invoice.list"
               :key="item.month"
               @click="onDetail(item)"
             )
               .columns
-                .column.col-7.name
-                  span.text-sm.text-secondary.date {{ item.invMonth }}/{{ item.invDay }}
+                .column.col-8.name
+                  span.text-sm.text-secondary.date
+                    |{{ item.invMonth | addZero }}/{{ item.invDay | addZero }}
                   span.text-sm {{ item.invNum }}
-                  p.h5 {{ item.sellerName }}
-                .column.col-5.amount
+                  p.h5 {{ item.sellerName | textLen }}
+                .column.col-4.amount
                   .columns
                     .column.col-10.text-right
-                      span.h3.text-primary $ {{ item.amount }}
+                      span.h4.text-primary $ {{ item.amount }}
                     .column.col-2.h4.text-right
                       i.icon.icon-arrow
-          .invoice__empty.empty(v-else)
-            .empty__photo
-              i.icon.icon-noReciept
-            p.text.text-center 目前尚無任何發票資料！
     .invoice__footer
       a.noticeBtn.text-sm(
         href="javascript:;"
@@ -71,6 +72,7 @@ import { mapState, mapActions, mapMutations } from 'vuex';
 import 'swiper/dist/css/swiper.css';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import NoticeModal from '@/components/containers/invoice/NoticeModal';
+import { addZero, textLen, sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'invoice_list',
@@ -88,15 +90,16 @@ export default {
         year: '',
         month: '',
       },
-      activeIndex: 2,
       isNotice: false,
     };
   },
   computed: {
     ...mapState({
       invoices: state => state.invoice.invoices,
+      activeIndex: state => state.invoice.invoicesIndex,
       errorCode: state => state.invoice.apiError.errorCode,
       message: state => state.invoice.apiError.message,
+      carrierName: state => state.phonecode.carrierName,
     }),
     swiper() {
       return this.$refs.mySwiper.swiper;
@@ -105,14 +108,19 @@ export default {
   created() {
     this.initApiError();
     this.initInvoice();
+    this.swiperOption.initialSlide = this.activeIndex;
   },
   mounted() {
     this.swiper.on('slideChange', this.onSlideChange);
     this.onSlideChange();
   },
+  filters: {
+    textLen: value => textLen(value, 10, '...'),
+    addZero: value => addZero(value),
+  },
   methods: {
     ...mapActions('invoice', ['getInvoiceList', 'getInvoiceDetail']),
-    ...mapMutations('invoice', ['initApiError', 'initInvoice']),
+    ...mapMutations('invoice', ['initApiError', 'fetchState', 'initInvoice']),
     onEditNoticeModal(visible) {
       this.isNotice = visible;
     },
@@ -133,16 +141,31 @@ export default {
         amount,
       });
 
-      if (this.errorCode !== '') return;
-      this.$router.push(routePath.INVOICE_DETAIL);
+      if (this.errorCode === '') {
+        sendMixpanel('eReceipt_detail_click', {
+          tag: 'success',
+        });
+        this.$router.push(routePath.INVOICE_DETAIL);
+      } else {
+        sendMixpanel('eReceipt_detail_click', {
+          tag: this.message,
+        });
+      }
     },
     onSlideChange() {
-      this.activeIndex = this.$refs.mySwiper.swiper.activeIndex || 0;
-      const { year, month, isFetch } = this.invoices[this.activeIndex];
+      const activeIndex = this.$refs.mySwiper.swiper.activeIndex || 0;
+      const { year, month, isFetch } = this.invoices[activeIndex];
       this.date = { year, month };
+      this.fetchState({
+        key: 'invoicesIndex',
+        value: activeIndex,
+      });
+      sendMixpanel('eReceipt_list_view', {
+        cards_type: this.carrierName,
+      });
 
       if (isFetch) return;
-      this.getInvoiceList(this.activeIndex);
+      this.getInvoiceList(activeIndex);
     },
   },
   components: {
@@ -164,6 +187,8 @@ export default {
   background-color: $light-color;
 
   .list {
+    min-height: 100vh;
+
     &__item {
       padding: #{convertUnit(20)} #{convertUnit(10)} #{convertUnit(20)} #{convertUnit(10)};
       box-shadow: 0 0 1px rgba(167,167,167,0.3);

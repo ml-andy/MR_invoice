@@ -8,7 +8,9 @@ const initApiError = {
 };
 
 const states = {
+  isInitInvoice: false,
   invoices: [],
+  invoicesIndex: 2,
   invoiceDetail: {},
   apiError: {
     ...initApiError,
@@ -22,7 +24,9 @@ const getters = {
     if (invDate) {
       const date = invDate.split('/');
       date[0] = (date[0] * 1) - 1911;
-      const resDate = date.join('-');
+      date[1] = addZero(date[1]);
+      date[2] = addZero(date[2]);
+      const resDate = date.join(' / ');
       time = `${resDate} ${invoiceTime}`;
     }
     return {
@@ -55,10 +59,10 @@ const actions = {
       commit('fetchInvoices', { idx, list });
     } catch (error) {
       const { errorCode } = error.info;
+      commit('fetchApiError', error.info);
       if (errorCode === UPDATE_ERROR.errorCode) {
         commit(UPDATE_ERROR.commit, UPDATE_ERROR, { root: true });
       } else {
-        commit('fetchApiError', error.info);
         commit(error.commit, error.info, { root: true });
       }
     }
@@ -91,10 +95,10 @@ const actions = {
       });
     } catch (error) {
       const { errorCode } = error.info;
+      commit('fetchApiError', error.info);
       if (errorCode === UPDATE_ERROR.errorCode) {
         commit(UPDATE_ERROR.commit, UPDATE_ERROR, { root: true });
       } else {
-        commit('fetchApiError', error.info);
         commit(error.commit, error.info, { root: true });
       }
     }
@@ -104,6 +108,8 @@ const actions = {
 
 const mutations = {
   initInvoice(state) {
+    if (state.isInitInvoice) return;
+
     const list = [...new Array(3)];
     const date = new Date();
     const year = date.getFullYear();
@@ -123,7 +129,7 @@ const mutations = {
 
       const resYear = stageYear - 1911;
       const resMonth = `${addZero(stageMonth[0])}-${addZero(stageMonth[1])}`;
-      const startDate = `${stageYear}/${addZero(stageMonth[0])}/${lastday(stageYear, stageMonth[0])}`;
+      const startDate = `${stageYear}/${addZero(stageMonth[0])}/01`;
       const endDate = `${stageYear}/${addZero(stageMonth[1])}/${lastday(stageYear, stageMonth[1])}`;
       const stage = {
         year: resYear,
@@ -139,6 +145,7 @@ const mutations = {
         ...acc,
       ];
     }, []);
+    state.isInitInvoice = true;
   },
   fetchState(state, payload) {
     const { key, value } = payload;
@@ -147,7 +154,12 @@ const mutations = {
   },
   fetchInvoices(state, { idx, list }) {
     state.invoices[idx].isFetch = true;
-    state.invoices[idx].list = list;
+    const sortList = [...list].sort((a, b) => {
+      const aTime = new Date((a.invYear * 1) + 1911, a.invMonth, a.invDay);
+      const bTime = new Date((b.invYear * 1) + 1911, b.invMonth, b.invDay);
+      return bTime - aTime;
+    });
+    state.invoices[idx].list = sortList;
   },
   fetchInvoiceDetail(state, { detail = {}, invNum, invDate }) {
     state.invoiceDetail = {

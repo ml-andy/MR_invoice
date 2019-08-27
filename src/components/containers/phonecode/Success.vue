@@ -1,6 +1,6 @@
 <template lang="pug">
   section.phonecode.stepbarSpace
-    .section__header
+    .section__header.footerSpace
       p.success.text-center
         i.icon.icon-success
       h3.text-primary.text-center 綁定成功！
@@ -12,11 +12,16 @@
 
 <script>
 import * as routePath from '@/constant/routePath';
+import { sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeUpdateSuccess',
+  mounted() {
+    sendMixpanel('eReceipt_cardSetup_success_view');
+  },
   methods: {
     onSubmit() {
+      sendMixpanel('eReceipt_cardSetup_success_gotoList');
       this.$router.push(routePath.INVOICE);
     },
   },

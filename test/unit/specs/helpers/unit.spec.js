@@ -5,6 +5,10 @@ import {
   wordValidate,
   lastday,
   addZero,
+  replaceAt,
+  textLen,
+  getStepClass,
+  checkPath,
 } from '@/helpers/unit';
 
 describe('unit testing', () => {
@@ -125,7 +129,7 @@ describe('unit testing', () => {
       expect(lastday(year, month)).toEqual(equalRes);
     });
   });
-  it('lastday testing', () => {
+  it('addZero testing', () => {
     const testCase = [
       {
         value: 1,
@@ -151,6 +155,156 @@ describe('unit testing', () => {
 
     testCase.forEach(({ value, equalRes }) => {
       expect(addZero(value)).toEqual(equalRes);
+    });
+  });
+  it('replaceAt testing', () => {
+    const testCase = [
+      {
+        value: '0912345678',
+        index: 4,
+        replacement: '***',
+        equalRes: '0912***678',
+      },
+      {
+        value: 12345678,
+        index: 4,
+        replacement: '***',
+        equalRes: '1234***8',
+      },
+      {
+        value: 1234,
+        index: 4,
+        replacement: '***',
+        equalRes: '1234',
+      },
+      {
+        value: 1234,
+        index: 0,
+        replacement: '***',
+        equalRes: '***4',
+      },
+    ];
+
+    testCase.forEach(({ value, index, replacement, equalRes }) => {
+      expect(replaceAt(value, index, replacement)).toEqual(equalRes);
+    });
+  });
+  it('textLen testing', () => {
+    const testCase = [
+      {
+        value: '統一超商股份有限公司台北信義分店',
+        len: 10,
+        replacement: '...',
+        equalRes: '統一超商股份有限公司...',
+      },
+      {
+        value: '統一超商股份有限公司台北信義分店',
+        len: 10,
+        replacement: '***',
+        equalRes: '統一超商股份有限公司***',
+      },
+      {
+        value: '統一超商股份有限公司',
+        len: 10,
+        replacement: '...',
+        equalRes: '統一超商股份有限公司',
+      },
+      {
+        value: '統一超商',
+        len: 10,
+        replacement: '...',
+        equalRes: '統一超商',
+      },
+    ];
+
+    testCase.forEach(({ value, len, replacement, equalRes }) => {
+      expect(textLen(value, len, replacement)).toEqual(equalRes);
+    });
+  });
+  it('getStepClass testing', () => {
+    const testCase = [
+      {
+        nowstep: 1,
+        prevStep: 0,
+        stepNum: 1,
+        equalRes: {
+          prevActive: false,
+          active: true,
+          afterActive: false,
+        },
+      },
+      {
+        nowstep: 2,
+        prevStep: 1,
+        stepNum: 1,
+        equalRes: {
+          prevActive: false,
+          active: false,
+          afterActive: true,
+        },
+      },
+      {
+        nowstep: 1,
+        prevStep: 2,
+        stepNum: 1,
+        equalRes: {
+          prevActive: true,
+          active: false,
+          afterActive: false,
+        },
+      },
+    ];
+
+    testCase.forEach(({ nowstep, prevStep, stepNum, equalRes }) => {
+      expect(getStepClass(nowstep, prevStep, stepNum)).toEqual(equalRes);
+    });
+  });
+  it('checkPath testing', () => {
+    const testCase = [
+      {
+        path: '/',
+        allowPath: [
+          '/',
+          '/introduction/1',
+          '/introduction/2',
+          '/introduction/3',
+        ],
+        equalRes: true,
+      },
+      {
+        path: '/introduction/1',
+        allowPath: [
+          '/',
+          '/introduction/1',
+          '/introduction/2',
+          '/introduction/3',
+        ],
+        equalRes: true,
+      },
+      {
+        path: '/invoice/detail',
+        allowPath: [
+          '/',
+          '/introduction/1',
+          '/introduction/2',
+          '/introduction/3',
+        ],
+        equalRes: false,
+      },
+      {
+        path: '/phonecode',
+        allowPath: [
+          '/',
+          '/introduction/1',
+          '/introduction/2',
+          '/introduction/3',
+        ],
+        equalRes: false,
+      },
+    ];
+
+    testCase.forEach(({ path, allowPath, equalRes }) => {
+      expect(checkPath(path, allowPath)).toEqual(equalRes);
     });
   });
 });

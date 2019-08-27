@@ -6,7 +6,7 @@
     )
     .section__header
       h3.text-primary.text-center 申請手機條碼
-    .section__main
+    .section__main.footerSpace
       form
         FormGroupInput(
           label="手機號碼"
@@ -20,10 +20,11 @@
           v-model="email"
           placeholder="必填"
           :onInput="wordValidate"
+          :onFocus="onFocusInput"
           :onBlur="onEmailBlur"
           :hint="emailHints"
         )
-    .section__footer.columns
+    .section__footer.columns(:class="footerClass")
       a.noticeBtn(
         href="javascript:;"
         @click="onEditNoticeModal(true)"
@@ -41,7 +42,7 @@ import * as routePath from '@/constant/routePath';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import FormGroupInput from '@/components/units/FormGroupInput';
 import NoticeModal from '@/components/containers/phonecode/NoticeModal';
-import { emailValidate, wordValidate } from '@/helpers/unit';
+import { emailValidate, wordValidate, sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeSignup',
@@ -50,11 +51,15 @@ export default {
       isNotice: false,
       email: '',
       emailHint: '',
+      isFocus: false,
     };
   },
   computed: {
     ...mapState({
-      phone: state => state.app.basicInfo.phone,
+      os: state => state.app.os,
+      windowOriginHeight: state => state.app.windowOriginHeight,
+      windowHeight: state => state.app.windowHeight,
+      phone: state => state.app.basicInfo.hiddenPhone,
       errorCode: state => state.phonecode.apiError.errorCode,
       message: state => state.phonecode.apiError.message,
       cardNo: state => state.phonecode.cardNo,
@@ -67,24 +72,50 @@ export default {
     isNext() {
       return this.email !== '' && this.emailHints === '';
     },
+    footerClass() {
+      const hidden = this.isFocus && this.windowHeight !== this.windowOriginHeight;
+      return {
+        hidden,
+      };
+    },
   },
   created() {
     this.initApiError();
+  },
+  mounted() {
+    sendMixpanel('eReceipt_apply_view');
   },
   methods: {
     ...mapActions('phonecode', ['signup']),
     ...mapMutations('phonecode', ['initApiError', 'fetchState']),
     wordValidate,
+    onFocusInput() {
+      if (this.os.isAndroid) {
+        this.isFocus = true;
+      }
+    },
     onEmailBlur(value) {
       this.emailHint = emailValidate('E-mail格式錯誤', value);
+      window.scrollTo(0, 0);
+      this.isFocus = false;
     },
     onEditNoticeModal(visible) {
       this.isNotice = visible;
+
+      if (visible) sendMixpanel('eReceipt_apply_notification');
     },
     async onSubmit() {
       await this.signup();
-      if (this.cardNo !== '' && this.errorCode === '') {
+
+      if (this.errorCode === '') {
+        sendMixpanel('eReceipt_apply_now', {
+          tag: 'success',
+        });
         this.$router.push(routePath.PHONECODE_CONFIRM);
+      } else {
+        sendMixpanel('eReceipt_apply_now', {
+          tag: this.message,
+        });
       }
     },
   },

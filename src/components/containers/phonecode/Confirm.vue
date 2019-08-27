@@ -5,7 +5,7 @@
       :isCanClose="false"
       contentTextAlign="left"
     )
-      template(slot="header") 注意事項
+      template(slot="header") 提醒您
       template(slot="body")
         |請至Email信箱，收取財政部發送的「電子信箱驗證信」，如未完成驗證將無法使用「忘記驗證碼」！
       template(slot="footer")
@@ -15,7 +15,7 @@
         ) 知道了
     .section__header
       h3.text-primary.text-center 請輸入財政部發送的簡訊驗證碼
-    .section__main
+    .section__main.footerSpace
       form
         FormGroupInput(
           label="驗證碼"
@@ -23,15 +23,17 @@
           v-model="verifyCode"
           placeholder="必填"
           :onInput="wordValidate"
+          :onFocus="onFocusInput"
+          :onBlur="onBlurInput"
           :hint="verifyCodeHints"
         )
       p.text-sm
         |請輸入財政部發送之簡訊驗證碼(4碼)。若您未收到簡訊驗證碼，請聯繫財政部電子發票平台，0800-521-988。
-    .section__footer.columns
+    .section__footer.columns(:class="footerClass")
       button.btn.btn-submit.column.col-12(
         :disabled="!isNext"
         @click="onSubmit"
-      ) 送出
+      ) 確認
 </template>
 
 <script>
@@ -39,7 +41,8 @@ import * as routePath from '@/constant/routePath';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import Modals from '@/components/units/Modals';
 import FormGroupInput from '@/components/units/FormGroupInput';
-import { wordValidate } from '@/helpers/unit';
+import { wordValidate, sendMixpanel } from '@/helpers/unit';
+import { PASSWORD_ERROR } from '@/constant/apiErrorTypes';
 
 export default {
   name: 'phonecodeComfirm',
@@ -47,25 +50,38 @@ export default {
     return {
       verifyCode: '',
       isSuccess: false,
+      isFocus: false,
     };
   },
   computed: {
     ...mapState({
+      os: state => state.app.os,
+      windowOriginHeight: state => state.app.windowOriginHeight,
+      windowHeight: state => state.app.windowHeight,
       cardNo: state => state.phonecode.cardNo,
       errorCode: state => state.phonecode.apiError.errorCode,
       message: state => state.phonecode.apiError.message,
     }),
     verifyCodeHints() {
-      const errors = ['ES_F_919_ERROR'];
+      const errors = [PASSWORD_ERROR.errorCode];
       const isApiError = errors.indexOf(this.errorCode) !== -1;
-      return isApiError ? this.message : '';
+      return isApiError ? PASSWORD_ERROR.message : '';
     },
     isNext() {
       return this.verifyCode !== '' && this.verifyCodeHints === '';
     },
+    footerClass() {
+      const hidden = this.isFocus && this.windowHeight !== this.windowOriginHeight;
+      return {
+        hidden,
+      };
+    },
   },
   created() {
     this.initApiError();
+  },
+  mounted() {
+    sendMixpanel('eReceipt_apply_pwd_view');
   },
   methods: {
     ...mapActions('phonecode', ['modifyCardno']),
@@ -73,11 +89,33 @@ export default {
     wordValidate,
     async onSubmit() {
       await this.modifyCardno();
-      if (this.errorCode !== '') return;
-      this.isSuccess = true;
+
+      if (this.errorCode === '') {
+        sendMixpanel('eReceipt_apply_pwd_confirm', {
+          tag: 'success',
+        });
+        this.isSuccess = true;
+        sendMixpanel('eReceipt_apply_success_view');
+      } else {
+        sendMixpanel('eReceipt_apply_pwd_confirm', {
+          tag: this.message,
+        });
+      }
     },
     onSuccessModal() {
+      sendMixpanel('eReceipt_apply_success_gotoCardSetup');
       this.$router.push(routePath.PHONECODE_BIND);
+    },
+    onFocusInput() {
+      if (this.os.isAndroid) {
+        this.isFocus = true;
+      }
+    },
+    onBlurInput() {
+      if (this.os.isIos) {
+        window.scrollTo(0, 0);
+      }
+      this.isFocus = false;
     },
   },
   components: {

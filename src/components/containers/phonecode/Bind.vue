@@ -2,7 +2,7 @@
   section.phonecode.stepbarSpace
     .section__header
       h3.text-primary.text-center 綁定發票載具
-    .section__main.footerSpace
+    .section__main
       form
         FormGroupInput(
           label="載具類別"
@@ -31,18 +31,24 @@
               v-model="birth"
               :disabled="true"
             )
-        FormGroupInput(
+        FormGroupInput#cardName(
           label="載具名稱"
           type="text"
           v-model="cardName"
+          :onInput="onCardName"
+          :onBlur="() => { onBlurInput('cardName'); }"
+          :hint="cardNameHints"
         )
+          span.text.text-primary 字數限制20字內
         .columns
           .column.col-6
-            FormGroupInput(
+            FormGroupInput#imagecode(
               label="圖形驗證碼"
               type="text"
               placeholder="必填"
               v-model="imagecode"
+              :hint="imageCodeHints"
+              :onBlur="() => { onBlurInput('imagecode'); }"
             )
           .column.col-6.imgageCode
             .columns
@@ -59,7 +65,7 @@
                   @click="onRefresh"
                 )
                   i.icon.icon-refresh
-    .section__footer.columns
+    .footer.columns
       button.btn.btn-submit.column.col-12(
         :disabled="!isNext"
         @click="onSubmit"
@@ -70,6 +76,11 @@
 import * as routePath from '@/constant/routePath';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import FormGroupInput from '@/components/units/FormGroupInput';
+import {
+  ES_CARRIER_NAME_OVER_LIMIT_ERROR,
+  IMAGE_VERIFY_ERROR,
+} from '@/constant/apiErrorTypes';
+import { textLen, sendMixpanel } from '@/helpers/unit';
 
 export default {
   name: 'phonecodeBind',
@@ -82,13 +93,25 @@ export default {
   },
   computed: {
     ...mapState({
+      os: state => state.app.os,
       cardNumber: state => state.app.basicInfo.cardNumber,
       userId: state => state.app.basicInfo.id,
       birth: state => state.app.basicInfo.birth,
       carrierName: state => state.phonecode.carrierName,
       verifyCodeImage: state => state.phonecode.verifyCodeImage,
       errorCode: state => state.phonecode.apiError.errorCode,
+      message: state => state.phonecode.apiError.message,
     }),
+    imageCodeHints() {
+      const errors = [IMAGE_VERIFY_ERROR.errorCode];
+      const isApiError = errors.indexOf(this.errorCode) !== -1;
+      return isApiError ? IMAGE_VERIFY_ERROR.message : '';
+    },
+    cardNameHints() {
+      const errors = [ES_CARRIER_NAME_OVER_LIMIT_ERROR.errorCode];
+      const isApiError = errors.indexOf(this.errorCode) !== -1;
+      return isApiError ? ES_CARRIER_NAME_OVER_LIMIT_ERROR.message : '';
+    },
     isNext() {
       return (
         this.cardName !== ''
@@ -99,8 +122,11 @@ export default {
   },
   created() {
     this.initApiError();
-    this.cardName = this.carrierName;
+    this.cardName = textLen(this.carrierName, 20);
     this.fetchVerifyCodeImage();
+  },
+  mounted() {
+    sendMixpanel('eReceipt_cardSetup_Info_view');
   },
   methods: {
     ...mapActions('phonecode', ['getVerifyCodeImage', 'editInclusion']),
@@ -113,10 +139,27 @@ export default {
     onRefresh() {
       this.fetchVerifyCodeImage();
     },
+    onCardName(value) {
+      return textLen(value, 20, '');
+    },
     async onSubmit() {
       await this.editInclusion();
-      if (this.errorCode !== '') return;
-      this.$router.push(routePath.PHONECODE_SUCCESS);
+      if (this.errorCode === '') {
+        sendMixpanel('eReceipt_cardSetup_Info_button', {
+          tag: 'success',
+        });
+        this.$router.push(routePath.PHONECODE_SUCCESS);
+      } else {
+        sendMixpanel('eReceipt_cardSetup_Info_button', {
+          tag: this.message,
+        });
+      }
+    },
+    onBlurInput(dom) {
+      if (this.os.isIos) {
+        const element = document.getElementById(dom);
+        window.scrollTo(0, element.offsetTop);
+      }
     },
   },
   components: {
@@ -176,6 +219,10 @@ export default {
     padding-bottom: convertUnit(3);
     display: inline-block;
     vertical-align: top;
+  }
+
+  .footer {
+    margin-bottom: $space;
   }
 }
 </style>
