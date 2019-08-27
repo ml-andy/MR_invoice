@@ -1,0 +1,224 @@
+@import "./variables";
+@import "../../node_modules/spectre.css/src/spectre";
+@import "../../node_modules/spectre.css/src/spectre-exp";
+@import "./button";
+@import "./mixin";
+
+body, html {
+  margin: 0;
+  height: auto;
+  min-height: 100vh;
+  color: $dark-color;
+  background-color: $gray-color-light;
+}
+
+p {
+  margin: 0;
+}
+
+.form {
+  &-group, &-group:not(:last-child){
+    margin-bottom: convertUnit(20);
+    &.border {
+      text-decoration:none;
+      color: $dark-color;
+      padding: $unit-5;
+      border-bottom: convertUnit(1) solid $gray-color-light;
+    }
+    &.border:nth-child(1){
+      border-top: convertUnit(1) solid $gray-color-light;
+    }
+  }
+  &-input {
+    padding: convertUnit(10);
+    font-size: $fontSize5;
+    line-height: $fontSize5;
+    height: auto;
+
+    &:disabled {
+      background-color: $gray-color;
+      color: $gray-color-dark;
+      opacity: 1;
+    }
+    &-hint {
+      font-size: $fontSize6;
+      line-height: $fontSize6;
+    }
+  }
+  &-label {
+    font-size: $fontSize4;
+    padding: convertUnit(6) 0;
+  }
+}
+
+h,
+.h {
+  &1 {
+    font-size: $fontSize1;
+  }
+  &2 {
+    font-size: $fontSize2;
+  }
+  &3 {
+    font-size: $fontSize3;
+  }
+  &4 {
+    font-size: $fontSize4;
+  }
+  &5 {
+    font-size: $fontSize5;
+  }
+}
+
+.text {
+  font-size: $fontSize5;
+  // font size
+  &-sm {
+    font-size: $fontSize6;
+    line-height: $fontSize6;
+  }
+  &-lg {
+    font-size: $fontSize1;
+    line-height: $fontSize1;
+  }
+}
+
+.stepbarSpace {
+  padding-top: $stepBarSpace;
+}
+.footerSpace {
+  margin-bottom: $footerSpace;
+}
+
+.section {
+  &__header {
+    margin-top: convertUnit(30);
+    margin-bottom: convertUnit(25);
+  }
+  &__main {
+    line-height: convertUnit(24);
+    text-align: justify;
+  }
+  &__footer {
+    position: fixed;
+    width: calc(100% - #{$space * 2});
+    left: $space;
+    bottom: $space;
+    margin: 0;
+    z-index: 1;
+    @include safe-area;
+
+    &.hidden {
+      display: none;
+    }
+  }
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  max-width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+  display: inline-block;
+  vertical-align: -14%;
+  
+  &-margin-right { margin-right: convertUnit(4); }
+  &-yes { background-image: url(~@/assets/images/icon_yes.png); }
+  &-no { background-image: url(~@/assets/images/icon_no.png); }
+  &-info { background-image: url(~@/assets/images/icon_info.png); }
+  &-help { background-image: url(~@/assets/images/icon_help.png); }
+  &-success { background-image: url(~@/assets/images/icon_success.png); }
+  &-caret {
+    height: 0;
+    width: 0;
+    border-width: .4em;
+    border-style: solid;
+    border-color: transparent;
+    vertical-align: 0%;
+
+    &-left { border-right-color: $gray-color-dark; }
+    &-right { border-left-color: $gray-color-dark; }
+  }
+  &-arrow {
+    background-image: url(~@/assets/images/icon_arrow.png);
+    
+    &-right { transform: rotate(0deg); }
+    &-left { transform: rotate(180deg); }
+    &-up { transform: rotate(-90deg); }
+    &-down { transform: rotate(90deg); }
+  }
+  &-noReciept { background-image: url(~@/assets/images/icon_noReciept.png); }
+  &-refresh { background-image: url(~@/assets/images/icon_refresh.png); }
+}
+
+.modal {
+  &-container {
+    max-width: convertUnit(280);
+    padding: $space;
+
+    .modal {
+      &-header {
+        padding: 0 0 $space 0;
+      }
+      &-body {
+        padding: 0 0 $space 0;
+        text-align: center;
+      }
+      &-footer {
+        padding: 0;
+      }
+    }
+  }
+
+  &.modal-sm {
+    .modal-container {
+      max-width: convertUnit(280);
+      padding: #{convertUnit(24)} $space $space $space;
+    }
+  }
+}
+
+.invoice {
+  &__header {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    background-color: $gray-color-light;
+  }
+  &__main {
+    padding-top: convertUnit(86);
+    padding-bottom: convertUnit(30);
+  }
+  &__title {
+    padding: convertUnit(20);
+  }
+  &__subtitle {
+    padding: convertUnit(8);
+    background-color: $gray-color;
+  }
+  &__empty {
+    box-sizing: border-box;
+    min-height: calc(100vh - #{convertUnit(112)});
+  }
+  &__footer {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 9;
+    padding: #{convertUnit(3)} #{convertUnit(20)};
+    background-color: $gray-color-light;
+    @include safe-area;
+  }
+}
+
+@supports (bottom: constant(safe-area-inset-bottom)) or (bottom: env(safe-area-inset-bottom)) {
+  .wraper {
+    padding-bottom: calc(convertUnit(10) + constant(safe-area-inset-bottom));
+    padding-bottom: calc(convertUnit(10) + env(safe-area-inset-bottom));
+  }
+}
