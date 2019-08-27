@@ -65,6 +65,8 @@
                   @click="onRefresh"
                 )
                   i.icon.icon-refresh
+        .form-group
+          span.text.text-sm.text-gray-color-dark *為驗證信用卡，系統會試刷 NT$1，不會請款。
     .footer.columns
       button.btn.btn-submit.column.col-12(
         :disabled="!isNext"
@@ -211,6 +213,10 @@ export default {
         display: inline-block;
       }
     }
+  }
+
+  #imagecode {
+    margin-bottom: convertUnit(15);
   }
 
   .refreshBtn {
