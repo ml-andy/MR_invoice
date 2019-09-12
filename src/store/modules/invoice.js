@@ -206,6 +206,22 @@ const states = {
   invoicesIndex: 2,
   invoiceDetail: {
     amount: '96',
+    details: [
+      {
+        description: '五月花衛生紙10包超值組合',
+        quantity: '1',
+        rowNum: '1',
+        subtotal: '100',
+        unitPrice: '100',
+      },
+      {
+        description: '五月花衛生紙10包超值組合',
+        quantity: '2',
+        rowNum: '2',
+        subtotal: '200',
+        unitPrice: '100',
+      },
+    ],
     invDate: '2019/03/03',
     invNum: 'BA123456',
     invoiceTime: '13:09:02',

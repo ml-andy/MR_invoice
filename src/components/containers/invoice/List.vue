@@ -124,8 +124,7 @@ export default {
     onEditNoticeModal(visible) {
       this.isNotice = visible;
     },
-    async onDetail(item) {
-      console.log(item);
+    async onDetail() {
       // const {
       //   invNum,
       //   invYear,
