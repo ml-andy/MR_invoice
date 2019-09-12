@@ -4,7 +4,7 @@ import {
   getCookie,
   setCookie,
   getUA,
-  // sendMixpanel,
+  sendMixpanel,
   replaceAt,
 } from '@/helpers/unit';
 import { SOURCE_ERROR } from '@/constant/apiErrorTypes';
@@ -41,7 +41,7 @@ const actions = {
       }
       const config = getConfig();
       const mrToken = getCookie('mmo_token');
-      // const mrTrackingId = getCookie('mmo_tracking_id');
+      const mrTrackingId = getCookie('mmo_tracking_id');
       const mrIdentity = getCookie('mmo_identity');
       const ua = getUA();
       commit('fetchOS', ua);
@@ -51,41 +51,41 @@ const actions = {
           'X-Auth-Token': mrToken,
           'X-Identity': mrIdentity,
         });
-        // if (typeof (mixpanel) !== 'undefined') {
-        //   mixpanel.init(config.mixpanelToken);
-        //   if (mrTrackingId) {
-        //     mixpanel.identify(mrTrackingId);
-        //   }
-        //   sendMixpanel('invoice_main_view');
-        // }
+        if (typeof (mixpanel) !== 'undefined') {
+          mixpanel.init(config.mixpanelToken);
+          if (mrTrackingId) {
+            mixpanel.identify(mrTrackingId);
+          }
+          sendMixpanel('invoice_main_view');
+        }
       } else {
         commit('rootLoading/activeStatus', false, { root: true });
         commit(SOURCE_ERROR.commit, SOURCE_ERROR, { root: true });
         return;
       }
-      // const response = await client.fetch([
-      //   {
-      //     method: 'get',
-      //     url: '/es/user/cardno-status',
-      //   },
-      //   {
-      //     method: 'get',
-      //     url: '/es/user/basic-info',
-      //     params: {
-      //       card: 1,
-      //       account: 1,
-      //     },
-      //   },
-      // ]);
-      // commit('phonecode/fetchBound', response[0], { root: true });
-      // commit('fetchBasicInfo', response[1]);
+      const response = await client.fetch([
+        {
+          method: 'get',
+          url: '/es/user/cardno-status',
+        },
+        {
+          method: 'get',
+          url: '/es/user/basic-info',
+          params: {
+            card: 1,
+            account: 1,
+          },
+        },
+      ]);
+      commit('phonecode/fetchBound', response[0], { root: true });
+      commit('fetchBasicInfo', response[1]);
 
-      // const { cardName } = response[1];
-      // const carrierName = cardName;
-      // commit('phonecode/fetchState', {
-      //   key: 'carrierName',
-      //   value: carrierName,
-      // }, { root: true });
+      const { cardName } = response[1];
+      const carrierName = cardName;
+      commit('phonecode/fetchState', {
+        key: 'carrierName',
+        value: carrierName,
+      }, { root: true });
     } catch (error) {
       commit(error.commit, error.info, { root: true });
     }

@@ -35,7 +35,7 @@ export default {
         this.fetchWindowSize(window);
       };
 
-      await this.appInit();
+      // await this.appInit();
       if (this.isBound) {
         // await this.getCarrierCheck();
         if (this.isIncluded === null) return;
