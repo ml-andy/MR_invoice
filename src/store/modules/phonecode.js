@@ -13,8 +13,8 @@ const initApiError = {
 
 const states = {
   cardNo: '',
-  isBound: false,
-  included: null,
+  isBound: true,
+  included: true,
   email: '',
   verifyCode: '',
   verifyCodeImage: '',

@@ -125,21 +125,22 @@ export default {
       this.isNotice = visible;
     },
     async onDetail(item) {
-      const {
-        invNum,
-        invYear,
-        invMonth,
-        invDay,
-        amount,
-        sellerName,
-      } = item;
-      const invDate = `${(invYear * 1) + 1911}/${invMonth}/${invDay}`;
-      await this.getInvoiceDetail({
-        invNum,
-        invDate,
-        sellerName,
-        amount,
-      });
+      console.log(item);
+      // const {
+      //   invNum,
+      //   invYear,
+      //   invMonth,
+      //   invDay,
+      //   amount,
+      //   sellerName,
+      // } = item;
+      // const invDate = `${(invYear * 1) + 1911}/${invMonth}/${invDay}`;
+      // await this.getInvoiceDetail({
+      //   invNum,
+      //   invDate,
+      //   sellerName,
+      //   amount,
+      // });
 
       if (this.errorCode === '') {
         sendMixpanel('eReceipt_detail_click', {
@@ -154,7 +155,8 @@ export default {
     },
     onSlideChange() {
       const activeIndex = this.$refs.mySwiper.swiper.activeIndex || 0;
-      const { year, month, isFetch } = this.invoices[activeIndex];
+      // const { year, month, isFetch } = this.invoices[activeIndex];
+      const { year, month } = this.invoices[activeIndex];
       this.date = { year, month };
       this.fetchState({
         key: 'invoicesIndex',
@@ -164,8 +166,8 @@ export default {
         cards_type: this.carrierName,
       });
 
-      if (isFetch) return;
-      this.getInvoiceList(activeIndex);
+      // if (isFetch) return;
+      // this.getInvoiceList(activeIndex);
     },
   },
   components: {

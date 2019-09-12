@@ -7,7 +7,7 @@ export default [
   {
     path: routePath.ENTRY,
     name: 'Introduction',
-    redirect: `${routePath.INTRODUCTION}/1`,
+    redirect: routePath.INVOICE_LIST,
     component: Page,
     children: [
       {

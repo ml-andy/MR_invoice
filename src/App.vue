@@ -37,7 +37,7 @@ export default {
 
       await this.appInit();
       if (this.isBound) {
-        await this.getCarrierCheck();
+        // await this.getCarrierCheck();
         if (this.isIncluded === null) return;
 
         this.initSetup();
@@ -52,7 +52,7 @@ export default {
         }
       } else {
         this.initSetup();
-        this.$router.push(`${routePath.INTRODUCTION}/1`);
+        // this.$router.push(`${routePath.INTRODUCTION}/1`);
       }
     },
   },
